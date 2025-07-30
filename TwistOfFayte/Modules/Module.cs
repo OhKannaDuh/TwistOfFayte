@@ -1,6 +1,4 @@
-﻿using Ocelot.IPC;
-using Ocelot.Modules;
-using TwistOfFayte.Modules.Currency;
+﻿using TwistOfFayte.Modules.Currency;
 using TwistOfFayte.Modules.Selector;
 using TwistOfFayte.Modules.State;
 using TwistOfFayte.Modules.Target;

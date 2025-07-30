@@ -1,7 +1,5 @@
 ﻿using Dalamud.Plugin;
 using ECommons;
-using Ocelot;
-using Ocelot.Chain;
 
 namespace TwistOfFayte;
 

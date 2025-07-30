@@ -3,9 +3,6 @@ using System.Numerics;
 using Dalamud.Game.ClientState.Fates;
 using ECommons.GameHelpers;
 using ECommons.Throttlers;
-using Ocelot.Gameplay;
-using Ocelot.Prowler;
-using Ocelot.States;
 
 namespace TwistOfFayte.Modules.State.Handlers;
 

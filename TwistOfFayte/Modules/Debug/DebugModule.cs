@@ -1,8 +1,6 @@
 using System.Linq;
 using Dalamud.Interface.Colors;
 using ECommons.GameHelpers;
-using Ocelot.Modules;
-using Ocelot.Windows;
 
 namespace TwistOfFayte.Modules.Debug;
 
@@ -24,7 +22,7 @@ public class DebugModule(Plugin plugin, Config config) : Module(plugin, config)
             context.DrawCircle(Player.Position, maxDistance, ImGuiColors.DalamudRed);
         }
 
-        if (Config.RenderDistanceToNotEngagedEnemies &&TargetHelper.NotInCombat.Any())
+        if (Config.RenderDistanceToNotEngagedEnemies && TargetHelper.NotInCombat.Any())
         {
             context.DrawCircle(Player.Position, TargetHelper.NotInCombat.Max(Player.DistanceTo), ImGuiColors.HealerGreen);
         }

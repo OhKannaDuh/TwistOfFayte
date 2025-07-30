@@ -2,8 +2,6 @@
 using System.Numerics;
 using ECommons.GameHelpers;
 using Ocelot.Extensions;
-using Ocelot.Prowler;
-using Ocelot.States;
 
 namespace TwistOfFayte.Modules.State.Handlers.FateAi;
 

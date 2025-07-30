@@ -1,6 +1,5 @@
 using System.Linq;
 using ECommons.DalamudServices;
-using Ocelot.Modules;
 using TwistOfFayte.Zone;
 
 namespace TwistOfFayte.Modules.Selector;

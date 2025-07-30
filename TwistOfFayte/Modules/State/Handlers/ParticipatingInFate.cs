@@ -3,9 +3,6 @@ using ECommons.DalamudServices;
 using ECommons.GameHelpers;
 using ECommons.Throttlers;
 using FFXIVClientStructs.FFXIV.Client.Game.Fate;
-using Ocelot.Gameplay;
-using Ocelot.Prowler;
-using Ocelot.States;
 using TwistOfFayte.Modules.State.Handlers.FateAi;
 
 namespace TwistOfFayte.Modules.State.Handlers;

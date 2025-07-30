@@ -6,7 +6,6 @@ using Dalamud.Game.ClientState.Fates;
 using ECommons.DalamudServices;
 using ECommons.GameHelpers;
 using FFXIVClientStructs.FFXIV.Client.Game.Fate;
-using Ocelot.Modules;
 using TwistOfFayte.Modules.State.Handlers;
 using TwistOfFayte.Modules.Tracker;
 using TwistOfFayte.Zone;

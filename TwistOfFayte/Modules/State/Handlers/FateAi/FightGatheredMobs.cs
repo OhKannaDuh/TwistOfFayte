@@ -3,8 +3,6 @@ using System.Linq;
 using System.Numerics;
 using ECommons.DalamudServices;
 using ECommons.GameHelpers;
-using Ocelot.Prowler;
-using Ocelot.States;
 
 namespace TwistOfFayte.Modules.State.Handlers.FateAi;
 

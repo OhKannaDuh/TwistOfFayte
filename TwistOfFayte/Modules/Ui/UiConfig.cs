@@ -1,6 +1,3 @@
-using Ocelot.Config.Attributes;
-using Ocelot.Modules;
-
 namespace TwistOfFayte.Modules.Ui;
 
 public class UiConfig : ModuleConfig

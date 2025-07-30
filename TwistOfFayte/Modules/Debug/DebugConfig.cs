@@ -1,6 +1,3 @@
-using Ocelot.Config.Attributes;
-using Ocelot.Modules;
-
 namespace TwistOfFayte.Modules.Debug;
 
 public class DebugConfig : ModuleConfig

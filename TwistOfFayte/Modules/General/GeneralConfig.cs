@@ -1,6 +1,4 @@
 using Lumina.Excel.Sheets;
-using Ocelot.Config.Attributes;
-using Ocelot.Modules;
 
 namespace TwistOfFayte.Modules.General;
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ECommons.DalamudServices;
-using Ocelot;
 using TwistOfFayte.Modules.Debug;
 using TwistOfFayte.Modules.General;
 using TwistOfFayte.Modules.Selector;

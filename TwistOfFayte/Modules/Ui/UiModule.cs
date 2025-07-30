@@ -1,5 +1,3 @@
-using Ocelot.Modules;
-
 namespace TwistOfFayte.Modules.Ui;
 
 [OcelotModule]

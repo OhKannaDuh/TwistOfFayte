@@ -1,5 +1,3 @@
-using Ocelot.Gameplay;
-using Ocelot.Modules;
 using Items = TwistOfFayte.Gameplay.Items;
 
 namespace TwistOfFayte.Modules.Currency;

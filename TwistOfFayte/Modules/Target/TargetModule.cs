@@ -1,12 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
 using Dalamud.Game.ClientState.Objects.Types;
-using Dalamud.Interface.Colors;
 using ECommons.DalamudServices;
-using ECommons.GameHelpers;
 using ECommons.Throttlers;
-using Ocelot.Modules;
-using Ocelot.Windows;
 
 namespace TwistOfFayte.Modules.Target;
 
@@ -103,8 +98,5 @@ public class TargetModule(Plugin plugin, Config config) : Module(plugin, config)
         FateHelper.OnLeaveFate -= LeaveFate;
     }
 
-    public override void Render(RenderContext context)
-    {
-
-    }
+    public override void Render(RenderContext context) { }
 }

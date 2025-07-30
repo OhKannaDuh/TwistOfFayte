@@ -3,7 +3,6 @@ using System.Linq;
 using System.Numerics;
 using Dalamud.Game.ClientState.Fates;
 using ECommons.DalamudServices;
-using Ocelot.Modules;
 
 namespace TwistOfFayte.Modules.Tracker;
 

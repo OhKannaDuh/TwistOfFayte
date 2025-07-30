@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using ECommons.GameHelpers;
 using Ocelot.Extensions;
-using Ocelot.States;
 
 namespace TwistOfFayte.Modules.State.Handlers.FateAi;
 

@@ -1,9 +1,6 @@
-﻿using System.Linq;
-using System.Numerics;
+﻿using System.Numerics;
 using Dalamud.Interface.Utility.Raii;
 using ImGuiNET;
-using Ocelot.Modules;
-using Ocelot.Windows;
 using TwistOfFayte.Modules;
 
 namespace TwistOfFayte.Windows;
