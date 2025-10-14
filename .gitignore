@@ -3,3 +3,6 @@
 .env
 node_modules/
 plugins
+TwistOfFayte/bin
+TwsitOfFayte/obj
+.idea

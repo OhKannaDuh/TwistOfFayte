@@ -1,0 +1,22 @@
+{
+    "config": {
+        "traversal": {
+            "label": "Traversal",
+            "tootltip": "Configure traversal settings",
+            "options": {
+                "cost_per_yalm": {
+                    "label": "Cost per Yalm",
+                    "tooltip": "Set the cost per Yalm for movement and teleporting decisions."
+                },
+                "time_to_teleport": {
+                    "label": "Time to Teleport",
+                    "tooltip": "Set the time (seconds) it takes to teleport."
+                },
+                "should_teleport": {
+                    "label": "Should Teleport",
+                    "tooltip": "Enable or disable teleportation for traversal."
+                }
+            }
+        }
+    }
+}

@@ -6,6 +6,8 @@
     "Description": "You met with a terrible Fate. Haven't you?",
     "IconUrl": "https://raw.githubusercontent.com/OhKannaDuh/TwistOfFayte/refs/heads/master/assets/icon.png",
     "ApplicableVersion": "any",
-    "DalamudApiLevel": 12,
-    "Tags": ["Fate"]
+    "DalamudApiLevel": 13,
+    "Tags": [
+        "Fate"
+    ]
 }

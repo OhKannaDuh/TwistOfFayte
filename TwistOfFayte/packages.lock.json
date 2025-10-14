@@ -14,20 +14,38 @@
         "resolved": "1.2.25",
         "contentHash": "xCXiw7BCxHJ8pF6wPepRUddlh2dlQlbr81gXA72hdk4FLHkKXas7EH/n+fk5UCA/YfMqG1Z6XaPiUjDbUNBUzg=="
       },
-      "FFXIVOcelot": {
+      "Scrutor": {
         "type": "Direct",
-        "requested": "[1.1.0, )",
-        "resolved": "1.1.0",
-        "contentHash": "gYZ1ucTQWSFUywK8QZbRbLcAb+4foUrKzwGN5ywyZ8H70hDz2OIcZfIA7TLLzvud+I80/DwN8rLOiZHsySSgPA==",
+        "requested": "[6.1.0, )",
+        "resolved": "6.1.0",
+        "contentHash": "m4+0RdgnX+jeiaqteq9x5SwEtuCjWG0KTw1jBjCzn7V8mCanXKoeF8+59E0fcoRbAjdEq6YqHFCmxZ49Kvqp3g==",
         "dependencies": {
-          "Ecommons": "3.0.0.17-api13",
-          "Pictomancy": "0.0.1"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.1",
+          "Microsoft.Extensions.DependencyModel": "8.0.2"
         }
       },
       "ECommons": {
         "type": "Transitive",
-        "resolved": "3.0.0.17-api13",
-        "contentHash": "r7MblEmo2zOksX2qiapL7eFhGYnXZOvu4QOb6zd8LHApjde3c+iF/JVowqUWxaAz4yS+M/bvrppsfJNIdRLm2A=="
+        "resolved": "3.0.1.14",
+        "contentHash": "lqe2BlFaB6BS2MFXQsu33pIr/axjGmz4K4PoJwYwgcZGvt3JJqFIGLXTHUTYeWvT3eEfByPT0FQ7IdTCHQNdhA=="
+      },
+      "Microsoft.Extensions.DependencyInjection": {
+        "type": "Transitive",
+        "resolved": "9.0.9",
+        "contentHash": "zQV2WOSP+3z1EuK91ULxfGgo2Y75bTRnmJHp08+w/YXAyekZutX/qCd88/HOMNh35MDW9mJJJxPpMPS+1Rww8A==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.9"
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions": {
+        "type": "Transitive",
+        "resolved": "9.0.9",
+        "contentHash": "/hymojfWbE9AlDOa0mczR44m00Jj+T3+HZO0ZnVTI032fVycI0ZbNOVFP6kqZMcXiLSYXzR2ilcwaRi6dzeGyA=="
+      },
+      "Microsoft.Extensions.DependencyModel": {
+        "type": "Transitive",
+        "resolved": "8.0.2",
+        "contentHash": "mUBDZZRgZrSyFOsJ2qJJ9fXfqd/kXJwf3AiDoqLD9m6TjY5OO/vLNOb9fb4juC0487eq4hcGN/M2Rh/CKS7QYw=="
       },
       "Microsoft.NETCore.Platforms": {
         "type": "Transitive",
@@ -106,6 +124,59 @@
         "dependencies": {
           "NETStandard.Library": "1.6.1",
           "SharpDX": "4.2.0"
+        }
+      },
+      "FFXIVOcelot": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection": "[9.0.9, )"
+        }
+      },
+      "FFXIVOcelot.Chain": {
+        "type": "Project",
+        "dependencies": {
+          "ECommons": "[3.0.1.14, )",
+          "FFXIVOcelot": "[1.0.0, )",
+          "FFXIVOcelot.Pathfinding": "[1.0.0, )"
+        }
+      },
+      "FFXIVOcelot.ECommons": {
+        "type": "Project",
+        "dependencies": {
+          "ECommons": "[3.0.1.14, )",
+          "FFXIVOcelot": "[1.0.0, )"
+        }
+      },
+      "FFXIVOcelot.Mechanic": {
+        "type": "Project",
+        "dependencies": {
+          "ECommons": "[3.0.1.14, )",
+          "FFXIVOcelot": "[1.0.0, )"
+        }
+      },
+      "FFXIVOcelot.Pathfinding": {
+        "type": "Project",
+        "dependencies": {
+          "FFXIVOcelot": "[1.0.0, )"
+        }
+      },
+      "FFXIVOcelot.Pictomancy": {
+        "type": "Project",
+        "dependencies": {
+          "FFXIVOcelot": "[1.0.0, )",
+          "Pictomancy": "[0.0.1, )"
+        }
+      },
+      "FFXIVOcelot.Rotation": {
+        "type": "Project",
+        "dependencies": {
+          "FFXIVOcelot": "[1.0.0, )"
+        }
+      },
+      "FFXIVOcelot.UI": {
+        "type": "Project",
+        "dependencies": {
+          "FFXIVOcelot": "[1.0.0, )"
         }
       }
     }
