@@ -5,7 +5,7 @@ using Ocelot.Config.Fields;
 namespace TwistOfFayte.Config;
 
 [Serializable]
-[ConfigGroup("ui")]
+[ConfigGroup("other")]
 public class UIConfig : IAutoConfig
 {
     [Checkbox] public bool ShowTimeEstimate { get; set; } = true;
@@ -17,6 +17,8 @@ public class UIConfig : IAutoConfig
     [Checkbox] public bool ShowBonusFateIcon { get; set; } = true;
 
     [Checkbox] public bool HighlightSelectedFate { get; set; } = true;
+
+    [Checkbox] public bool FadeIgnoredFates { get; set; } = true;
 
     [Checkbox] public bool ShowPreparingFateIcon { get; set; } = true;
 }

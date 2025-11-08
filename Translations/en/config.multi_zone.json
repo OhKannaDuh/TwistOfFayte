@@ -1,0 +1,19 @@
+{
+    "label": "Multi-Zone",
+    "tooltip": "Configure multi-zone settings",
+    "fields": {
+        "zones": {
+            "label": "Zones",
+            "tooltip": "Configure the zones for multi-zone fates."
+        },
+        "should_hop_instances": {
+            "label": "Hop Instances",
+            "tooltip": "Enable or disable instance hopping for multi-zone fates."
+        },
+        "wait_for_fate_delay": {
+            "label": "Wait for Fate Delay",
+            "tooltip": "Configure the delay before changing zones or instances."
+        }
+    }
+
+}

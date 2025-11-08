@@ -1,0 +1,22 @@
+{
+    "label": "Death",
+    "tooltip": "Configure death settings",
+    "fields": {
+        "should_auto_respawn": {
+            "label": "Should Auto Respawn",
+            "tooltip": "Enable or disable auto respawning to your home town. If you have enabled accept raises and you receive a raise from another player, you will not auto respawn."
+        },
+        "auto_respawn_delay": {
+            "label": "Auto Respawn Delay",
+            "tooltip": "Set the delay (seconds) before auto respawning."
+        },
+        "should_accept_raises": {
+            "label": "Should Accept Raises",
+            "tooltip": "Enable or disable automatic acceptance of raises from other players."
+        },
+        "accept_raise_delay": {
+            "label": "Accept Raise Delay",
+            "tooltip": "Set the delay (seconds) before accepting a raise from another player."
+        }
+    }
+}

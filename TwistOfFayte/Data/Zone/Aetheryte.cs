@@ -1,23 +1,21 @@
 ﻿using System.Numerics;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Map = ECommons.GameHelpers.Map;
 
 namespace TwistOfFayte.Data.Zone;
 
-public class Aetheryte(AetheryteData data)
+public class Aetheryte(AetheryteData data, Vector3 position)
 {
     public readonly AetheryteData Data = data;
-    
+
     public readonly uint Id = data.RowId;
 
-    public Vector3 Position {
-        get => Map.AetherytePosition(Data.RowId);
+    public Vector3 Position
+    {
+        get => position;
     }
 
-    
-
-    public unsafe void Teleport()
+    public unsafe bool Teleport()
     {
-        Telepo.Instance()->Teleport(Id, 0);
+        return Telepo.Instance()->Teleport(Id, 0);
     }
 }

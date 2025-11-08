@@ -1,0 +1,10 @@
+{
+    "label": "UX",
+    "tooltip": "Configure user experience settings",
+    "fields": {
+        "highlight_mobs": {
+            "label": "Highlight Mobs",
+            "tooltip": "Enable or disable mob highlighting.\n - Green: Within AOE radius\n - Red: Outside AOE radius"
+        }
+    }
+}

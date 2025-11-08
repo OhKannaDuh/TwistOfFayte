@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Linq;
 using Ocelot.Lifecycle;
+using TwistOfFayte.Config;
 using TwistOfFayte.Data.Fates;
 using TwistOfFayte.Services.State;
 
 namespace TwistOfFayte.Services.Fates;
 
-public class ScoreBasedFateSelector(IFateRepository fates, IFateScorer scorer, IStateManager state) : IFateSelector, IOnUpdate
+public class ScoreBasedFateSelector(IFateRepository fates, IFateScorer scorer, IStateManager state, FateSelectorConfig config) : IFateSelector, IOnUpdate
 {
     public event Action<FateId>? SelectionChanged;
 
     public FateId? Select()
     {
-        return fates.Snapshot().OrderByDescending(f => (float)scorer.Score(f)).FirstOrDefault()?.Id;
+        return fates.Snapshot()
+            .Where(config.ShouldDoFate)
+            .OrderByDescending(f => (float)scorer.Score(f)).FirstOrDefault()?.Id;
     }
 
     public void Update()

@@ -1,0 +1,42 @@
+{
+    "label": "Debug",
+    "tooltip": "Configure debug settings",
+    "fields": {
+        "show_debug": {
+            "label": "Show Debug",
+            "tooltip": "Enable or disable debug rendering"
+        },
+        "should_draw_lines": {
+            "label": "Draw Lines",
+            "tooltip": "Enable or disable drawing lines"
+        },
+        "should_highlight_targets": {
+            "label": "Highlight Targets",
+            "tooltip": "Enable or disable highlighting targets"
+        },
+        "should_show_debug_for_start_npc": {
+            "label": "Start NPC",
+            "tooltip": "Enable or disable debug for start NPC"
+        },
+        "should_show_debug_for_turn_in_npc": {
+            "label": "Turn In NPC",
+            "tooltip": "Enable or disable debug for turn in NPC"
+        },
+        "should_show_debug_for_enemies_targeting_local_player": {
+            "label": "Enemies Targeting Local Player",
+            "tooltip": "Enable or disable debug for enemies targeting the local player"
+        },
+        "should_show_debug_for_enemies_targeting_no_players": {
+            "label": "Enemies Targeting No Players",
+            "tooltip": "Enable or disable debug for enemies targeting no players"
+        },
+        "should_show_debug_for_enemies_targeting_another_player_without_tank_stance": {
+            "label": "Enemies Targeting Another Player (No Tank Stance)",
+            "tooltip": "Enable or disable debug for enemies targeting another player without tank stance"
+        },
+        "should_show_debug_for_enemies_targeting_another_player_with_tank_stance": {
+            "label": "Enemies Targeting Another Player (Tank Stance)",
+            "tooltip": "Enable or disable debug for enemies targeting another player with tank stance"
+        }
+    }
+}

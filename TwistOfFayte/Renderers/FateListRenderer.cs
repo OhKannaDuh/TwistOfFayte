@@ -2,8 +2,10 @@
 using System.Linq;
 using System.Numerics;
 using Dalamud.Bindings.ImGui;
+using Dalamud.Game.ClientState.Fates;
 using Ocelot.UI.ComposableStrings;
 using Ocelot.UI.Services;
+using TwistOfFayte.Config;
 using TwistOfFayte.Data.Fates;
 using TwistOfFayte.Services.Fates;
 using TwistOfFayte.Services.State;
@@ -14,6 +16,8 @@ public class FateListRenderer(
     IFateRepository fates,
     IStateManager state,
     IFateScorer scorer,
+    UIConfig config,
+    FateSelectorConfig selectorConfig,
     IUIService ui,
     IBrandingService branding
 )
@@ -32,10 +36,10 @@ public class FateListRenderer(
             if (groupState == ComposableGroupState.HoveredLeft)
             {
                 ImGui.BeginTooltip();
-                ImGui.Text($"Score: {score.Value:f2}");
+                ui.Text($"Score: {score.Value:f2}");
                 foreach (var (source, value) in score.Sources)
                 {
-                    ImGui.Text($" - {source}: {value:f2}");
+                    ui.Text($" - {source}: {value:f2}");
                 }
 
                 ImGui.EndTooltip();
@@ -50,19 +54,33 @@ public class FateListRenderer(
     {
         var selected = state.GetSelectedFate();
         var isSelected = selected != null && selected.Value == fate.Id;
+        var shouldDo = selectorConfig.ShouldDoFate(fate);
 
         var group = ui.Compose();
-        group.Image(fate.IconId);
+        if (config.ShowFateTypeIcon)
+        {
+            group.Image(fate.IconId);
+        }
 
-        if (fate.IsBonus)
+        if (fate.IsBonus && config.ShowBonusFateIcon)
         {
             group.Image(60934);
         }
 
+        if (fate.State == FateState.Preparation && config.ShowPreparingFateIcon)
+        {
+            group.Image(61397);
+        }
+
         var labelColor = branding.Text;
-        if (isSelected)
+        if (isSelected && config.HighlightSelectedFate)
         {
             labelColor = branding.ParsedBlue;
+        }
+
+        if (!shouldDo && config.FadeIgnoredFates)
+        {
+            labelColor = branding.DalamudGrey3;
         }
 
         group.Text(fate.Name, labelColor);
@@ -75,12 +93,15 @@ public class FateListRenderer(
         var progress = fate.Progress;
         var progressLabel = $"{progress:0}%";
 
-        var tracker = fate.ProgressTracker;
-        if (tracker.Estimate() is { } eta)
+        if (config.ShowTimeEstimate)
         {
-            var time = eta.CompletionTime - DateTimeOffset.Now;
+            var tracker = fate.ProgressTracker;
+            if (tracker.Estimate() is { } eta)
+            {
+                var time = eta.CompletionTime - DateTimeOffset.Now;
 
-            progressLabel = $"{time:mm\\:ss} ({eta.RSquared:f2}) | {progressLabel}";
+                progressLabel = $"{time:mm\\:ss} ({eta.RSquared:f2}) | {progressLabel}";
+            }
         }
 
         var group = ui.Compose();

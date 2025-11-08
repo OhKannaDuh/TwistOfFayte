@@ -1,0 +1,43 @@
+{
+    "label": "Fate Scoring",
+    "tooltip": "Configure how fates are scored and selected.",
+    "fields": {
+        "bonus_fate_modifier": {
+            "label": "Bonus Fate Modifier",
+            "tooltip": "Set a score modifier to be added to any fates have a bonus."
+        },
+        "unstarted_fate_modifier": {
+            "label": "Unstarted Fate Modifier",
+            "tooltip": "Set a score modifier to be added to any fates that have not been started."
+        },
+        "mob_fate_modifier": {
+            "label": "Mob Fate Modifier",
+            "tooltip": "Set a score modifier to be added to any fates that have you slaying many mobs."
+        },
+        "boss_fate_modifier": {
+            "label": "Boss Fate Modifier",
+            "tooltip": "Set a score modifier to be added to any fates that have you defeating a boss."
+        },
+        "collect_fate_modifier": {
+            "label": "Collect Fate Modifier",
+            "tooltip": "Set a score modifier to be added to any fates that have you collecting items."
+        },
+        "defend_fate_modifier": {
+            "label": "Defend Fate Modifier",
+            "tooltip": "Set a score modifier to be added to any fates that have you defending an npc or objective."
+        },
+        "escort_fate_modifier": {
+            "label": "Escort Fate Modifier",
+            "tooltip": "Set a score modifier to be added to any fates that have you escorting an npc."
+        },
+        "in_progress_fate_modifier": {
+            "label": "In Progress Fate Modifier",
+            "tooltip": "Set a score modifier to be added to any fates that are currently in progress."
+        },
+        "time_required_to_consider_fate": {
+            "label": "Seconds Required to Consider Fate",
+            "tooltip": "After estimating the time it would take to reach a fate and complete it, only consider fates that would allow you to participate for at least this many seconds."
+        }
+    }
+
+}

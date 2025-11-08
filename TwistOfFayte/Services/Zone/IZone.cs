@@ -6,6 +6,6 @@ namespace TwistOfFayte.Services.Zone;
 public interface IZone
 {
     ushort Id { get; }
-    
-    IEnumerable<Aetheryte> Aetherytes { get; }
+
+    List<Aetheryte> Aetherytes { get; }
 }

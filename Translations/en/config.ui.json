@@ -1,0 +1,30 @@
+{
+    "label": "UI",
+    "tooltip": "Configure UI settings",
+    "fields": {
+        "show_time_estimate": {
+            "label": "Show Fate Time Estimate",
+            "tooltip": "Enable or disable the display of time estimates for fate completion."
+        },
+        "show_objective_estimate": {
+            "label": "Show Fate Objective Estimate",
+            "tooltip": "Enable or disable the display of objective estimates for fate completion."
+        },
+        "show_fate_type_icon": {
+            "label": "Show Fate Type Icon",
+            "tooltip": "Enable or disable the display of fate type icons in the UI."
+        },
+        "show_bonus_fate_icon": {
+            "label": "Show Bonus Fate Icon",
+            "tooltip": "Enable or disable the display of bonus fate icons in the UI."
+        },
+        "highlight_selected_fate": {
+            "label": "Highlight Selected Fate",
+            "tooltip": "Enable or disable highlighting of the currently selected fate in the UI."
+        },
+        "show_preparing_fate_icon": {
+            "label": "Show Preparing Fate Icon",
+            "tooltip": "Enable or disable the display of preparing fate icons in the UI."
+        }
+    }
+}

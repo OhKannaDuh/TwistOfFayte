@@ -1,0 +1,27 @@
+{
+    "label": "Fate Selector",
+    "tooltip": "Configure fate selection settings",
+    "fields": {
+        "do_mobs_fates": {
+            "label": "Do Mob Fates",
+            "tooltip": "Enable or disable mob fates."
+        },
+        "do_boss_fates": {
+            "label": "Do Boss Fates",
+            "tooltip": "Enable or disable boss fates."
+        },
+        "do_collect_fates": {
+            "label": "Do Collect Fates",
+            "tooltip": "Enable or disable collect fates."
+        },
+        "do_defend_fates": {
+            "label": "Do Defend Fates",
+            "tooltip": "Enable or disable defend fates."
+        },
+        "do_escort_fates": {
+            "label": "Do Escort Fates",
+            "tooltip": "Enable or disable escort fates."
+        }
+    }
+
+}

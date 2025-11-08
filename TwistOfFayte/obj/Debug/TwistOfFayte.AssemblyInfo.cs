@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("You met with a terrible Fate. Haven\'t you?")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0a7db852085ff15824be3514aa0ae4d4011ea58c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e4606851e5969e276fed46e421e543821a4f5b81")]
 [assembly: System.Reflection.AssemblyProductAttribute("TwistOfFayte")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TwistOfFayte")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

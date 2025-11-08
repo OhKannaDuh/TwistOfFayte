@@ -1,0 +1,18 @@
+{
+    "label": "Combat",
+    "tooltip": "Configure combat settings",
+    "fields": {
+        "max_mobs_to_fight": {
+            "label": "Max Mobs to Fight",
+            "tooltip": "Set the maximum number of mobs to engage in combat. (0 for unlimited)"
+        },
+        "mob_lifetime_seconds_requirement": {
+            "label": "Mob Lifetime Seconds Requirement",
+            "tooltip": "Set the time (seconds) a mob must exist before it can be engaged."
+        },
+        "foucus_forlorns": {
+            "label": "Focus Forlorns",
+            "tooltip": "Enable or disable focusing on Forlorn mobs during combat."
+        }
+    }
+}

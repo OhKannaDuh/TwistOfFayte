@@ -1,10 +1,12 @@
 ﻿using System;
+using Lumina.Excel.Sheets;
 using Ocelot.Config;
 using Ocelot.Config.Fields;
 
 namespace TwistOfFayte.Config;
 
 [Serializable]
+[ConfigGroup("fate_selection")]
 public class ScorerConfig : IAutoConfig
 {
     [FloatRange(-1024f, 1024f)] public float BonusFateModifier { get; set; } = 512f;

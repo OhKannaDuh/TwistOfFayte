@@ -1,0 +1,18 @@
+{
+    "label": "General",
+    "tooltip": "Configure general settings",
+    "fields": {
+        "should_auto_repair": {
+            "label": "Auto Repair",
+            "tooltip": "Enable or disable automatic self-repair of gear."
+        },
+        "auto_repair_threshold": {
+            "label": "Auto Repair Threshold",
+            "tooltip": "Set the durability percentage threshold to trigger auto-repair."
+        },
+        "should_auto_extract_materia": {
+            "label": "Auto Extract Materia",
+            "tooltip": "Enable or disable automatic extraction of materia from gear."
+        }
+    }
+}

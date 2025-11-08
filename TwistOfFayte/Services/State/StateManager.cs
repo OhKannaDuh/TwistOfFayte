@@ -1,15 +1,16 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.Game.Fate;
 using Ocelot.Lifecycle;
+using Ocelot.Services.Pathfinding;
 using TwistOfFayte.Data.Fates;
 using TwistOfFayte.Services.Fates;
 
 namespace TwistOfFayte.Services.State;
 
-public class StateManager(IFateRepository fates) : IStateManager, IOnUpdate
+public class StateManager(IFateRepository fates, IPathfinder pathfinder) : IStateManager, IOnUpdate
 {
     private FateId? selectedFate;
 
-    private bool isActive = true;
+    private bool isActive;
 
     public bool IsActive()
     {
@@ -18,12 +19,20 @@ public class StateManager(IFateRepository fates) : IStateManager, IOnUpdate
 
     public void Toggle()
     {
-        isActive = !isActive;
+        if (isActive)
+        {
+            TurnOff();
+        }
+        else
+        {
+            TurnOn();
+        }
     }
 
     public void TurnOff()
     {
         isActive = false;
+        pathfinder.Stop();
     }
 
     public void TurnOn()
