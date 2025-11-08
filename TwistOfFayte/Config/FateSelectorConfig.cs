@@ -22,7 +22,6 @@ public class FateSelectorConfig : IAutoConfig
 
     internal bool ShouldDoFate(Fate fate)
     {
-        return false;
         return fate.Type switch
         {
             FateType.Mobs => DoMobsFates,
