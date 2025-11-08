@@ -14,6 +14,83 @@
         "resolved": "1.2.25",
         "contentHash": "xCXiw7BCxHJ8pF6wPepRUddlh2dlQlbr81gXA72hdk4FLHkKXas7EH/n+fk5UCA/YfMqG1Z6XaPiUjDbUNBUzg=="
       },
+      "FFXIVOcelot": {
+        "type": "Direct",
+        "requested": "[2.1.0, )",
+        "resolved": "2.1.0",
+        "contentHash": "PKWqQPhFKIUCnlF5e7Jr8sUy2aewd+U5eoUOa6wXOI9wcdNs+XzT5op2EdRLvn1cdn7aw7vZMDpJWXIi8O1JKg==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection": "9.0.9"
+        }
+      },
+      "FFXIVOcelot.Chain": {
+        "type": "Direct",
+        "requested": "[0.2.0, )",
+        "resolved": "0.2.0",
+        "contentHash": "CUk/xC0mJVtdyGpW3XfGnxGCli1tbzEP324pJ6FK05DKljeEfREFYQIDJnmpC2kOeZryOEVrnUpxKVSAv1Rn9g==",
+        "dependencies": {
+          "ECommons": "3.0.1.14",
+          "FFXIVOcelot": "0.2.0",
+          "FFXIVOcelot.Pathfinding": "0.2.0"
+        }
+      },
+      "FFXIVOcelot.ECommons": {
+        "type": "Direct",
+        "requested": "[0.2.0, )",
+        "resolved": "0.2.0",
+        "contentHash": "b3UH7l8MPZ0P+9ikYJu9VsoDwn0McCCcRqnzG0U/a6YKnErhgUL1rWEy42nebnTE5z7DK4Wnr76Z7Ppg1FKIGw==",
+        "dependencies": {
+          "ECommons": "3.0.1.14",
+          "FFXIVOcelot": "0.2.0"
+        }
+      },
+      "FFXIVOcelot.Mechanic": {
+        "type": "Direct",
+        "requested": "[0.2.0, )",
+        "resolved": "0.2.0",
+        "contentHash": "ECmFb1bt4UWrYAvadPq2svKWm3Mxxv6ZHApeZyfrN2NKOU809Iibb2diQI3trT/zCFrMup5aFIMM3hxNPslrXg==",
+        "dependencies": {
+          "ECommons": "3.0.1.14",
+          "FFXIVOcelot": "0.2.0"
+        }
+      },
+      "FFXIVOcelot.Pathfinding": {
+        "type": "Direct",
+        "requested": "[0.2.0, )",
+        "resolved": "0.2.0",
+        "contentHash": "Q0RjJ9v9VNP4P2pWmNxqx2u3VrWSqg8i3lyfPUw/DaGciT/S7Um3pLdFnu3gkbBE6FUI9hw//ZGVZwY4RKz5hQ==",
+        "dependencies": {
+          "FFXIVOcelot": "0.2.0"
+        }
+      },
+      "FFXIVOcelot.Pictomancy": {
+        "type": "Direct",
+        "requested": "[0.2.0, )",
+        "resolved": "0.2.0",
+        "contentHash": "Pz/Z19JaZHsw46dBjnh7rR6snG8jgUY9z1i4eaKmDK2b1bH7+rkN4l0KEyPAz6cRFMhCSlAGfXrx5NLa9pjhFg==",
+        "dependencies": {
+          "FFXIVOcelot": "0.2.0",
+          "Pictomancy": "0.0.1"
+        }
+      },
+      "FFXIVOcelot.Rotation": {
+        "type": "Direct",
+        "requested": "[0.2.0, )",
+        "resolved": "0.2.0",
+        "contentHash": "UmLYqdmk4hWfeZzm0zL1Q3YIqBYAdcfyJGBa+uYJiiqLDWe5NRurxrs4gLGqbMrTR77zrNkxTexMZizg++uo+A==",
+        "dependencies": {
+          "FFXIVOcelot": "0.2.0"
+        }
+      },
+      "FFXIVOcelot.UI": {
+        "type": "Direct",
+        "requested": "[0.2.0, )",
+        "resolved": "0.2.0",
+        "contentHash": "DlIeg8U4kXmPP2Q828IgMt40/1RJluA4ezv/lS44WrESCVX2uWy/kLqWKa4o0ogziG+vhNmBN2oXTM+S8fut4A==",
+        "dependencies": {
+          "FFXIVOcelot": "0.2.0"
+        }
+      },
       "Scrutor": {
         "type": "Direct",
         "requested": "[6.1.0, )",
@@ -124,59 +201,6 @@
         "dependencies": {
           "NETStandard.Library": "1.6.1",
           "SharpDX": "4.2.0"
-        }
-      },
-      "FFXIVOcelot": {
-        "type": "Project",
-        "dependencies": {
-          "Microsoft.Extensions.DependencyInjection": "[9.0.9, )"
-        }
-      },
-      "FFXIVOcelot.Chain": {
-        "type": "Project",
-        "dependencies": {
-          "ECommons": "[3.0.1.14, )",
-          "FFXIVOcelot": "[1.0.0, )",
-          "FFXIVOcelot.Pathfinding": "[1.0.0, )"
-        }
-      },
-      "FFXIVOcelot.ECommons": {
-        "type": "Project",
-        "dependencies": {
-          "ECommons": "[3.0.1.14, )",
-          "FFXIVOcelot": "[1.0.0, )"
-        }
-      },
-      "FFXIVOcelot.Mechanic": {
-        "type": "Project",
-        "dependencies": {
-          "ECommons": "[3.0.1.14, )",
-          "FFXIVOcelot": "[1.0.0, )"
-        }
-      },
-      "FFXIVOcelot.Pathfinding": {
-        "type": "Project",
-        "dependencies": {
-          "FFXIVOcelot": "[1.0.0, )"
-        }
-      },
-      "FFXIVOcelot.Pictomancy": {
-        "type": "Project",
-        "dependencies": {
-          "FFXIVOcelot": "[1.0.0, )",
-          "Pictomancy": "[0.0.1, )"
-        }
-      },
-      "FFXIVOcelot.Rotation": {
-        "type": "Project",
-        "dependencies": {
-          "FFXIVOcelot": "[1.0.0, )"
-        }
-      },
-      "FFXIVOcelot.UI": {
-        "type": "Project",
-        "dependencies": {
-          "FFXIVOcelot": "[1.0.0, )"
         }
       }
     }
