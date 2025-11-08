@@ -1,17 +1,24 @@
-# 0.11.0
+# 2.0.0
 
-- Updated UI to include both a teleport and move to button
-- Can no longer click teleport if you are already next to the destination aetheryte
-- Updated aethenet shard for Brain Drain
-- Added some custom paths for certain fates, so that the path taken to walk to them is more natural
+Complete rewrite to work with new version of Ocelot
 
-# 0.12.0
-
-- Removed Crowdsourcing module
-- Added WindowManager Module
-    - This module allow you to configure if the main and config windows open and close on plugin load, enter zone and
-      exit zone
-
-# 0.12.1
-
-- Changed labels in WindowManager config slightly
+-   Fixed bug that preventented max mob config from working as expected
+-   Improved handling of roles outside of tanks.
+    -   Tank/Healer/Dancer are grouped as their AOEs are all centered on self
+    -   Casters are grouped as their AOEs are centered on a target
+    -   Melees will be grouped in the future, for now they use the same as Tank/Healer/Dancer, but I want reliable support for Melees line/cone AOEs
+-   Auto respawn, with optional wait for raise
+-   MultiZone handling. Configure zones to hop between when no fates are available. These will cycle in a loop.
+-   Auto repair and materia extraction
+-   Teleport weighting. Configure teleport 'costs' to better score fates.
+-   Relaxed movement to better facilitate VBM, this can still get whacky if there are ranged mobs
+-   There are no configurations for selecting a rotation or mechanic plugin, they should be automatically determined based on what you have installed and enabled.
+    -   Supported Rotation plugins: Wrath, VBM, RSR
+    -   Supported Mechanic plugins: VBM, BMR
+-   Auto start fate by talking to NPC when required
+-   Auto sync level
+-   Smart fate arrival.
+    -   Arriving at a fate will put you in a different place depending on your job and the fates state
+    -   If the requires talking to an NPC, it will start you near that NPC
+    -   If you are melee, it will start you near the nearest enemy
+    -   If you are ranged, it will start you in the outer 10% of the fate zone
