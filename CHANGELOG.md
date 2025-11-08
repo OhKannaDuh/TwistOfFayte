@@ -1,3 +1,7 @@
+# 2.0.1
+- Removed gate in ShouldDoFate
+
+
 # 2.0.0
 
 Complete rewrite to work with new version of Ocelot
