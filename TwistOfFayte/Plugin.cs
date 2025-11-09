@@ -62,8 +62,6 @@ public sealed class Plugin(IDalamudPluginInterface plugin) : OcelotPlugin(plugin
         BootstrapServices(services);
         BootstrapModules(services);
         BootstrapRenderers(services);
-
-        services.AddSingleton<OpenWindows>();
     }
 
     private static void BootstrapOcelotModules(IServiceCollection services)
@@ -163,6 +161,10 @@ public sealed class Plugin(IDalamudPluginInterface plugin) : OcelotPlugin(plugin
         services.AddSingleton<DeathManager>();
 
         services.AddSingleton<DebugModule>();
+
+#if DEBUG
+        services.AddSingleton<OpenWindows>();
+#endif
     }
 
     private static void BootstrapRenderers(IServiceCollection services)

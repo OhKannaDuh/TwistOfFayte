@@ -1,3 +1,6 @@
+# 2.0.2
+- Prevent windows from auto-opening in release builds
+
 # 2.0.1
 - Removed gate in ShouldDoFate
 
