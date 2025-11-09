@@ -20,7 +20,7 @@ public class TeleportingHandler(TravellingToFateContext context, IPlayer player,
     public override void Enter()
     {
         base.Enter();
-        subState = SubState.WaitingToBeDone;
+        subState = SubState.WaitingToCast;
     }
 
     public override TravellingToFateState? Handle()

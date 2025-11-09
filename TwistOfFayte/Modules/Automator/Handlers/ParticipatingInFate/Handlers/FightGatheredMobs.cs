@@ -75,7 +75,7 @@ public class FightGatheredMobsHandler(
             return;
         }
 
-        if (targeter.ShouldChange())
+        if (targeter.ShouldChange() || targetManager.Target == null)
         {
             targetManager.Target = targeter.GetTarget()?.GameObject;
         }

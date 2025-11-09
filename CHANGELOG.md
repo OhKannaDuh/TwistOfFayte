@@ -1,3 +1,7 @@
+# 2.0.3
+- Fix bug in teleport handler causing it to init on the wrong state
+- Ensure a target is always selected in the fight gathered mobs handler
+
 # 2.0.2
 - Prevent windows from auto-opening in release builds
 
