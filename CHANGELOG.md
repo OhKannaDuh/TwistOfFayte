@@ -1,3 +1,7 @@
+# 2.1.1
+
+-   Updated icon
+
 # 2.1.0
 
 -   Disabled circle rendering around aetherytes
