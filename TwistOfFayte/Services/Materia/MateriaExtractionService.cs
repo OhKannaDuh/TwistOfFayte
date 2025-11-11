@@ -1,10 +1,5 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.Game;
+﻿using FFXIVClientStructs.FFXIV.Client.Game;
 using Ocelot.Chain;
-using Ocelot.Chain.Steps;
 using TwistOfFayte.Chains.Steps;
 using TwistOfFayte.Services.Materia.Steps;
 
@@ -43,7 +38,7 @@ public unsafe class MateriaExtractionService(IChainFactory chains) : IMateriaExt
 
         chain.Then<UnmountStep>();
         chain.Then<ExtractStep>();
-        
+
         return chain;
     }
 

@@ -21,7 +21,7 @@ public class ChoosingPathHandler(
     IStateManager state,
     TravellingToFateContext context,
     IVNavmeshIpc vnavmesh,
-    ILogger logger
+    ILogger<ChoosingPathHandler> logger
 ) : FlowStateHandler<TravellingToFateState>(TravellingToFateState.ChoosingPath)
 {
     private readonly List<Task<Path>> paths = [];
@@ -62,7 +62,7 @@ public class ChoosingPathHandler(
         paths.Add(pathfinder.Pathfind(new PathfinderConfig(destination)
         {
             From = player.GetPosition(),
-            AllowFlying = true,
+            AllowFlying = player.CanFly(),
         }));
 
         // Only check the two closest aetherytes as the crow flies
@@ -78,12 +78,12 @@ public class ChoosingPathHandler(
             paths.Add(pathfinder.Pathfind(new PathfinderConfig(destination)
             {
                 From = vnavmesh.FindPointOnFloor(aetheryte.Position, 5f),
-                AllowFlying = true,
+                AllowFlying = player.CanFly(),
             }));
         }
 
         watchAll = Task.WhenAll(paths);
-        logger.Info("Kicked off {count} pathfinding tasks", paths.Count);
+        logger.Debug("Kicked off {count} pathfinding tasks", paths.Count);
     }
 
     public override TravellingToFateState? Handle()
@@ -140,6 +140,6 @@ public class ChoosingPathHandler(
             }
         }
 
-        logger.Info("Assigned {count} paths", count);
+        logger.Debug("Assigned {count} paths", count);
     }
 }

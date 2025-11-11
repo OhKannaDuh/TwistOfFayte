@@ -32,7 +32,7 @@ public class SingleTargetPositioner(
 
         var distance = target.Position.Distance2D(player.GetPosition()) - target.GameObject.HitboxRadius;
 
-        return distance > player.GetRange() || distance < target.GameObject.HitboxRadius;
+        return distance > player.GetAttackRange() || distance < target.GameObject.HitboxRadius;
     }
 
     public Vector3 GetPosition()
@@ -50,7 +50,7 @@ public class SingleTargetPositioner(
         var targetRadius = target.GameObject.HitboxRadius;
 
         var playerDistance = playerPosition.Distance2D(targetPosition) - targetRadius;
-        var playerRange = player.GetRange();
+        var playerRange = player.GetAttackRange();
 
         if (playerDistance < targetRadius)
         {

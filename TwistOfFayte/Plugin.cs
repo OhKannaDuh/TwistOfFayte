@@ -1,19 +1,21 @@
-﻿using Dalamud.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using Dalamud.Configuration;
 using Dalamud.Plugin;
-using Lumina.Excel.Sheets;
 using Microsoft.Extensions.DependencyInjection;
 using Ocelot;
 using Ocelot.Chain.Services;
 using Ocelot.Config;
-using Ocelot.Config.Fields;
-using Ocelot.Config.Renderers;
 using Ocelot.ECommons.Services;
+using Ocelot.Extensions;
 using Ocelot.Mechanic.Services;
 using Ocelot.Pathfinding.Services;
 using Ocelot.Pictomancy.Services;
 using Ocelot.Rotation.Services;
 using Ocelot.Services;
 using Ocelot.Services.Commands;
+using Ocelot.Services.Translation;
 using Ocelot.Services.WindowManager;
 using Ocelot.States;
 using Ocelot.UI.Services;
@@ -28,6 +30,7 @@ using TwistOfFayte.Modules.Automator.Handlers.ParticipatingInFate.Handlers;
 using TwistOfFayte.Modules.Automator.Handlers.TravellingToFate;
 using TwistOfFayte.Modules.Debug;
 using TwistOfFayte.Modules.Translations;
+using TwistOfFayte.Modules.Ux;
 using TwistOfFayte.Renderers;
 using TwistOfFayte.Services.Fates;
 using TwistOfFayte.Services.Fates.CombatHelper.Positioner;
@@ -62,6 +65,7 @@ public sealed class Plugin(IDalamudPluginInterface plugin) : OcelotPlugin(plugin
         BootstrapServices(services);
         BootstrapModules(services);
         BootstrapRenderers(services);
+        BootstrapTranslationContext(services);
     }
 
     private static void BootstrapOcelotModules(IServiceCollection services)
@@ -85,11 +89,9 @@ public sealed class Plugin(IDalamudPluginInterface plugin) : OcelotPlugin(plugin
     {
         services.AddSingleton<MountDisplay>();
         services.AddSingleton<MountFilter>();
-        // services.AddSingleton<IFieldRenderer<ExcelSelectAttribute<Mount, MountDisplay, MountFilter>>, ExcelSelectRenderer<Mount, MountDisplay, MountFilter>>();
 
         services.AddSingleton<ZoneDisplay>();
         services.AddSingleton<ZoneFilter>();
-        // services.AddSingleton<IFieldRenderer<ExcelORderedMultiSelectAttribute<Mount, MountDisplay, MountFilter>>, ExcelMultiSelectRenderer<Mount, MountDisplay, MountFilter>>();
 
         services.AddSingleton(plugin.GetPluginConfig() as Configuration ?? new Configuration());
         services.AddSingleton<IConfiguration>(s => s.GetRequiredService<Configuration>());
@@ -160,6 +162,8 @@ public sealed class Plugin(IDalamudPluginInterface plugin) : OcelotPlugin(plugin
 
         services.AddSingleton<DeathManager>();
 
+        services.AddSingleton<UxModule>();
+        
         services.AddSingleton<DebugModule>();
 
 #if DEBUG
@@ -178,5 +182,16 @@ public sealed class Plugin(IDalamudPluginInterface plugin) : OcelotPlugin(plugin
         services.AddSingleton<IDebugRenderable, ConditionDebugRenderable>();
 
         services.AddSingleton<IConfigRenderer, ConfigRenderer>();
+    }
+
+    private void BootstrapTranslationContext(IServiceCollection services)
+    {
+        services.AddSingleton(new TranslatorContextResolverOptions(GetType())
+        {
+            Replacements = new Dictionary<Regex, Func<Type, string>>
+            {
+                { new Regex(@"^TwistOfFayte\.Renderers\..*"), type => $"renderers.{type.Name.Replace("Renderer", "").ToSnakeCase()}" },
+            },
+        });
     }
 }

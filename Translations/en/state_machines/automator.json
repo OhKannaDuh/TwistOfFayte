@@ -1,0 +1,9 @@
+{
+    "in_combat.label": "In Combat",
+    "repairing.label": "Repairing",
+    "extracting_materia.label": "Extracting Materia",
+    "waiting_for_fate.label": "Waiting for Fate",
+    "changing_zone.label": "Changing Zone",
+    "travelling_to_fate.label": "Travelling to Fate",
+    "participating_in_fate.label": "Participating in Fate"
+}

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Ocelot.States.Score;
 using TwistOfFayte.Config;
@@ -71,6 +72,16 @@ public abstract class BaseHandler(
 
     protected int Goal
     {
-        get => combat.GetMaxMobsToFight();
+        get
+        {
+            var fate = GetFate();
+            if (fate == null)
+            {
+                return combat.GetMaxMobsToFight();
+            }
+
+            var remaining = fate.ObjectiveTracker.ObjectivesRemaining;
+            return remaining != -1 ? Math.Min(remaining, combat.GetMaxMobsToFight()) : combat.GetMaxMobsToFight();
+        }
     }
 }

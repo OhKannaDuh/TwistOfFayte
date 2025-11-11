@@ -2,7 +2,6 @@
 using Dalamud.Game.ClientState.Objects;
 using ECommons.Throttlers;
 using Ocelot.Extensions;
-using Ocelot.Services.ClientState;
 using Ocelot.Services.PlayerState;
 using TwistOfFayte.Data;
 using TwistOfFayte.Services.Npc;
@@ -41,7 +40,7 @@ public class ClosestToPlayerTargeter(
         var range = player.IsHealer() ? 8f : 5f;
         var origin = player.GetPosition();
 
-        return (origin.Distance(target.Position) - target.GameObject.HitboxRadius) <= range;
+        return origin.Distance(target.Position) - target.GameObject.HitboxRadius <= range;
     }
 
     public string Identify()

@@ -1,7 +1,7 @@
 ﻿using System;
+using Ocelot.Services.UI;
 using Ocelot.States;
 using Ocelot.States.Flow;
-using Ocelot.UI.Services;
 using TwistOfFayte.Services.State;
 
 namespace TwistOfFayte.Modules.Automator.Handlers.TravellingToFate;

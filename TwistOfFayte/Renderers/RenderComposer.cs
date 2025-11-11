@@ -1,6 +1,6 @@
-﻿using Dalamud.Bindings.ImGui;
+﻿using System.Numerics;
+using Dalamud.Bindings.ImGui;
 using Ocelot.Services.WindowManager;
-using Ocelot.UI.Services;
 using TwistOfFayte.Config;
 
 namespace TwistOfFayte.Renderers;
@@ -14,13 +14,22 @@ public class RenderComposer(
 {
     public void Render()
     {
-        fateListRenderer.Render();
-        ImGui.Separator();
+        if (fateListRenderer.ShouldRender())
+        {
+            fateListRenderer.Render();
+
+            ImGui.Dummy(new Vector2(0.0f, 16.0f));
+            ImGui.Separator();
+            ImGui.Dummy(new Vector2(0.0f, 16.0f));
+        }
+
         automationStateRenderer.Render();
 
         if (debugConfig.ShowDebug)
         {
+            ImGui.Dummy(new Vector2(0.0f, 16.0f));
             ImGui.Separator();
+            ImGui.Dummy(new Vector2(0.0f, 16.0f));
             debugRenderer.RenderPanel();
         }
     }

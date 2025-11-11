@@ -50,14 +50,14 @@
         <ProjectReference Include="../Ocelot/Ocelot.Rotation/Ocelot.Rotation.csproj"/>
     </ItemGroup>
     <ItemGroup Condition="'$(Configuration)' == 'Release'">
-        <PackageReference Include="FFXIVOcelot" Version="2.1.0"/>
-        <PackageReference Include="FFXIVOcelot.ECommons" Version="0.2.0"/>
+        <PackageReference Include="FFXIVOcelot" Version="2.2.0"/>
+        <PackageReference Include="FFXIVOcelot.ECommons" Version="0.3.0"/>
         <PackageReference Include="FFXIVOcelot.Pictomancy" Version="0.2.0"/>
-        <PackageReference Include="FFXIVOcelot.Pathfinding" Version="0.2.0"/>
-        <PackageReference Include="FFXIVOcelot.Chain" Version="0.2.0"/>
-        <PackageReference Include="FFXIVOcelot.UI" Version="0.2.0"/>
-        <PackageReference Include="FFXIVOcelot.Mechanic" Version="0.2.0"/>
-        <PackageReference Include="FFXIVOcelot.Rotation" Version="0.2.0"/>
+        <PackageReference Include="FFXIVOcelot.Pathfinding" Version="0.3.0"/>
+        <PackageReference Include="FFXIVOcelot.Chain" Version="0.3.0"/>
+        <PackageReference Include="FFXIVOcelot.UI" Version="0.3.0"/>
+        <PackageReference Include="FFXIVOcelot.Mechanic" Version="0.3.0"/>
+        <PackageReference Include="FFXIVOcelot.Rotation" Version="0.3.0"/>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Scrutor" Version="6.1.0"/>

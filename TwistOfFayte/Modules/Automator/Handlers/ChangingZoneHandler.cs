@@ -5,8 +5,8 @@ using ECommons.Throttlers;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Ocelot.Services.ClientState;
 using Ocelot.Services.PlayerState;
+using Ocelot.Services.UI;
 using Ocelot.States.Flow;
-using Ocelot.UI.Services;
 using TwistOfFayte.Config;
 using TwistOfFayte.Services.State;
 

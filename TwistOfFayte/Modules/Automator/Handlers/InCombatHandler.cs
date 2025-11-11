@@ -5,7 +5,6 @@ using Dalamud.Plugin.Services;
 using ECommons.Throttlers;
 using Ocelot.Extensions;
 using Ocelot.Pathfinding.Extensions;
-using Ocelot.Services.Logger;
 using Ocelot.Services.Pathfinding;
 using Ocelot.Services.PlayerState;
 using Ocelot.States.Flow;
@@ -38,12 +37,12 @@ public class InCombatHandler(
         if (EzThrottler.Throttle("InCombat::Target"))
         {
             var candidates = npcs.GetNonFateNpcs().Where(t => t.IsTargetingLocalPlayer());
-        
+
             target.Target ??= candidates.FirstOrDefault()?.GameObject;
 
             if (target.Target != null)
             {
-                var range = player.GetRange();
+                var range = player.GetAttackRange();
                 var distance = target.Target.Position.Truncate().Distance(player.GetPosition());
                 if (distance > range && pathfinder.IsIdle())
                 {

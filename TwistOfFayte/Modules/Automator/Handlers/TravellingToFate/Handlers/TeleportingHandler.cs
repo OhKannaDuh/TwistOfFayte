@@ -1,12 +1,14 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using ECommons.Throttlers;
 using Ocelot.Services.PlayerState;
+using Ocelot.Services.UI;
 using Ocelot.States.Flow;
-using Ocelot.UI.Services;
 
 namespace TwistOfFayte.Modules.Automator.Handlers.TravellingToFate.Handlers;
 
-public class TeleportingHandler(TravellingToFateContext context, IPlayer player, IUIService ui) : FlowStateHandler<TravellingToFateState>(TravellingToFateState.Teleporting)
+public class TeleportingHandler(TravellingToFateContext context, IPlayer player, IUIService ui)
+    : FlowStateHandler<TravellingToFateState>(TravellingToFateState.Teleporting)
 {
     private enum SubState
     {
@@ -14,13 +16,26 @@ public class TeleportingHandler(TravellingToFateContext context, IPlayer player,
         WaitingToBeBetweenAreas,
         WaitingToBeDone,
     }
-    
+
     private SubState subState = SubState.WaitingToCast;
+
+    private DateTime subStateEnteredAt;
+
+    private double TimeInSubStateSeconds
+    {
+        get => (DateTime.UtcNow - subStateEnteredAt).TotalSeconds;
+    }
 
     public override void Enter()
     {
         base.Enter();
-        subState = SubState.WaitingToCast;
+        ChangeState(SubState.WaitingToCast);
+    }
+
+    private void ChangeState(SubState state)
+    {
+        subState = state;
+        subStateEnteredAt = DateTime.Now;
     }
 
     public override TravellingToFateState? Handle()
@@ -38,12 +53,12 @@ public class TeleportingHandler(TravellingToFateContext context, IPlayer player,
         if (subState == SubState.WaitingToCast && EzThrottler.Throttle("Teleport Cast"))
         {
             context.chosenAetheryte.Teleport();
-            subState = SubState.WaitingToBeBetweenAreas;
+            ChangeState(SubState.WaitingToBeBetweenAreas);
         }
 
         if (subState == SubState.WaitingToBeBetweenAreas && player.IsBetweenAreas())
         {
-            subState = SubState.WaitingToBeDone;
+            ChangeState(SubState.WaitingToBeDone);
         }
 
         var distance = Vector3.Distance(player.GetPosition(), context.chosenAetheryte.Position);
@@ -52,10 +67,14 @@ public class TeleportingHandler(TravellingToFateContext context, IPlayer player,
             return TravellingToFateState.Mounting;
         }
 
+        if (TimeInSubStateSeconds >= 10)
+        {
+            ChangeState(SubState.WaitingToCast);
+        }
+
         return null;
     }
-    
-    
+
 
     public override void Render()
     {

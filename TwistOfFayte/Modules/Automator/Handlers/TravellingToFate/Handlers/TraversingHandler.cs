@@ -20,7 +20,7 @@ public class TraversingHandler(
     IStateManager state,
     TravellingToFateContext context,
     INpcProvider npcs,
-    ILogger logger
+    ILogger<TraversingHandler> logger
 ) : FlowStateHandler<TravellingToFateState>(TravellingToFateState.Traversing)
 {
     private Vector3 destination;
@@ -74,8 +74,9 @@ public class TraversingHandler(
             }
             else if (context.fate != null && context.fate.State != FateState.Preparation)
             {
+                // @todo sometimes a fate boundary extends off of a cliff
                 var targetDistance = context.fate.Radius * 0.9f;
-                repathTask = RepathToPoint(context.fate.Position, targetDistance);;
+                repathTask = RepathToPoint(context.fate.Position, targetDistance);
             }
         }
 
@@ -89,7 +90,7 @@ public class TraversingHandler(
         destination = npc.GetApproachPosition(player.GetPosition());
         var path = await pathfinder.Pathfind(new PathfinderConfig(destination)
         {
-            AllowFlying = true,
+            AllowFlying = player.CanFly(),
         });
 
         context.SetChosenPath(path);
@@ -101,7 +102,7 @@ public class TraversingHandler(
         destination = point.GetApproachPosition(player.GetPosition(), distance);
         var path = await pathfinder.Pathfind(new PathfinderConfig(destination)
         {
-            AllowFlying = true,
+            AllowFlying = player.CanFly(),
         });
 
         context.SetChosenPath(path);

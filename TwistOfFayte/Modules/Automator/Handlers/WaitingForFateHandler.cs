@@ -1,7 +1,6 @@
 ﻿using System;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Plugin.Services;
-using Ocelot.Services.Logger;
 using Ocelot.States.Flow;
 using TwistOfFayte.Config;
 using TwistOfFayte.Services.Materia;
@@ -12,10 +11,9 @@ namespace TwistOfFayte.Modules.Automator.Handlers;
 
 public class WaitingForFateHandler(
     IStateManager state,
-    ILogger logger,
     ICondition condition,
     IRepairService repair,
-    IMateriaExtractionService  materiaExtraction,
+    IMateriaExtractionService materiaExtraction,
     MultiZoneConfig multiZoneConfig
 ) : FlowStateHandler<AutomatorState>(AutomatorState.WaitingForFate)
 {
@@ -55,11 +53,9 @@ public class WaitingForFateHandler(
         var current = state.GetCurrentFate();
         if (current != null && selected == current)
         {
-            logger.Info("Transitioning to Participating in Fate ");
             return AutomatorState.ParticipatingInFate;
         }
 
-        logger.Info("Transitioning to Travelling to Fate {}");
         return AutomatorState.TravellingToFate;
     }
 }

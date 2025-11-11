@@ -5,7 +5,7 @@ using Dalamud.Bindings.ImGui;
 using Ocelot.Mechanic.Services;
 using Ocelot.Pathfinding.Services;
 using Ocelot.Rotation.Services;
-using Ocelot.UI.Services;
+using Ocelot.Services.UI;
 using TwistOfFayte.Services.Fates.CombatHelper.Positioner;
 using TwistOfFayte.Services.Fates.CombatHelper.Targeter;
 

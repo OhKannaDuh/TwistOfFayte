@@ -16,51 +16,51 @@
       },
       "FFXIVOcelot": {
         "type": "Direct",
-        "requested": "[2.1.0, )",
-        "resolved": "2.1.0",
-        "contentHash": "PKWqQPhFKIUCnlF5e7Jr8sUy2aewd+U5eoUOa6wXOI9wcdNs+XzT5op2EdRLvn1cdn7aw7vZMDpJWXIi8O1JKg==",
+        "requested": "[2.2.0, )",
+        "resolved": "2.2.0",
+        "contentHash": "Fv0C4B72zhitm/0fCab2Zen47K72OuJ57AqUCH8H/E7jNsI8q7w1alTcftJXxyfulstJPavi1OzCQEQSj1zIDQ==",
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "9.0.9"
         }
       },
       "FFXIVOcelot.Chain": {
         "type": "Direct",
-        "requested": "[0.2.0, )",
-        "resolved": "0.2.0",
-        "contentHash": "CUk/xC0mJVtdyGpW3XfGnxGCli1tbzEP324pJ6FK05DKljeEfREFYQIDJnmpC2kOeZryOEVrnUpxKVSAv1Rn9g==",
+        "requested": "[0.3.0, )",
+        "resolved": "0.3.0",
+        "contentHash": "lsRsINabmyPaR8fhS+VNu/0FJp4SxkSzB/R5AhDxBCJ2JmmOkiKhyhoIFmHV7XnMG8XBPPzlK1FahelVtRS3Cw==",
         "dependencies": {
           "ECommons": "3.0.1.14",
-          "FFXIVOcelot": "0.2.0",
-          "FFXIVOcelot.Pathfinding": "0.2.0"
+          "FFXIVOcelot": "0.3.0",
+          "FFXIVOcelot.Pathfinding": "0.3.0"
         }
       },
       "FFXIVOcelot.ECommons": {
         "type": "Direct",
-        "requested": "[0.2.0, )",
-        "resolved": "0.2.0",
-        "contentHash": "b3UH7l8MPZ0P+9ikYJu9VsoDwn0McCCcRqnzG0U/a6YKnErhgUL1rWEy42nebnTE5z7DK4Wnr76Z7Ppg1FKIGw==",
+        "requested": "[0.3.0, )",
+        "resolved": "0.3.0",
+        "contentHash": "lJw9C2QtPdzJEUzsCcJ8NviDrV8XghSdG6nriXLyigS912Xz5bIQlQjMg7d2naY5dLggFvOL9IQB12aEf3cPgw==",
         "dependencies": {
           "ECommons": "3.0.1.14",
-          "FFXIVOcelot": "0.2.0"
+          "FFXIVOcelot": "0.3.0"
         }
       },
       "FFXIVOcelot.Mechanic": {
         "type": "Direct",
-        "requested": "[0.2.0, )",
-        "resolved": "0.2.0",
-        "contentHash": "ECmFb1bt4UWrYAvadPq2svKWm3Mxxv6ZHApeZyfrN2NKOU809Iibb2diQI3trT/zCFrMup5aFIMM3hxNPslrXg==",
+        "requested": "[0.3.0, )",
+        "resolved": "0.3.0",
+        "contentHash": "TXqa9xg5Gu/C6FuDwYq11nc3q/5rljMxXfySm7rzn/6ox9seiy5Lp0tDoue7bIc02BjnyVPjjy5V4wKVamu6yw==",
         "dependencies": {
           "ECommons": "3.0.1.14",
-          "FFXIVOcelot": "0.2.0"
+          "FFXIVOcelot": "0.3.0"
         }
       },
       "FFXIVOcelot.Pathfinding": {
         "type": "Direct",
-        "requested": "[0.2.0, )",
-        "resolved": "0.2.0",
-        "contentHash": "Q0RjJ9v9VNP4P2pWmNxqx2u3VrWSqg8i3lyfPUw/DaGciT/S7Um3pLdFnu3gkbBE6FUI9hw//ZGVZwY4RKz5hQ==",
+        "requested": "[0.3.0, )",
+        "resolved": "0.3.0",
+        "contentHash": "Lokkhcetp8To6J09/N17vpINqwUvX57LRws6gY8nWsVicDFOc/UGvtKxikQqDcRKblItUP/77x+jgRIFfiVD4w==",
         "dependencies": {
-          "FFXIVOcelot": "0.2.0"
+          "FFXIVOcelot": "0.3.0"
         }
       },
       "FFXIVOcelot.Pictomancy": {
@@ -75,20 +75,20 @@
       },
       "FFXIVOcelot.Rotation": {
         "type": "Direct",
-        "requested": "[0.2.0, )",
-        "resolved": "0.2.0",
-        "contentHash": "UmLYqdmk4hWfeZzm0zL1Q3YIqBYAdcfyJGBa+uYJiiqLDWe5NRurxrs4gLGqbMrTR77zrNkxTexMZizg++uo+A==",
+        "requested": "[0.3.0, )",
+        "resolved": "0.3.0",
+        "contentHash": "VEUX0QXPvceV/sf386UU0oOAGnOXqPIWd88V3JcP9DRTeZxxCQb/Rx1qOwsswZyDIVKqmx0oh0u/zkQJID7Vbw==",
         "dependencies": {
-          "FFXIVOcelot": "0.2.0"
+          "FFXIVOcelot": "0.3.0"
         }
       },
       "FFXIVOcelot.UI": {
         "type": "Direct",
-        "requested": "[0.2.0, )",
-        "resolved": "0.2.0",
-        "contentHash": "DlIeg8U4kXmPP2Q828IgMt40/1RJluA4ezv/lS44WrESCVX2uWy/kLqWKa4o0ogziG+vhNmBN2oXTM+S8fut4A==",
+        "requested": "[0.3.0, )",
+        "resolved": "0.3.0",
+        "contentHash": "Zafz9OY0ihvUDaDa08qCcLWSf8+etmETnGxXsEhpNUqZLBn6CXLa1T4G1hd81jJSjVJWox0tvXmGQFHwzfC3Zw==",
         "dependencies": {
-          "FFXIVOcelot": "0.2.0"
+          "FFXIVOcelot": "0.3.0"
         }
       },
       "Scrutor": {

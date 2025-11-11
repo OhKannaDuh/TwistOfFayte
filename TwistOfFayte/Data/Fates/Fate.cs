@@ -28,7 +28,9 @@ public class Fate
 
     public byte Progress { get; private set; }
 
-    public readonly FateProgress ProgressTracker = new();
+    public readonly FateProgressTracker ProgressTracker = new();
+
+    public readonly FateObjectiveTracker ObjectiveTracker;
 
     public readonly FateData GameData;
 
@@ -47,6 +49,7 @@ public class Fate
         Type = Enum.IsDefined(typeof(FateType), context.IconId) ? (FateType)context.IconId : FateType.Unknown;
 
         Progress = context.Progress;
+        ObjectiveTracker = new FateObjectiveTracker(Progress);
 
         GameData = fateDataRepository.Get(context.FateId);
         if (GameData.EventItem.IsValid)
@@ -62,5 +65,15 @@ public class Fate
         Progress = context.Progress;
 
         ProgressTracker.Observe(this);
+
+        if (ShouldTrackObjectiveEstimate())
+        {
+            ObjectiveTracker.Observe(this);
+        }
+    }
+
+    public bool ShouldTrackObjectiveEstimate()
+    {
+        return Type is FateType.Mobs or FateType.Defend or FateType.Collect;
     }
 }

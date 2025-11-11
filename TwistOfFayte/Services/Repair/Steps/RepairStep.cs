@@ -2,7 +2,6 @@
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Plugin.Services;
 using ECommons.UIHelpers.AddonMasterImplementations;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using Ocelot.Actions;
 using Ocelot.Chain;
@@ -41,13 +40,13 @@ public class RepairStep(
                     {
                         Actions.Repair.Cast();
                     }
-                    
+
                     repair = gui.GetAddonByName<AddonRepair>("Repair", 1);
                     if (repair == null || !repair->AtkUnitBase.IsVisible || !repair->RepairAllButton->IsEnabled)
                     {
                         return StepResult.Failure("Repair not open");
                     }
-                    
+
                     return StepResult.Success();
                 }
             }, "Repair::Open")

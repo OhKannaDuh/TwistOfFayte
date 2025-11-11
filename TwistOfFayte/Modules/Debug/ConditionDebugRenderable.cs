@@ -2,7 +2,7 @@
 using Dalamud.Bindings.ImGui;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Plugin.Services;
-using Ocelot.UI.Services;
+using Ocelot.Services.UI;
 
 namespace TwistOfFayte.Modules.Debug;
 
@@ -20,9 +20,10 @@ public class ConditionDebugRenderable(
         {
             if (condition[flag])
             {
-                ui.LabelledValue(flag.ToString(), "true");
+                ui.Text(flag.ToString(), branding.DalamudYellow);
             }
         }
+
         ImGui.Unindent();
     }
 }

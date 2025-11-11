@@ -24,8 +24,8 @@ public class UnmountStep(IChainFactory chains, IPlayer player) : ChainRecipe(cha
                 {
                     Actions.Unmount.Cast();
                 }
-                
-                return player.IsMounted() ? StepResult.Failure("Unable to unmount") :  StepResult.Success();
+
+                return player.IsMounted() ? StepResult.Failure("Unable to unmount") : StepResult.Success();
             }, "Unmount::Unmount");
     }
 }

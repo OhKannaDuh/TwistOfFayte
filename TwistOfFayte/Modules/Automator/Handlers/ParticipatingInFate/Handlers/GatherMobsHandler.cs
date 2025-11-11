@@ -3,7 +3,7 @@ using Dalamud.Game.ClientState.Objects;
 using ECommons.Throttlers;
 using Ocelot.Services.Pathfinding;
 using Ocelot.Services.PlayerState;
-using Ocelot.UI.Services;
+using Ocelot.Services.UI;
 using TwistOfFayte.Config;
 using TwistOfFayte.Data;
 using TwistOfFayte.Services.Fates;
@@ -61,7 +61,7 @@ public class GatherMobsHandler(
 
         if (pathfinder.GetState() == PathfindingState.Idle && !player.IsCasting())
         {
-            pathfinder.PathfindAndMoveTo(new PathfinderConfig(candidate.GetApproachPosition(player.GetPosition(), player.GetRange())));
+            pathfinder.PathfindAndMoveTo(new PathfinderConfig(candidate.GetApproachPosition(player.GetPosition(), player.GetAttackRange())));
         }
     }
 

@@ -9,7 +9,7 @@ using OcelotMainCommand = Ocelot.Services.Commands.MainCommand;
 namespace TwistOfFayte.Commands;
 
 public class MainCommand(
-    ITranslator translator,
+    ITranslator<OcelotMainCommand> translator,
     IDalamudPluginInterface plugin,
     IChatGui chat,
     IMainWindow window,

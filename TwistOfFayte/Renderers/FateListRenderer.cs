@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Game.ClientState.Fates;
-using Ocelot.UI.ComposableStrings;
-using Ocelot.UI.Services;
+using Ocelot.Services.UI;
+using Ocelot.Services.UI.ComposableStrings;
 using TwistOfFayte.Config;
 using TwistOfFayte.Data.Fates;
 using TwistOfFayte.Services.Fates;
@@ -22,6 +23,11 @@ public class FateListRenderer(
     IBrandingService branding
 )
 {
+    public bool ShouldRender()
+    {
+        return fates.Snapshot().Count > 0;
+    }
+
     public void Render()
     {
         var snapshot = fates.Snapshot();
@@ -91,7 +97,7 @@ public class FateListRenderer(
     private ComposableGroup Right(Fate fate)
     {
         var progress = fate.Progress;
-        var progressLabel = $"{progress:0}%";
+        var progressDisplays = new List<string>(3);
 
         if (config.ShowTimeEstimate)
         {
@@ -100,12 +106,23 @@ public class FateListRenderer(
             {
                 var time = eta.CompletionTime - DateTimeOffset.Now;
 
-                progressLabel = $"{time:mm\\:ss} ({eta.RSquared:f2}) | {progressLabel}";
+                progressDisplays.Add($"{time:mm\\:ss} ({eta.RSquared:f2})");
             }
         }
 
+        if (config.ShowObjectiveEstimate && fate.ShouldTrackObjectiveEstimate())
+        {
+            var tracker = fate.ObjectiveTracker;
+            if (tracker.Stride != 0)
+            {
+                progressDisplays.Add($"{tracker.ObjectivesCompleted}/{tracker.TotalObjectives}");
+            }
+        }
+
+        progressDisplays.Add($"{progress:0}%");
+
         var group = ui.Compose();
-        group.Text(progressLabel);
+        group.Text(string.Join(" | ", progressDisplays));
 
         return group;
     }

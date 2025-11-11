@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using Lumina.Excel.Sheets;
+﻿using Lumina.Excel.Sheets;
 using Ocelot.Config.Renderers.Excel;
 
 namespace TwistOfFayte.Config.Excel;

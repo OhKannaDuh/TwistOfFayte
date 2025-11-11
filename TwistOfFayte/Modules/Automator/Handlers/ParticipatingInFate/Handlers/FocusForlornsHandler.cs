@@ -64,9 +64,9 @@ public class FocusForlornsHandler(
         }
 
         var distance = player.GetPosition().Distance2D(maiden.Position);
-        if (pathfinder.IsIdle() && distance > player.GetRange())
+        if (pathfinder.IsIdle() && distance > player.GetAttackRange())
         {
-            pathfinder.PathfindAndMoveTo(new PathfinderConfig(maiden.GetApproachPosition(player.GetPosition(), player.GetRange())));
+            pathfinder.PathfindAndMoveTo(new PathfinderConfig(maiden.GetApproachPosition(player.GetPosition(), player.GetAttackRange())));
         }
     }
 

@@ -18,7 +18,7 @@ public class ProgressEstimate
 
 public readonly record struct ProgressEntry(DateTimeOffset Timestamp, byte Progress);
 
-public sealed class FateProgress
+public sealed class FateProgressTracker
 {
     private byte previous = 0;
 

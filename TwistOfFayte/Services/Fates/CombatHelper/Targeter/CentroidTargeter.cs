@@ -42,14 +42,13 @@ public class CentroidTargeter(
     }
 
 
-
     public bool Contains(Target target)
     {
         if (targetManager.Target == null)
         {
             return false;
         }
-        
+
         var range = player.IsHealer() ? 8f : 5f;
         var origin = targetManager.Target.Position;
 

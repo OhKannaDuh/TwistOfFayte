@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
+﻿using System.Numerics;
 using Ocelot.Extensions;
 using Ocelot.Services.PlayerState;
 using TwistOfFayte.Services.Npc;
@@ -29,7 +26,7 @@ public class CasterAoePositioner(
 
     public Vector3 GetPosition()
     {
-      return player.GetPosition();
+        return player.GetPosition();
     }
 
     public string Identify()

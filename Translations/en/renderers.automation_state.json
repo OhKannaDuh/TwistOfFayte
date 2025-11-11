@@ -1,0 +1,9 @@
+{
+    "messages": {
+        "is_active": "Is Active",
+        "state": "State"
+    },
+    "controls": {
+        "toggle": "Toggle Automation"
+    }
+}

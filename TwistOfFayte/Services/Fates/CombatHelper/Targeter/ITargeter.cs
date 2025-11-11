@@ -7,7 +7,7 @@ public interface ITargeter
     bool ShouldChange();
 
     Target? GetTarget();
-    
+
     bool Contains(Target target);
 
     string Identify();

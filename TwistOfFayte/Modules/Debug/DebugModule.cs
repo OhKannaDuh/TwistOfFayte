@@ -1,19 +1,15 @@
 ﻿using System.Linq;
 using System.Numerics;
-using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using Ocelot.Graphics;
 using Ocelot.Lifecycle;
-using Ocelot.Services.ClientState;
 using Ocelot.Services.OverlayRenderer;
 using Ocelot.Services.PlayerState;
 using TwistOfFayte.Config;
-using TwistOfFayte.Data;
-using TwistOfFayte.Services.Fates.CombatHelper.Targeter;
 using TwistOfFayte.Services.Npc;
 
 namespace TwistOfFayte.Modules.Debug;
 
-public class DebugModule(IOverlayRenderer overlay, IPlayer player,  INpcProvider npcs,  DebugConfig config) : IOnRender
+public class DebugModule(IOverlayRenderer overlay, IPlayer player, INpcProvider npcs, DebugConfig config) : IOnRender
 {
     public void Render()
     {

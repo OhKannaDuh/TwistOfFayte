@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Threading;
+using System.Threading.Tasks;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.LayoutEngine;
 using Lumina.Excel.Sheets;
@@ -19,7 +22,8 @@ public class Zone(
     IDataRepository<Map> mapRepository,
     IDataManager data,
     IClient client,
-    IFramework framework
+    IFramework framework,
+    ILogger<Zone> logger
 ) : IZone, IOnTerritoryChanged, IOnStart
 {
     public ushort Id { get; private set; } = 0;
@@ -34,65 +38,108 @@ public class Zone(
             return;
         }
 
-        UpdateTerritoryData(territory);
+        logger.Debug("Zone has changed to {t}", territory);
+
+        UpdateTerritoryDataAsync(territory);
     }
 
     public void OnStart()
     {
-        framework.RunOnTick(() => UpdateTerritoryData(client.CurrentTerritoryId));
+        framework.RunOnTick(() => UpdateTerritoryDataAsync(client.CurrentTerritoryId));
     }
 
-    private void UpdateTerritoryData(ushort territory)
+    private async Task UpdateTerritoryDataAsync(ushort territory, CancellationToken token = default)
     {
         Id = territory;
 
-        Dictionary<uint, Vector3> positions = [];
+        var positions = new Dictionary<uint, Vector3>();
 
-        unsafe
+        const int maxAttempts = 5;
+        var delay = TimeSpan.FromMilliseconds(250);
+
+        for (var attempt = 1; attempt <= maxAttempts; attempt++)
         {
-            var layout = LayoutWorld.Instance()->ActiveLayout;
-            if (layout == null || !layout->InstancesByType.TryGetValue(InstanceType.Aetheryte, out var mapPtr, false))
-            {
-                return;
-            }
+            token.ThrowIfCancellationRequested();
 
-            foreach (ILayoutInstance* instance in mapPtr.Value->Values)
-            {
-                var transform = instance->GetTransformImpl();
-                var position = transform->Translation;
-
-                positions[instance->Id.InstanceKey] = position;
-            }
-
-
-            Aetherytes.Clear();
-            var aetherytes = aetheryteRepository.Where(a => a.Territory.RowId == territory && a.IsAetheryte);
-
-            foreach (var aetheryte in aetherytes)
-            {
-                var level = aetheryte.Level[0].ValueNullable;
-                if (level != null)
+            var success = await Task
+                .Run(() =>
                 {
-                    Aetherytes.Add(new Aetheryte(
-                        aetheryte,
-                        new Vector3(level.Value.X, level.Value.Y, level.Value.Z)
-                    ));
+                    unsafe
+                    {
+                        try
+                        {
+                            var layout = LayoutWorld.Instance()->ActiveLayout;
+                            if (layout == null || !layout->InstancesByType.TryGetValue(InstanceType.Aetheryte, out var mapPtr, false))
+                            {
+                                return false;
+                            }
 
-                    continue;
-                }
 
-                var sheet = data.GetSubrowExcelSheet<MapMarker>();
-                var marker = sheet.Flatten().FirstOrNull(m => m.DataType == 3 && m.DataKey.RowId == aetheryte.RowId)
-                             ?? sheet.Flatten().First(m => m.DataType == 4 && m.DataKey.RowId == aetheryte.AethernetName.RowId);
+                            foreach (ILayoutInstance* instance in mapPtr.Value->Values)
+                            {
+                                var transform = instance->GetTransformImpl();
+                                var position = transform->Translation;
 
-                var position = PixelCoordsToWorldCoords(marker.X, marker.Y, aetheryte.Territory.Value.Map.RowId);
+                                positions[instance->Id.InstanceKey] = position;
+                            }
 
-                Aetherytes.Add(new Aetheryte(
-                    aetheryte,
-                    positions.OrderBy(p => p.Value.Distance2D(position)).First().Value
-                ));
+
+                            Aetherytes.Clear();
+                            var aetherytes = aetheryteRepository.Where(a => a.Territory.RowId == territory && a.IsAetheryte).ToList();
+                            logger.Debug("Found {c} aetherytes in this zone", aetherytes.Count);
+
+                            foreach (var aetheryte in aetherytes)
+                            {
+                                var level = aetheryte.Level[0].ValueNullable;
+                                if (level != null)
+                                {
+                                    Aetherytes.Add(new Aetheryte(
+                                        aetheryte,
+                                        new Vector3(level.Value.X, level.Value.Y, level.Value.Z)
+                                    ));
+
+                                    continue;
+                                }
+
+                                var sheet = data.GetSubrowExcelSheet<MapMarker>();
+                                var marker = sheet.Flatten().FirstOrNull(m => m.DataType == 3 && m.DataKey.RowId == aetheryte.RowId)
+                                             ?? sheet.Flatten().First(m => m.DataType == 4 && m.DataKey.RowId == aetheryte.AethernetName.RowId);
+
+                                var position = PixelCoordsToWorldCoords(marker.X, marker.Y, aetheryte.Territory.Value.Map.RowId);
+
+                                Aetherytes.Add(new Aetheryte(
+                                    aetheryte,
+                                    positions.OrderBy(p => p.Value.Distance2D(position)).First().Value
+                                ));
+                            }
+
+                            return true;
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.Warn(ex, "Attempt {Attempt} failed in UpdateTerritoryDataAsync unsafe section.", attempt);
+                            return false;
+                        }
+                    }
+                }, token)
+                .ConfigureAwait(false);
+
+            if (success)
+            {
+                break;
+            }
+
+            if (attempt < maxAttempts)
+            {
+                await Task.Delay(delay, token).ConfigureAwait(false);
+            }
+            else
+            {
+                logger.Error("Unable to get active layout after {Attempts} attempts.", maxAttempts);
             }
         }
+
+        // Use 'positions' here (update fields, raise events, etc.)
     }
 
     private Vector3 PixelCoordsToWorldCoords(int x, int z, uint mapId)

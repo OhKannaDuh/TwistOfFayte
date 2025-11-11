@@ -22,7 +22,7 @@ public class DeathManager(
     DeathConfig config,
     IChainFactory chains,
     ICondition condition,
-    ILogger logger
+    ILogger<DeathManager> logger
 ) : IOnStart, IOnStop, IOnUpdate
 {
     private CancellationTokenSource autoRespawnCancel = new();
@@ -36,13 +36,11 @@ public class DeathManager(
 
     public void OnStart()
     {
-        logger.Info("Registering Yesno lifecycle event");
         lifecycle.RegisterListener(AddonEvent.PostSetup, "SelectYesno", OnSelectYesnoPostSetup);
     }
 
     public void OnStop()
     {
-        logger.Info("Unregistering Yesno lifecycle event");
         lifecycle.UnregisterListener(AddonEvent.PostSetup, "SelectYesno", OnSelectYesnoPostSetup);
     }
 
@@ -50,7 +48,7 @@ public class DeathManager(
     {
         if (autoRespawnTask is { IsCompleted: true })
         {
-            logger.Info("Disposing of AutoRespawn");
+            logger.Debug("Disposing of AutoRespawn");
             autoRespawnTask.Dispose();
             autoRespawnTask = null;
         }
@@ -104,7 +102,7 @@ public class DeathManager(
             return;
         }
 
-        logger.Info("Kicking off Auto Release Task");
+        logger.Debug("Kicking off Auto Release Task");
         autoRespawnCancel = new CancellationTokenSource();
         autoRespawnTask = chains.Create("AutoRelease")
             .Then(new ActionStep(async context =>
@@ -115,13 +113,13 @@ public class DeathManager(
                 }
                 catch (OperationCanceledException)
                 {
-                    logger.Info("Cancel requested during delay");
+                    logger.Debug("Cancel requested during delay");
                     return StepResult.Break();
                 }
 
                 if (context.CancellationToken.IsCancellationRequested)
                 {
-                    logger.Info("Cancel requested after delay");
+                    logger.Debug("Cancel requested after delay");
                     return StepResult.Break();
                 }
 
@@ -130,7 +128,7 @@ public class DeathManager(
                     var addon = (AtkUnitBase*)args.Addon.Address;
                     if (addon == null || !addon->IsVisible)
                     {
-                        logger.Info("Addon is no longer visible");
+                        logger.Debug("Addon is no longer visible");
                         return StepResult.Failure("Addon is no longer visible");
                     }
 
@@ -151,7 +149,7 @@ public class DeathManager(
             return;
         }
 
-        logger.Info("Kicking off Auto Raise Task");
+        logger.Debug("Kicking off Auto Raise Task");
         autoAcceptRaiseToken = new CancellationTokenSource();
         autoAcceptRaiseTask = chains.Create("AutoRaise")
             .Then(new ActionStep(async context =>
