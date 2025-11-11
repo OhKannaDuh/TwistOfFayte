@@ -14,7 +14,7 @@ public interface IConfiguration : IPluginConfiguration
 
     FateSelectorConfig FateSelectorConfig { get; set; }
 
-    DeathConfig DeathConfig { get; set; }1
+    DeathConfig DeathConfig { get; set; }
 
     GeneralConfig GeneralConfig { get; set; }
 
