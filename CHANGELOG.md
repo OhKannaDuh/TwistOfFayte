@@ -1,3 +1,9 @@
+# 2.2.0
+
+- Added ability to blacklist fates by middle-clicking them.
+- Added a help window under `/twist-of-fayte help|h`. Currently, this lists general tips and notes, but in the future should list all command information and config accessors.
+- Added some missing translations
+
 # 2.1.1
 
 -   Updated icon
