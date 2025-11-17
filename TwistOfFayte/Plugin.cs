@@ -18,7 +18,9 @@ using Ocelot.Services.Translation;
 using Ocelot.Services.WindowManager;
 using Ocelot.States;
 using Ocelot.UI.Services;
+using Ocelot.Windows;
 using TwistOfFayte.Chains.Steps;
+using TwistOfFayte.Commands;
 using TwistOfFayte.Config;
 using TwistOfFayte.Config.Excel;
 using TwistOfFayte.Data;
@@ -31,6 +33,7 @@ using TwistOfFayte.Modules.Debug;
 using TwistOfFayte.Modules.Translations;
 using TwistOfFayte.Modules.Ux;
 using TwistOfFayte.Renderers;
+using TwistOfFayte.Renderers.Help;
 using TwistOfFayte.Services.Fates;
 using TwistOfFayte.Services.Fates.CombatHelper.Positioner;
 using TwistOfFayte.Services.Fates.CombatHelper.Targeter;
@@ -41,6 +44,7 @@ using TwistOfFayte.Services.Repair;
 using TwistOfFayte.Services.Repair.Steps;
 using TwistOfFayte.Services.State;
 using TwistOfFayte.Services.Zone;
+using TwistOfFayte.Windows;
 using ConfigCommand = TwistOfFayte.Commands.ConfigCommand;
 using IConfiguration = TwistOfFayte.Config.IConfiguration;
 using MainCommand = TwistOfFayte.Commands.MainCommand;
@@ -162,6 +166,12 @@ public sealed class Plugin(IDalamudPluginInterface plugin) : OcelotPlugin(plugin
         services.AddSingleton<IDebugRenderable, ConditionDebugRenderable>();
 
         services.AddSingleton<IConfigRenderer, ConfigRenderer>();
+
+        services.AddSingleton<IHelpRenderer, HelpRenderer>();
+        services.AddSingleton<HelpWindow>();
+        services.AddSingleton<IWindow>(sp => sp.GetRequiredService<HelpWindow>());
+        services.AddSingleton<HelpCommand>();
+        services.AddSingleton<IMainCommandDelegate, HelpCommandDelegate>();
     }
 
     private void BootstrapTranslationContext(IServiceCollection services)

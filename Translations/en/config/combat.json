@@ -10,7 +10,7 @@
             "label": "Mob Lifetime Seconds Requirement",
             "tooltip": "Set the time (seconds) a mob must exist before it can be engaged."
         },
-        "foucus_forlorns": {
+        "focus_forlorns": {
             "label": "Focus Forlorns",
             "tooltip": "Enable or disable focusing on Forlorn mobs during combat."
         }

@@ -25,6 +25,10 @@
         "show_preparing_fate_icon": {
             "label": "Show Preparing Fate Icon",
             "tooltip": "Enable or disable the display of preparing fate icons in the UI."
+        },
+        "fade_ignmored_fates": {
+            "label": "Fade Ignored Fates",
+            "tooltip": "Enable or disable fading of ignored fates in the UI."
         }
     }
 }
