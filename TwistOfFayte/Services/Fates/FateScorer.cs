@@ -15,14 +15,15 @@ public class FateScorer(
     FateSelectorConfig selectorConfig,
     IPlayer player,
     IStateManager state,
-    IZone zone
+    IZone zone,
+    FateBlacklist blacklist
 ) : IFateScorer
 {
     public FateScore Score(Fate fate)
     {
         var score = new FateScore();
 
-        if (!selectorConfig.ShouldDoFate(fate))
+        if (!selectorConfig.ShouldDoFate(fate, blacklist))
         {
             return score;
         }

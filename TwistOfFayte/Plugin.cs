@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Dalamud.Configuration;
 using Dalamud.Plugin;
 using Microsoft.Extensions.DependencyInjection;
 using Ocelot;
@@ -93,26 +92,7 @@ public sealed class Plugin(IDalamudPluginInterface plugin) : OcelotPlugin(plugin
         services.AddSingleton<ZoneDisplay>();
         services.AddSingleton<ZoneFilter>();
 
-        services.AddSingleton(plugin.GetPluginConfig() as Configuration ?? new Configuration());
-        services.AddSingleton<IConfiguration>(s => s.GetRequiredService<Configuration>());
-        services.AddSingleton<IPluginConfiguration>(s => s.GetRequiredService<Configuration>());
-
-        // Selection
-        services.AddConfig<ScorerConfig, IConfiguration>(config => config.ScorerConfig);
-        services.AddConfig<FateSelectorConfig, IConfiguration>(config => config.FateSelectorConfig);
-        services.AddConfig<TraversalConfig, IConfiguration>(config => config.TraversalConfig);
-        services.AddConfig<MultiZoneConfig, IConfiguration>(config => config.MultiZoneConfig);
-
-        // Participation
-        services.AddConfig<CombatConfig, IConfiguration>(config => config.CombatConfig);
-        services.AddConfig<DeathConfig, IConfiguration>(config => config.DeathConfig);
-
-        services.AddConfig<GeneralConfig, IConfiguration>(config => config.GeneralConfig);
-
-        // Other
-        services.AddConfig<UIConfig, IConfiguration>(config => config.UIConfig);
-        services.AddConfig<UXConfig, IConfiguration>(config => config.UXConfig);
-        services.AddConfig<DebugConfig, IConfiguration>(config => config.DebugConfig);
+        services.AddConfig<Configuration, IConfiguration>(plugin);
     }
 
     private static void BootstrapServices(IServiceCollection services)
@@ -163,7 +143,7 @@ public sealed class Plugin(IDalamudPluginInterface plugin) : OcelotPlugin(plugin
         services.AddSingleton<DeathManager>();
 
         services.AddSingleton<UxModule>();
-        
+
         services.AddSingleton<DebugModule>();
 
 #if DEBUG

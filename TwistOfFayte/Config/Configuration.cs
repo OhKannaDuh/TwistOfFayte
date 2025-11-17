@@ -25,4 +25,6 @@ public class Configuration : IConfiguration
     public UXConfig UXConfig { get; set; } = new();
 
     public DebugConfig DebugConfig { get; set; } = new();
+
+    public FateBlacklist FateBlacklist { get; set; } = new();
 }

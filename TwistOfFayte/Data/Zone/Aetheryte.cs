@@ -1,7 +1,5 @@
 ﻿using System.Numerics;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Ocelot.Ipc.VNavmesh;
-using Ocelot.Services.Pathfinding;
 
 namespace TwistOfFayte.Data.Zone;
 

@@ -23,4 +23,6 @@ public interface IConfiguration : IPluginConfiguration
     UXConfig UXConfig { get; set; }
 
     DebugConfig DebugConfig { get; set; }
+
+    FateBlacklist FateBlacklist { get; set; }
 }

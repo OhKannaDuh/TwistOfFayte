@@ -19,6 +19,7 @@ public class FateListRenderer(
     IFateScorer scorer,
     UIConfig config,
     FateSelectorConfig selectorConfig,
+    FateBlacklist blacklist,
     IUIService ui,
     IBrandingService branding
 )
@@ -49,6 +50,11 @@ public class FateListRenderer(
                 }
 
                 ImGui.EndTooltip();
+
+                if (ImGui.IsMouseClicked(ImGuiMouseButton.Middle))
+                {
+                    blacklist.Toggle(fate);
+                }
             }
 
 
@@ -60,7 +66,7 @@ public class FateListRenderer(
     {
         var selected = state.GetSelectedFate();
         var isSelected = selected != null && selected.Value == fate.Id;
-        var shouldDo = selectorConfig.ShouldDoFate(fate);
+        var shouldDo = selectorConfig.ShouldDoFate(fate, blacklist);
 
         var group = ui.Compose();
         if (config.ShowFateTypeIcon)

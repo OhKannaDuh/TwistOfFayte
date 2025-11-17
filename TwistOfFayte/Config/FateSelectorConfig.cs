@@ -1,4 +1,5 @@
 ﻿using System;
+using Dalamud.Game.ClientState.Fates;
 using Ocelot.Config;
 using Ocelot.Config.Fields;
 using TwistOfFayte.Data.Fates;
@@ -20,8 +21,18 @@ public class FateSelectorConfig : IAutoConfig
 
     [Checkbox] public bool DoEscortFates { get; set; } = true;
 
-    internal bool ShouldDoFate(Fate fate)
+    internal bool ShouldDoFate(Fate fate, FateBlacklist blacklist)
     {
+        if (blacklist.Contains(fate))
+        {
+            return false;
+        }
+
+        if (fate.State == FateState.Failed || fate.State == FateState.Ended)
+        {
+            return false;
+        }
+
         return fate.Type switch
         {
             FateType.Mobs => DoMobsFates,
