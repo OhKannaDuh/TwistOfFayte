@@ -17,7 +17,7 @@ public class OpenWindows(IMainWindow? window = null, IConfigWindow? config = nul
         {
             config.IsOpen = true;
         }
-        
+
         if (help != null)
         {
             help.IsOpen = true;

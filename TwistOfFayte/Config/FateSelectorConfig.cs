@@ -28,7 +28,7 @@ public class FateSelectorConfig : IAutoConfig
             return false;
         }
 
-        if (fate.State == FateState.Failed || fate.State == FateState.Ended)
+        if (fate.State is FateState.Failed or FateState.Ended)
         {
             return false;
         }

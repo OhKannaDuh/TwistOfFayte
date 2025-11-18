@@ -17,7 +17,7 @@ public class HelpRenderer(
         "blacklist",
         "byop",
         "ranged_mobs",
-        "issues"
+        "issues",
     ];
 
     public void Render()
@@ -31,6 +31,7 @@ public class HelpRenderer(
         {
             ImGui.TextWrapped($"-  {translator.T($".general_tips.tips.{generalTipKey}")}");
         }
+
         ImGui.Unindent();
     }
 }

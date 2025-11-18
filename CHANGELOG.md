@@ -1,3 +1,7 @@
+# 2.2.1
+
+- Fix bug that would break automation when the selected fate changes.
+
 # 2.2.0
 
 - Added ability to blacklist fates by middle-clicking them.
