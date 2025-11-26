@@ -7,6 +7,7 @@ using Ocelot.Services.Logger;
 using Ocelot.Services.Pathfinding;
 using Ocelot.Services.PlayerState;
 using Ocelot.States.Flow;
+using TwistOfFayte.Config;
 using TwistOfFayte.Services.Fates;
 using TwistOfFayte.Services.State;
 using TwistOfFayte.Services.Zone;
@@ -21,6 +22,7 @@ public class ChoosingPathHandler(
     IStateManager state,
     TravellingToFateContext context,
     IVNavmeshIpc vnavmesh,
+    TraversalConfig config,
     ILogger<ChoosingPathHandler> logger
 ) : FlowStateHandler<TravellingToFateState>(TravellingToFateState.ChoosingPath)
 {
@@ -65,21 +67,24 @@ public class ChoosingPathHandler(
             AllowFlying = player.CanFly(),
         }));
 
-        // Only check the two closest aetherytes as the crow flies
-        // And only if there are less than double the players distance to the fate
-        var aetherytes = zone.Aetherytes.OrderBy(a => Vector3.Distance(a.Position, destination)).Take(2);
-        foreach (var aetheryte in aetherytes)
+        if (config.ShouldTeleport)
         {
-            if (Vector3.Distance(aetheryte.Position, destination) > playerDistance * 2f)
+            // Only check the two closest aetherytes as the crow flies
+            // And only if there are less than double the players distance to the fate
+            var aetherytes = zone.Aetherytes.OrderBy(a => Vector3.Distance(a.Position, destination)).Take(2);
+            foreach (var aetheryte in aetherytes)
             {
-                continue;
-            }
+                if (Vector3.Distance(aetheryte.Position, destination) > playerDistance * 2f)
+                {
+                    continue;
+                }
 
-            paths.Add(pathfinder.Pathfind(new PathfinderConfig(destination)
-            {
-                From = vnavmesh.FindPointOnFloor(aetheryte.Position, 5f),
-                AllowFlying = player.CanFly(),
-            }));
+                paths.Add(pathfinder.Pathfind(new PathfinderConfig(destination)
+                {
+                    From = vnavmesh.FindPointOnFloor(aetheryte.Position, 5f),
+                    AllowFlying = player.CanFly(),
+                }));
+            }
         }
 
         watchAll = Task.WhenAll(paths);

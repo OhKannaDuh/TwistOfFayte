@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Numerics;
+using Ocelot.Extensions;
 using Ocelot.Graphics;
 using Ocelot.Lifecycle;
 using Ocelot.Services.OverlayRenderer;
@@ -69,6 +71,25 @@ public class DebugModule(IOverlayRenderer overlay, IPlayer player, INpcProvider 
             foreach (var enemy in enemies.Where(e => !e.IsTargetingLocalPlayer() && e.GetTargetedPlayer()?.HasTankStanceOn() == true))
             {
                 DrawLine(playerPosition, enemy.Position, new Color(0.3f, 0.4f, 1.0f));
+            }
+        }
+
+        if (config.ShouldShowDebugForEnemyStartTethering)
+        {
+            foreach (var enemy in enemies)
+            {
+                var spawn = enemy.GetSpawnPosition();
+                var distance = spawn.Distance(enemy.Position);
+                var max = 40f;
+
+                var normalizedDistance = Math.Clamp(distance / max, 0f, 1f);
+                var r = normalizedDistance;
+                var g = 1f - normalizedDistance;
+                var b = 0f;
+
+                var color = new Color(r, g, b);
+
+                DrawLine(enemy.GetSpawnPosition(), enemy.Position, color);
             }
         }
     }

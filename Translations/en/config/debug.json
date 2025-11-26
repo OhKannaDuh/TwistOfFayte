@@ -37,6 +37,10 @@
         "should_show_debug_for_enemies_targeting_another_player_with_tank_stance": {
             "label": "Enemies Targeting Another Player (Tank Stance)",
             "tooltip": "Enable or disable debug for enemies targeting another player with tank stance"
+        },
+        "should_show_debug_for_enemy_start_tethering": {
+            "label": "Enemy Leash",
+            "tooltip": "Enable or disable debug for enemy tethering based on its distance from its start point"
         }
     }
 }

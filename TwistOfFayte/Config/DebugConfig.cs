@@ -23,4 +23,6 @@ public class DebugConfig : IAutoConfig
     [Checkbox] public bool ShouldShowDebugForEnemiesTargetingAnotherPlayerWithoutTankStance { get; set; } = false;
 
     [Checkbox] public bool ShouldShowDebugForEnemiesTargetingAnotherPlayerWithTankStance { get; set; } = false;
+
+    [Checkbox] public bool ShouldShowDebugForEnemyStartTethering { get; set; } = false;
 }
