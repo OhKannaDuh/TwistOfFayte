@@ -1,3 +1,8 @@
+# 2.3.0
+
+- Ensure the 'should teleport' option is used correctly when choosing a path to a fate and not just when scoring
+- Added debug option to draw a tether between an enemy and it's 'start point'
+
 # 2.2.1
 
 - Fix bug that would break automation when the selected fate changes.
