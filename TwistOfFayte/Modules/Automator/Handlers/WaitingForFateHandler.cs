@@ -14,7 +14,8 @@ public class WaitingForFateHandler(
     ICondition condition,
     IRepairService repair,
     IMateriaExtractionService materiaExtraction,
-    MultiZoneConfig multiZoneConfig
+    MultiZoneConfig multiZoneConfig,
+    GeneralConfig generalConfig
 ) : FlowStateHandler<AutomatorState>(AutomatorState.WaitingForFate)
 {
     public override AutomatorState? Handle()
@@ -29,12 +30,12 @@ public class WaitingForFateHandler(
             return AutomatorState.InCombat;
         }
 
-        if (repair.ShouldRepair())
+        if (generalConfig.ShouldAutoRepair && repair.ShouldRepair())
         {
             return AutomatorState.Repairing;
         }
 
-        if (materiaExtraction.ShouldExtract())
+        if (generalConfig.ShouldAutoExtractMateria && materiaExtraction.ShouldExtract())
         {
             return AutomatorState.ExtractingMateria;
         }

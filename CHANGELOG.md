@@ -1,3 +1,7 @@
+# 2.4.0
+
+- Ensure the 'Should Auto Repair' and 'Should Auto Extract Materia' options are respected.
+
 # 2.3.0
 
 - Ensure the 'should teleport' option is used correctly when choosing a path to a fate and not just when scoring
