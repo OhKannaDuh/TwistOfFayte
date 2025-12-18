@@ -77,14 +77,18 @@ if [ -z "$CS_VERSION" ]; then
 fi
 
 if [ "$CS_VERSION" != "$TAG" ]; then
-    echo "csproj version ($CS_VERSION) does not match tag ($TAG). Updating..."
-    xmllint --shell "$PROJECT/$PROJECT.csproj" <<EOF > /dev/null
-cd //Project/PropertyGroup/Version
-set $TAG
-save
-EOF
-    git add "$PROJECT/$PROJECT.csproj"
-    git commit -m "Version: $TAG"
+  echo "csproj version ($CS_VERSION) does not match tag ($TAG). Updating..."
+
+  CSPROJ_FILE="$PROJECT/$PROJECT.csproj"
+
+  if grep -q "<Version>" "$CSPROJ_FILE"; then
+    sed -i '0,/<Version>/{s|<Version>[^<]*</Version>|<Version>'"$TAG"'</Version>|}' "$CSPROJ_FILE"
+  else
+    sed -i '0,/<PropertyGroup/{s|<PropertyGroup>|<PropertyGroup>\n    <Version>'"$TAG"'</Version>|}' "$CSPROJ_FILE"
+  fi
+
+  git add "$CSPROJ_FILE"
+  git commit -m "Version: $TAG"
 fi
 
 if ! grep -q "# $TAG" CHANGELOG.md; then
