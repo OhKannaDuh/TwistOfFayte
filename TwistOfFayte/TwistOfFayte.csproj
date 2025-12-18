@@ -9,6 +9,9 @@
         <DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
         <NoWarn>$(NoWarn);4014</NoWarn>
         <PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=$(MSBuildProjectName)/</PathMap>
+
+        <!-- There was a conflict between "WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" and "WindowsBase, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" -->
+        <NoWarn>$(NoWarn);MSB3277</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup>
