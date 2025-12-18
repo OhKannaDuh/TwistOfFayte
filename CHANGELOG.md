@@ -1,21 +1,25 @@
+# 3.0.0
+
+-   Updated for Dalamud API 14
+
 # 2.4.0
 
-- Ensure the 'Should Auto Repair' and 'Should Auto Extract Materia' options are respected.
+-   Ensure the 'Should Auto Repair' and 'Should Auto Extract Materia' options are respected.
 
 # 2.3.0
 
-- Ensure the 'should teleport' option is used correctly when choosing a path to a fate and not just when scoring
-- Added debug option to draw a tether between an enemy and it's 'start point'
+-   Ensure the 'should teleport' option is used correctly when choosing a path to a fate and not just when scoring
+-   Added debug option to draw a tether between an enemy and it's 'start point'
 
 # 2.2.1
 
-- Fix bug that would break automation when the selected fate changes.
+-   Fix bug that would break automation when the selected fate changes.
 
 # 2.2.0
 
-- Added ability to blacklist fates by middle-clicking them.
-- Added a help window under `/twist-of-fayte help|h`. Currently, this lists general tips and notes, but in the future should list all command information and config accessors.
-- Added some missing translations
+-   Added ability to blacklist fates by middle-clicking them.
+-   Added a help window under `/twist-of-fayte help|h`. Currently, this lists general tips and notes, but in the future should list all command information and config accessors.
+-   Added some missing translations
 
 # 2.1.1
 

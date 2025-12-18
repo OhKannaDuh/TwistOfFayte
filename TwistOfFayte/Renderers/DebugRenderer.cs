@@ -7,6 +7,7 @@ using TwistOfFayte.Services.Zone;
 
 namespace TwistOfFayte.Renderers;
 
+#if DEBUG
 public class DebugRenderer(IEnumerable<IDebugRenderable> renderables, IZone zone, IOverlayRenderer overlay) : IOnRender
 {
     public void RenderPanel()
@@ -19,11 +20,22 @@ public class DebugRenderer(IEnumerable<IDebugRenderable> renderables, IZone zone
 
     public void Render()
     {
-#if DEBUG
         foreach (var aetheryte in zone.Aetherytes)
         {
             overlay.StrokeCircle(aetheryte.Position, 5f, Color.Red);
         }
-#endif
+
     }
 }
+#else
+public class DebugRenderer() : IOnRender
+{
+    public void RenderPanel()
+    {
+    }
+
+    public void Render()
+    {
+    }
+}
+#endif

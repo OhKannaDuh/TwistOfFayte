@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Dalamud.Game.ClientState.Objects;
+using Dalamud.Plugin.Services;
 using ECommons.Throttlers;
 using Ocelot.Extensions;
 using Ocelot.Services.PlayerState;

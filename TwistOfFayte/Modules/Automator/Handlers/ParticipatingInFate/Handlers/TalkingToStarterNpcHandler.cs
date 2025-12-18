@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Dalamud.Game.ClientState.Fates;
-using Dalamud.Game.ClientState.Objects;
 using Dalamud.Plugin.Services;
 using ECommons.GameFunctions;
 using ECommons.Throttlers;

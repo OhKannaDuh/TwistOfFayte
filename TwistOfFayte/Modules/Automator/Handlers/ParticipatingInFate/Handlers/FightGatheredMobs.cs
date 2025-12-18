@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Dalamud.Game.ClientState.Objects;
+using Dalamud.Plugin.Services;
 using ECommons.Throttlers;
 using Ocelot.Chain;
 using Ocelot.Services.Pathfinding;
