@@ -69,11 +69,7 @@ if git ls-remote --tags origin | grep -q "refs/tags/$TAG"; then
   exit 1
 fi
 
-if command -v xmllint >/dev/null 2>&1; then
-  CS_VERSION=$(xmllint --xpath "string(//Project/PropertyGroup/Version)" "$CSPROJ")
-else
-  CS_VERSION=$(grep -oPm1 '(?<=<Version>)[^<]+' "$CSPROJ" || true)
-fi
+CS_VERSION=$(dotnet msbuild "$CSPROJ" -nologo -getProperty:Version 2>/dev/null | tail -n 1 || true)
 
 if [ -z "$CS_VERSION" ]; then
   echo "Error: Could not read <Version> from $CSPROJ"
