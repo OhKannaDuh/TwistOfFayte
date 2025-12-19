@@ -14,6 +14,8 @@ public class CombatConfig : IAutoConfig
 
     [Checkbox] public bool FocusForlorns { get; set; } = true;
 
+    [Checkbox] public bool PreventMovementWhileFightingGatheredMobs { get; set; } = false;
+
     public int GetMaxMobsToFight()
     {
         return MaxMobsToFight == 0 ? 16 : MaxMobsToFight;

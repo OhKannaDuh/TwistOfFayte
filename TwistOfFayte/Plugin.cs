@@ -113,6 +113,7 @@ public sealed class Plugin(IDalamudPluginInterface plugin) : OcelotPlugin(plugin
         services.AddSingleton<IFateFactory, FateFactory>();
 
         services.AddSingleton<SingleTargetPositioner>();
+        services.AddSingleton<NullPositioner>();
         services.AddSingleton<CircularAoePositioner>();
         services.AddSingleton<CasterAoePositioner>();
         services.AddSingleton<IPositioner, DynamicPositioner>();

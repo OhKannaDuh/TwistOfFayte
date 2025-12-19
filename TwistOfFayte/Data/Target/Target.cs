@@ -149,8 +149,7 @@ public readonly ref struct BattleTarget(IBattleNpc gameObject, IObjectTable obje
 
         return new TargetedPlayer(target, isPlayer);
     }
-    
-    
+
 
     public unsafe Vector3 GetSpawnPosition()
     {

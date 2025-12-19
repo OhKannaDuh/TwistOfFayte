@@ -15,7 +15,7 @@ public static class IEnumerableTargetExtensions
             }
         }
     }
-    
+
     public static void ForEachBattleTarget(this IEnumerable<Target> source, Target.BattleTargetAction action)
     {
         foreach (var t in source)

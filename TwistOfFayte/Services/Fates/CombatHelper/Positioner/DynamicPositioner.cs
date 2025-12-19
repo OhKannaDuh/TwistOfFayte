@@ -4,6 +4,7 @@ using System.Numerics;
 using Microsoft.Extensions.DependencyInjection;
 using Ocelot.Lifecycle;
 using Ocelot.Services.PlayerState;
+using TwistOfFayte.Config;
 using TwistOfFayte.Services.Npc;
 using TwistOfFayte.Services.State;
 
@@ -15,7 +16,9 @@ public class DynamicPositioner(
     INpcProvider npcs,
     IPlayer player,
     SingleTargetPositioner singleTargetPositioner,
-    IServiceProvider services
+    NullPositioner nullPositioner,
+    IServiceProvider services,
+    CombatConfig combatConfig
 ) : BaseCombatHelper(state, fates, npcs, player), IPositioner, IOnPreUpdate
 {
     private readonly IPlayer player = player;
@@ -36,11 +39,24 @@ public class DynamicPositioner(
 
     private IPositioner? positioner
     {
-        get => ShouldSingleTarget ? singleTargetPositioner : resolvedPositioner;
+        get
+        {
+            if (combatConfig.PreventMovementWhileFightingGatheredMobs)
+            {
+                return nullPositioner;
+            }
+
+            return ShouldSingleTarget ? singleTargetPositioner : resolvedPositioner;
+        }
     }
 
     private IPositioner Resolve()
     {
+        if (combatConfig.PreventMovementWhileFightingGatheredMobs)
+        {
+            return services.GetRequiredService<NullPositioner>();
+        }
+
         var classJob = player.GetClassJob();
         if (classJob == null)
         {

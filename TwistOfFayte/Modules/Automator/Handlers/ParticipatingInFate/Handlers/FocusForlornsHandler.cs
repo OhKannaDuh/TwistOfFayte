@@ -64,6 +64,11 @@ public class FocusForlornsHandler(
             maiden.Value.TryUse((in t) => targetManager.Target = t.GameObject);
         }
 
+        if (config.PreventMovementWhileFightingGatheredMobs)
+        {
+            return;
+        }
+
         var distance = player.GetPosition().Distance2D(maiden.Value.Position);
         if (pathfinder.IsIdle() && distance > player.GetAttackRange())
         {

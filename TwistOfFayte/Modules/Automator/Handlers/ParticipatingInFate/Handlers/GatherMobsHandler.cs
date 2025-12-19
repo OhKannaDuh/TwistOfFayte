@@ -43,7 +43,7 @@ public class GatherMobsHandler(
             candidate = GetCandidates().FirstOrDefault();
             return;
         }
-        
+
         if (!candidate.Value.TryUse((in t) => t.GetTargetedPlayer(), out var candidatesTarget))
         {
             return;
@@ -56,7 +56,7 @@ public class GatherMobsHandler(
             return;
         }
 
-        if ( EzThrottler.Throttle("Target"))
+        if (EzThrottler.Throttle("Target"))
         {
             if (!candidate.Value.TryUse((in t) => targetManager.Target?.Address == t.Address, out var isTargetingCandidate))
             {

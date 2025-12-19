@@ -37,7 +37,7 @@ public class InCombatHandler(
         if (EzThrottler.Throttle("InCombat::Target"))
         {
             if (targetManager.Target == null)
-            {           
+            {
                 var candidate = npcs.GetNonFateNpcs().Where(n => n.TryUse((in t) => t.IsTargetingLocalPlayer(), out var result) && result).FirstOrNull();
                 candidate?.TryUse((in t) => targetManager.Target = t.GameObject);
             }

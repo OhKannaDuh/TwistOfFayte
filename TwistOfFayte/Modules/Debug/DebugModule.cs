@@ -87,15 +87,15 @@ public class DebugModule(IOverlayRenderer overlay, IPlayer player, INpcProvider 
                 {
                     continue;
                 }
-                
+
                 var distance = spawn.Distance(enemy.Position);
                 var max = enemy.WanderRange;
-                
+
                 var normalizedDistance = Math.Clamp(distance / max, 0f, 1f);
                 var g = 1f - normalizedDistance;
-                
+
                 var color = new Color(normalizedDistance, g, 0f);
-                
+
                 DrawLine(spawn, enemy.Position, color);
             }
         }
