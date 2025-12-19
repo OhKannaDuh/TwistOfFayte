@@ -68,7 +68,7 @@ public class CircularAoePositioner(
         };
 
         var rangedList = ranged
-            .Select(x => new EnemyPoint(x.Position, x.GameObject.HitboxRadius))
+            .Select(x => new EnemyPoint(x.Position, x.HitboxRadius))
             .ToList();
 
         candidates.AddRange(rangedList.Select(e => ClampToFate(e.Pos, fatePosition, fateRadius)));

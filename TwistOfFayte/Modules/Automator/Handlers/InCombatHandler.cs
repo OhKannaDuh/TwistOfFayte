@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Plugin.Services;
+using ECommons;
 using ECommons.Throttlers;
 using Ocelot.Extensions;
 using Ocelot.Pathfinding.Extensions;
@@ -16,7 +17,7 @@ public class InCombatHandler(
     IStateManager state,
     ICondition condition,
     INpcProvider npcs,
-    ITargetManager target,
+    ITargetManager targetManager,
     IPathfinder pathfinder,
     IPlayer player
 ) : FlowStateHandler<AutomatorState>(AutomatorState.InCombat)
@@ -35,17 +36,19 @@ public class InCombatHandler(
 
         if (EzThrottler.Throttle("InCombat::Target"))
         {
-            var candidates = npcs.GetNonFateNpcs().Where(t => t.IsTargetingLocalPlayer());
+            if (targetManager.Target == null)
+            {           
+                var candidate = npcs.GetNonFateNpcs().Where(n => n.TryUse((in t) => t.IsTargetingLocalPlayer(), out var result) && result).FirstOrNull();
+                candidate?.TryUse((in t) => targetManager.Target = t.GameObject);
+            }
 
-            target.Target ??= candidates.FirstOrDefault()?.GameObject;
-
-            if (target.Target != null)
+            if (targetManager.Target != null)
             {
                 var range = player.GetAttackRange();
-                var distance = target.Target.Position.Truncate().Distance(player.GetPosition());
+                var distance = targetManager.Target.Position.Truncate().Distance(player.GetPosition());
                 if (distance > range && pathfinder.IsIdle())
                 {
-                    pathfinder.PathfindAndMoveTo(new PathfinderConfig(target.Target.Position.GetApproachPosition(player.GetPosition(), range)));
+                    pathfinder.PathfindAndMoveTo(new PathfinderConfig(targetManager.Target.Position.GetApproachPosition(player.GetPosition(), range)));
                 }
             }
         }

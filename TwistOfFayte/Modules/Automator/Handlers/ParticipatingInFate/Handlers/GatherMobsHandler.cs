@@ -43,8 +43,12 @@ public class GatherMobsHandler(
             candidate = GetCandidates().FirstOrDefault();
             return;
         }
+        
+        if (!candidate.Value.TryUse((in t) => t.GetTargetedPlayer(), out var candidatesTarget))
+        {
+            return;
+        }
 
-        var candidatesTarget = candidate.GetTargetedPlayer();
         if (candidatesTarget != null && (candidatesTarget.IsLocalPlayer() || candidatesTarget.HasTankStanceOn()))
         {
             pathfinder.Stop();
@@ -52,16 +56,20 @@ public class GatherMobsHandler(
             return;
         }
 
-        var isTargetingCandidate = targetManager.Target?.Address == candidate.GameObject.Address;
-        if (!isTargetingCandidate && EzThrottler.Throttle("Target"))
+        if ( EzThrottler.Throttle("Target"))
         {
-            targetManager.Target = candidate.GameObject;
+            if (!candidate.Value.TryUse((in t) => targetManager.Target?.Address == t.Address, out var isTargetingCandidate))
+            {
+                return;
+            }
+
+            candidate.Value.TryUse((in t) => targetManager.Target = t.GameObject);
             return;
         }
 
         if (pathfinder.GetState() == PathfindingState.Idle && !player.IsCasting())
         {
-            pathfinder.PathfindAndMoveTo(new PathfinderConfig(candidate.GetApproachPosition(player.GetPosition(), player.GetAttackRange())));
+            pathfinder.PathfindAndMoveTo(new PathfinderConfig(candidate.Value.GetApproachPosition(player.GetPosition(), player.GetAttackRange())));
         }
     }
 

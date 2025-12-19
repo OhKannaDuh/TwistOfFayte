@@ -2,6 +2,7 @@
 using System.Numerics;
 using System.Threading.Tasks;
 using Dalamud.Game.ClientState.Fates;
+using ECommons;
 using Ocelot.Extensions;
 using Ocelot.Pathfinding.Extensions;
 using Ocelot.Services.Logger;
@@ -61,15 +62,15 @@ public class TraversingHandler(
             var startNpc = npcs.GetFateStartNpc();
             if (context.fate?.State == FateState.Preparation && startNpc != null)
             {
-                repathTask = RepathToNpc(startNpc);
+                repathTask = RepathToNpc(startNpc.Value);
             }
 
             if (player.IsMelee())
             {
-                var enemy = npcs.GetEnemies().OrderBy(t => t.Position.Truncate().Distance(player.GetPosition())).FirstOrDefault();
+                var enemy = npcs.GetEnemies().OrderBy(t => t.Position.Truncate().Distance(player.GetPosition())).FirstOrNull();
                 if (context.fate?.State != FateState.Preparation && enemy != null)
                 {
-                    repathTask = RepathToNpc(enemy);
+                    repathTask = RepathToNpc(enemy.Value);
                 }
             }
             else if (context.fate != null && context.fate.State != FateState.Preparation)

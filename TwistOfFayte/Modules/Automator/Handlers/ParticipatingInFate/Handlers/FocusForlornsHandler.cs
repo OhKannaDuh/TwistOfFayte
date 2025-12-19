@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Dalamud.Plugin.Services;
+using ECommons;
 using ECommons.Throttlers;
 using Ocelot.Extensions;
 using Ocelot.Pathfinding.Extensions;
@@ -52,7 +53,7 @@ public class FocusForlornsHandler(
 
     public override void Handle()
     {
-        var maiden = npcs.GetForlornMaidens().FirstOrDefault();
+        var maiden = npcs.GetForlornMaidens().FirstOrNull();
         if (maiden == null)
         {
             return;
@@ -60,13 +61,13 @@ public class FocusForlornsHandler(
 
         if (EzThrottler.Throttle("TargetForlorn"))
         {
-            targetManager.Target = maiden.GameObject;
+            maiden.Value.TryUse((in t) => targetManager.Target = t.GameObject);
         }
 
-        var distance = player.GetPosition().Distance2D(maiden.Position);
+        var distance = player.GetPosition().Distance2D(maiden.Value.Position);
         if (pathfinder.IsIdle() && distance > player.GetAttackRange())
         {
-            pathfinder.PathfindAndMoveTo(new PathfinderConfig(maiden.GetApproachPosition(player.GetPosition(), player.GetAttackRange())));
+            pathfinder.PathfindAndMoveTo(new PathfinderConfig(maiden.Value.GetApproachPosition(player.GetPosition(), player.GetAttackRange())));
         }
     }
 

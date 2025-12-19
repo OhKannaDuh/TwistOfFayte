@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Dalamud.Plugin.Services;
+using ECommons.Reflection;
 using ECommons.Throttlers;
 using Ocelot.Extensions;
 using Ocelot.Services.PlayerState;
@@ -21,9 +22,20 @@ public class ClosestToPlayerTargeter(
 
     public bool ShouldChange()
     {
-        if (EzThrottler.Throttle("ClosestToPlayerTargeter::Change"))
+        if (!EzThrottler.Throttle("ClosestToPlayerTargeter::Change"))
         {
-            return targetManager.Target?.Address == GetTarget()?.GameObject.Address;
+            return false;
+        }
+
+        var target = GetTarget();
+        if (target == null)
+        {
+            return true;
+        }
+
+        if (target.Value.TryUse((in t) => targetManager.Target?.Address == t.Address, out var isCurrent))
+        {
+            return !isCurrent;
         }
 
         return false;
@@ -40,7 +52,7 @@ public class ClosestToPlayerTargeter(
         var range = player.IsHealer() ? 8f : 5f;
         var origin = player.GetPosition();
 
-        return origin.Distance(target.Position) - target.GameObject.HitboxRadius <= range;
+        return origin.Distance(target.Position) - target.HitboxRadius <= range;
     }
 
     public string Identify()

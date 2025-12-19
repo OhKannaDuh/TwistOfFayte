@@ -39,20 +39,38 @@ public abstract class BaseHandler(
 
     protected IEnumerable<Target> GetEnemiesTargetingLocalPlayer()
     {
-        return GetEnemies().Where(e => e.IsTargetingLocalPlayer());
+        foreach (var e in GetEnemies())
+        {
+            if (e.TryUse(static (in t) => t.IsTargetingLocalPlayer(), out var result) && result)
+            {
+                yield return e;
+            }
+        }
     }
 
     protected IEnumerable<Target> GetEnemiesTargetingNoPlayer()
     {
-        return GetEnemies().Where(e => !e.IsTargetingAnyPlayer());
+        foreach (var e in GetEnemies())
+        {
+            if (e.TryUse(static (in t) => t.IsTargetingAnyPlayer(), out var result) && result)
+            {
+                yield return e;
+            }
+        }
     }
 
     protected IEnumerable<Target> GetEnemiesTargetingPlayersWithoutTankStance()
     {
-        return GetEnemies().Where(e =>
-            e.IsTargetingAnyPlayer() &&
-            !e.IsTargetingLocalPlayer() &&
-            e.GetTargetedPlayer()?.HasTankStanceOn() == false);
+        foreach (var e in GetEnemies())
+        {
+            // I hate this...
+            if (e.TryUse(static (in t) => t.IsTargetingAnyPlayer()
+                                          && !t.IsTargetingLocalPlayer()
+                                          && t.GetTargetedPlayer()?.HasTankStanceOn() == false, out var result) && result)
+            {
+                yield return e;
+            }
+        }
     }
 
     protected IEnumerable<Target> GetCandidates()

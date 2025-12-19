@@ -5,10 +5,7 @@ using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Plugin.Services;
 using ECommons.ObjectLifeTracker;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
-using Lumina.Excel.Sheets;
 using Ocelot.Lifecycle;
-using Ocelot.Services.ClientState;
-using Ocelot.Services.Data;
 using Ocelot.Services.PlayerState;
 using TwistOfFayte.Config;
 using TwistOfFayte.Data;
@@ -20,11 +17,9 @@ public class NpcProvider(
     IObjectTable objects,
     IPlayer player,
     IStateManager state,
-    IClient client,
     CombatConfig config,
-    INpcRangeProvider ranges,
-    IDataRepository<ClassJob> classJobData
-) : INpcProvider, IOnUpdate
+    INpcRangeProvider ranges
+) : INpcProvider, IOnPreUpdate
 {
     private static IEnumerable<Target> Npcs { get; set; } = [];
 
@@ -65,7 +60,7 @@ public class NpcProvider(
         return NonFateNpcs;
     }
 
-    public void Update()
+    public void PreUpdate()
     {
         NonFateNpcs = objects.OfType<IBattleNpc>()
             .Where(o => o is
@@ -73,7 +68,7 @@ public class NpcProvider(
                 IsDead: false,
                 IsTargetable: true,
             })
-            .Select(o => new Target(o, client, classJobData, ranges.GetRange(o)));
+            .Select(o => new Target(o, ranges.GetRange(o), objects));
 
         Npcs = objects.OfType<IBattleNpc>()
             .Where(o => o is
@@ -84,7 +79,7 @@ public class NpcProvider(
             .Where(IsTargetForSelectedFate)
             .Where(o => o.GetLifeTimeSeconds() >= config.MobLifetimeSecondsRequirement)
             .OrderBy(o => Vector3.Distance(o.Position, player.GetPosition()))
-            .Select(o => new Target(o, client, classJobData, ranges.GetRange(o)));
+            .Select(o => new Target(o, ranges.GetRange(o), objects));
     }
 
     private unsafe bool IsTargetForSelectedFate(IBattleNpc npc)

@@ -30,9 +30,9 @@ public class SingleTargetPositioner(
             return false;
         }
 
-        var distance = target.Position.Distance2D(player.GetPosition()) - target.GameObject.HitboxRadius;
+        var distance = target.Value.Position.Distance2D(player.GetPosition()) - target.Value.HitboxRadius;
 
-        return distance > player.GetAttackRange() || distance < target.GameObject.HitboxRadius;
+        return distance > player.GetAttackRange() || distance < target.Value.HitboxRadius;
     }
 
     public Vector3 GetPosition()
@@ -46,8 +46,8 @@ public class SingleTargetPositioner(
 
         var playerPosition = player.GetPosition();
 
-        var targetPosition = target.Position;
-        var targetRadius = target.GameObject.HitboxRadius;
+        var targetPosition = target.Value.Position;
+        var targetRadius = target.Value.HitboxRadius;
 
         var playerDistance = playerPosition.Distance2D(targetPosition) - targetRadius;
         var playerRange = player.GetAttackRange();
@@ -76,7 +76,7 @@ public class SingleTargetPositioner(
             return playerPosition;
         }
 
-        var position = target.Position.GetApproachPosition(player.GetPosition(), playerRange);
+        var position = target.Value.Position.GetApproachPosition(player.GetPosition(), playerRange);
 
         var fatePosition = fate.Position.Truncate();
         var fateRadius = fate.Radius;

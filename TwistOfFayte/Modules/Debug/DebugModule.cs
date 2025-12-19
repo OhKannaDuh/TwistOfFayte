@@ -7,6 +7,7 @@ using Ocelot.Lifecycle;
 using Ocelot.Services.OverlayRenderer;
 using Ocelot.Services.PlayerState;
 using TwistOfFayte.Config;
+using TwistOfFayte.Extensions;
 using TwistOfFayte.Services.Npc;
 
 namespace TwistOfFayte.Modules.Debug;
@@ -27,7 +28,7 @@ public class DebugModule(IOverlayRenderer overlay, IPlayer player, INpcProvider 
             var startNpc = npcs.GetFateStartNpc();
             if (startNpc != null)
             {
-                DrawLine(playerPosition, startNpc.Position, new Color(0.0f, 1.0f, 0.4f));
+                DrawLine(playerPosition, startNpc.Value.Position, new Color(0.0f, 1.0f, 0.4f));
             }
         }
 
@@ -36,7 +37,7 @@ public class DebugModule(IOverlayRenderer overlay, IPlayer player, INpcProvider 
             var turnInNpc = npcs.GetFateTurnInNpc();
             if (turnInNpc != null)
             {
-                DrawLine(playerPosition, turnInNpc.Position, new Color(0.0f, 0.8f, 1.0f));
+                DrawLine(playerPosition, turnInNpc.Value.Position, new Color(0.0f, 0.8f, 1.0f));
             }
         }
 
@@ -44,7 +45,8 @@ public class DebugModule(IOverlayRenderer overlay, IPlayer player, INpcProvider 
 
         if (config.ShouldShowDebugForEnemiesTargetingLocalPlayer)
         {
-            foreach (var enemy in enemies.Where(e => e.IsTargetingLocalPlayer()))
+            var candidates = enemies.WhereBattleTarget(static (in t) => t.IsTargetingLocalPlayer());
+            foreach (var enemy in candidates)
             {
                 DrawLine(playerPosition, enemy.Position, new Color(1.0f, 0.2f, 0.2f));
             }
@@ -52,7 +54,8 @@ public class DebugModule(IOverlayRenderer overlay, IPlayer player, INpcProvider 
 
         if (config.ShouldShowDebugForEnemiesTargetingNoPlayers)
         {
-            foreach (var enemy in enemies.Where(e => !e.IsTargetingAnyPlayer()))
+            var candidates = enemies.WhereBattleTarget(static (in t) => t.IsTargetingAnyPlayer());
+            foreach (var enemy in candidates)
             {
                 DrawLine(playerPosition, enemy.Position, new Color(0.8f, 0.8f, 0.8f));
             }
@@ -60,7 +63,8 @@ public class DebugModule(IOverlayRenderer overlay, IPlayer player, INpcProvider 
 
         if (config.ShouldShowDebugForEnemiesTargetingAnotherPlayerWithoutTankStance)
         {
-            foreach (var enemy in enemies.Where(e => !e.IsTargetingLocalPlayer() && e.GetTargetedPlayer()?.HasTankStanceOn() == false))
+            var candidates = enemies.WhereBattleTarget(static (in t) => !t.IsTargetingLocalPlayer() && t.GetTargetedPlayer()?.HasTankStanceOn() == false);
+            foreach (var enemy in candidates)
             {
                 DrawLine(playerPosition, enemy.Position, new Color(1.0f, 0.6f, 0.0f));
             }
@@ -68,7 +72,8 @@ public class DebugModule(IOverlayRenderer overlay, IPlayer player, INpcProvider 
 
         if (config.ShouldShowDebugForEnemiesTargetingAnotherPlayerWithTankStance)
         {
-            foreach (var enemy in enemies.Where(e => !e.IsTargetingLocalPlayer() && e.GetTargetedPlayer()?.HasTankStanceOn() == true))
+            var candidates = enemies.WhereBattleTarget(static (in t) => !t.IsTargetingLocalPlayer() && t.GetTargetedPlayer()?.HasTankStanceOn() == true);
+            foreach (var enemy in candidates)
             {
                 DrawLine(playerPosition, enemy.Position, new Color(0.3f, 0.4f, 1.0f));
             }
@@ -78,18 +83,20 @@ public class DebugModule(IOverlayRenderer overlay, IPlayer player, INpcProvider 
         {
             foreach (var enemy in enemies)
             {
-                var spawn = enemy.GetSpawnPosition();
+                if (!enemy.TryUse((in t) => t.GetSpawnPosition(), out var spawn))
+                {
+                    continue;
+                }
+                
                 var distance = spawn.Distance(enemy.Position);
-                var max = 40f;
-
+                var max = enemy.WanderRange;
+                
                 var normalizedDistance = Math.Clamp(distance / max, 0f, 1f);
-                var r = normalizedDistance;
                 var g = 1f - normalizedDistance;
-                var b = 0f;
-
-                var color = new Color(r, g, b);
-
-                DrawLine(enemy.GetSpawnPosition(), enemy.Position, color);
+                
+                var color = new Color(normalizedDistance, g, 0f);
+                
+                DrawLine(spawn, enemy.Position, color);
             }
         }
     }

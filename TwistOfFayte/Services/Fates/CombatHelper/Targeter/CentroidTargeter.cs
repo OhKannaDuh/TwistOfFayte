@@ -23,7 +23,7 @@ public class CentroidTargeter(
     {
         if (EzThrottler.Throttle("CentroidTargeter::Change"))
         {
-            return targetManager.Target?.Address == GetTarget()?.GameObject.Address;
+            GetTarget()?.TryUse((in t) => targetManager.Target = t.GameObject);
         }
 
         return false;

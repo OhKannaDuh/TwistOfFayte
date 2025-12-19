@@ -17,7 +17,7 @@ public class UxModule(INpcProvider npcs, ITargeter targeter, UXConfig config) : 
             foreach (var npc in npcs.GetEnemies())
             {
                 var color = targeter.Contains(npc) ? ObjectHighlightColor.Green : ObjectHighlightColor.Red;
-                npc.Highlight(color);
+                npc.TryUse((in t) => t.Highlight(color));
             }
         }
 
@@ -28,7 +28,7 @@ public class UxModule(INpcProvider npcs, ITargeter targeter, UXConfig config) : 
             {
                 foreach (var npc in npcs.GetEnemies())
                 {
-                    npc.Highlight(ObjectHighlightColor.None);
+                    npc.TryUse((in t) => t.Highlight(ObjectHighlightColor.None));
                 }
             }
         }

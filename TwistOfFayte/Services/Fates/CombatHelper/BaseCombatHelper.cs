@@ -4,6 +4,7 @@ using Ocelot.Extensions;
 using Ocelot.Services.PlayerState;
 using TwistOfFayte.Data;
 using TwistOfFayte.Data.Fates;
+using TwistOfFayte.Extensions;
 using TwistOfFayte.Services.Npc;
 using TwistOfFayte.Services.State;
 
@@ -32,6 +33,6 @@ public abstract class BaseCombatHelper(
     protected IEnumerable<Target> GetNpcsTargetingLocalPlayer()
     {
         var position = player.GetPosition();
-        return npcs.GetEnemies().Where(e => e.IsTargetingLocalPlayer()).OrderBy(e => e.Position.Distance2D(position));
+        return npcs.GetEnemies().WhereBattleTarget((in t) => t.IsTargetingLocalPlayer()).OrderBy(e => e.Position.Distance2D(position));
     }
 }

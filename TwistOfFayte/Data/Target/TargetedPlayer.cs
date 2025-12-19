@@ -1,18 +1,10 @@
 ﻿using ECommons.ExcelServices;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
-using Lumina.Excel.Sheets;
-using Ocelot.Services.Data;
 
 namespace TwistOfFayte.Data;
 
-public unsafe class TargetedPlayer(BattleChara* player, bool local, IDataRepository<ClassJob> data)
+public unsafe class TargetedPlayer(BattleChara* player, bool local)
 {
-    private ClassJob? datum
-    {
-        get => data.ContainsKey(player->ClassJob) ? data.Get(player->ClassJob) : null;
-    }
-
-
     public bool IsLocalPlayer()
     {
         return local;

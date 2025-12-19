@@ -24,7 +24,6 @@ public class DebugRenderer(IEnumerable<IDebugRenderable> renderables, IZone zone
         {
             overlay.StrokeCircle(aetheryte.Position, 5f, Color.Red);
         }
-
     }
 }
 #else

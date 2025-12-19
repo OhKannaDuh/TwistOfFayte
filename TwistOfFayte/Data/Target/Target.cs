@@ -1,64 +1,42 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using Dalamud.Game.ClientState.Objects.Types;
+using Dalamud.Plugin.Services;
 using ECommons.GameFunctions;
 using ECommons.ObjectLifeTracker;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
-using Lumina.Excel.Sheets;
 using Ocelot.Extensions;
-using Ocelot.Services.ClientState;
-using Ocelot.Services.Data;
 
 namespace TwistOfFayte.Data;
 
-public class Target(IBattleNpc gameObject, IClient client, IDataRepository<ClassJob> data, float range = 3.5f)
+public readonly unsafe struct Target(IBattleNpc gameObject, float range, IObjectTable objects) : IEquatable<Target>
 {
-    public readonly IBattleNpc GameObject = gameObject;
+    public readonly ulong ObjectId = gameObject.GameObjectId;
 
-    public uint NameId
-    {
-        get => GameObject.NameId;
-    }
+    public readonly uint NameId = gameObject.NameId;
 
-    public unsafe uint NamePlateIconId
-    {
-        get => GameObject.Struct()->NamePlateIconId;
-    }
+    public readonly uint NamePlateIconId = gameObject.Struct()->NamePlateIconId;
 
-    public bool IsHostile
-    {
-        get => GameObject.IsHostile();
-    }
+    public readonly bool IsHostile = gameObject.IsHostile();
 
-    public bool IsTargetable
-    {
-        get => GameObject.IsTargetable;
-    }
+    public readonly bool IsTargetable = gameObject.IsTargetable;
 
-    public bool IsDead
-    {
-        get => GameObject.IsDead;
-    }
+    public readonly bool IsDead = gameObject.IsDead;
 
-    public Vector3 Position
-    {
-        get => GameObject.Position;
-    }
+    public readonly Vector3 Position = gameObject.Position;
 
-    public float Range
-    {
-        get => range;
-    }
+    public readonly float Range = range;
 
-    public bool IsMelee
-    {
-        get => Range <= 3.5f;
-    }
+    public readonly bool IsMelee = range <= 3.5f;
 
-    public bool IsRanged
-    {
-        get => !IsMelee;
-    }
+    public readonly bool IsRanged = range > 3.5f;
+
+    public readonly float LifeTimeSeconds = gameObject.GetLifeTimeSeconds();
+
+    public readonly float WanderRange = 40f;
+
+    public readonly float HitboxRadius = gameObject.HitboxRadius;
 
     public Vector3 GetApproachPosition(Vector3 from, float range = 3f)
     {
@@ -79,9 +57,72 @@ public class Target(IBattleNpc gameObject, IClient client, IDataRepository<Class
         return Position - direction * range;
     }
 
+    public delegate void BattleTargetAction(scoped in BattleTarget target);
+
+    public bool TryUse(BattleTargetAction action)
+    {
+        var entity = objects.SearchById(ObjectId);
+        if (entity is not IBattleNpc npc)
+        {
+            return false;
+        }
+
+        var target = new BattleTarget(npc, objects);
+        action(in target);
+        return true;
+    }
+
+    public delegate T BattleTargetFunc<T>(scoped in BattleTarget target);
+
+    public bool TryUse<T>(BattleTargetFunc<T> action, out T result)
+    {
+        var entity = objects.SearchById(ObjectId);
+        if (entity is not IBattleNpc npc)
+        {
+            result = default!;
+            return false;
+        }
+
+        var target = new BattleTarget(npc, objects);
+        result = action(in target);
+        return true;
+    }
+
+    public bool Equals(Target other)
+    {
+        return ObjectId == other.ObjectId;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is Target other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        return ObjectId.GetHashCode();
+    }
+
+    public static bool operator ==(Target left, Target right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(Target left, Target right)
+    {
+        return !left.Equals(right);
+    }
+}
+
+public readonly ref struct BattleTarget(IBattleNpc gameObject, IObjectTable objects)
+{
+    public readonly IntPtr Address = gameObject.Address;
+
+    public readonly IGameObject GameObject = gameObject;
+
     public bool HasTarget()
     {
-        return GameObject.TargetObject != null;
+        return gameObject.TargetObject != null;
     }
 
     public bool IsTargetingLocalPlayer()
@@ -95,14 +136,25 @@ public class Target(IBattleNpc gameObject, IClient client, IDataRepository<Class
         return GetTargetedPlayer() != null;
     }
 
-    public float GetWanderRange()
+    public unsafe TargetedPlayer? GetTargetedPlayer()
     {
-        return 40f;
+        if (objects.LocalPlayer is not { } player || !HasTarget())
+        {
+            return null;
+        }
+
+
+        var target = (BattleChara*)gameObject.TargetObject!.Address;
+        var isPlayer = gameObject.TargetObject?.Address == player.Address;
+
+        return new TargetedPlayer(target, isPlayer);
     }
+    
+    
 
     public unsafe Vector3 GetSpawnPosition()
     {
-        var obj = (GameObject*)GameObject.Address;
+        var obj = (GameObject*)gameObject.Address;
         if (obj == null)
         {
             return Vector3.Zero;
@@ -112,27 +164,9 @@ public class Target(IBattleNpc gameObject, IClient client, IDataRepository<Class
         return new Vector3(pos.X, pos.Y, pos.Z);
     }
 
-    public unsafe TargetedPlayer? GetTargetedPlayer()
-    {
-        if (client.Player == null || !HasTarget())
-        {
-            return null;
-        }
-
-        var target = (BattleChara*)GameObject.TargetObject!.Address;
-        var isPlayer = GameObject.TargetObject?.Address == client.Player.Address;
-
-        return new TargetedPlayer(target, isPlayer, data);
-    }
-
-    public float GetLifeTimeSeconds()
-    {
-        return GameObject.GetLifeTimeSeconds();
-    }
-
     public unsafe void Highlight(ObjectHighlightColor color)
     {
-        var obj = (GameObject*)GameObject.Address;
+        var obj = (GameObject*)gameObject.Address;
         if (obj != null)
         {
             obj->Highlight(color);

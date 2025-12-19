@@ -61,7 +61,7 @@ public class TalkingToStarterNpcHandler(
 
         if (targetManager.Target == null && EzThrottler.Throttle("Target"))
         {
-            targetManager.Target = target.GameObject;
+            target.Value.TryUse((in t) => targetManager.Target = t.GameObject);
         }
 
         if (targetManager.Target != null && !player.IsInteracting() && EzThrottler.Throttle("Interact"))
