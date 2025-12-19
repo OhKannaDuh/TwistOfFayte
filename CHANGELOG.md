@@ -1,13 +1,17 @@
+# 3.2.0
+
+-   Added "Prevent Movement While Fighting Gathered Mobs" combat config option. This is experimental, but strange people kept asking for it.
+
 # 3.1.0
 
-- Updated Ocelot
-- Changed how we handle target objects dramatically
-    - We now populate our npc table in the preupdate step, meaning anything that uses it in the update step shouldn't be reading frame old date. This was never really an issue because the npc table was always updated early in the look, but this is a nice safety feature
-    - Split our target class into two classes, one that holds any static data about the target and one non-copyable live target that is guarenteed to be non-stale
+-   Updated Ocelot
+-   Changed how we handle target objects dramatically
+    -   We now populate our npc table in the preupdate step, meaning anything that uses it in the update step shouldn't be reading frame old date. This was never really an issue because the npc table was always updated early in the look, but this is a nice safety feature
+    -   Split our target class into two classes, one that holds any static data about the target and one non-copyable live target that is guarenteed to be non-stale
 
 # 3.0.1
 
-- Update to Dalamud SDK 14.0.1
+-   Update to Dalamud SDK 14.0.1
 
 # 3.0.0
 

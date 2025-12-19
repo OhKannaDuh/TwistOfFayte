@@ -13,6 +13,10 @@
         "focus_forlorns": {
             "label": "Focus Forlorns",
             "tooltip": "Enable or disable focusing on Forlorn mobs during combat."
+        },
+        "prevent_movement_while_fighting_gathered_mobs": {
+            "label": "Prevent Movement While Fighting Gathered Mobs",
+            "tooltip": "Enable to prevent movement while in the fighting gathered mobs state."
         }
     }
 }
