@@ -1,3 +1,7 @@
+# 3.0.1
+
+- Update to Dalamud SDK 14.0.1
+
 # 3.0.0
 
 -   Updated for Dalamud API 14
