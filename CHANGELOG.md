@@ -1,3 +1,11 @@
+# 3.3.0
+
+-   Updated Ecommons & Ocelot
+-   Fix landing bug
+-   Fix targeting issues
+-   Updated ui i18n
+-   Prevent trying to get active layout when player is not ready, or we are not in a territory
+
 # 3.2.0
 
 -   Added "Prevent Movement While Fighting Gathered Mobs" combat config option. This is experimental, but strange people kept asking for it.
