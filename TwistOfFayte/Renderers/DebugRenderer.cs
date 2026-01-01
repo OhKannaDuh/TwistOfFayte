@@ -20,11 +20,11 @@ public class DebugRenderer(IEnumerable<IDebugRenderable> renderables, IZone zone
 
     public void Render()
     {
-        #if DEBUG
+#if DEBUG
         foreach (var aetheryte in zone.Aetherytes)
         {
             overlay.StrokeCircle(aetheryte.Position, 5f, Color.Red);
         }
-        #endif
+#endif
     }
 }

@@ -14,10 +14,13 @@ public class ClosestToPlayerTargeter(
     IFateRepository fates,
     INpcProvider npcs,
     IPlayer player,
+    IObjectTable objects,
     ITargetManager targetManager
-) : BaseCombatHelper(state, fates, npcs, player), ITargeter
+) : BaseCombatHelper(state, fates, npcs, player, objects), ITargeter
 {
     private readonly IPlayer player = player;
+
+    private readonly IObjectTable objects = objects;
 
     public bool ShouldChange()
     {
@@ -32,7 +35,7 @@ public class ClosestToPlayerTargeter(
             return true;
         }
 
-        if (target.Value.TryUse((in t) => targetManager.Target?.Address == t.Address, out var isCurrent))
+        if (target.Value.TryUse((in t) => targetManager.Target?.Address == t.Address, objects, out var isCurrent))
         {
             return !isCurrent;
         }

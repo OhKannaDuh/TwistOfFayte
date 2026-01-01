@@ -1,26 +1,30 @@
 ﻿using System.Collections.Generic;
+using Dalamud.Plugin.Services;
 using TwistOfFayte.Data;
 
 namespace TwistOfFayte.Extensions;
 
 public static class IEnumerableTargetExtensions
 {
-    public static IEnumerable<Target> WhereBattleTarget(this IEnumerable<Target> source, Target.BattleTargetFunc<bool> predicate)
+    extension(IEnumerable<Target> source)
     {
-        foreach (var e in source)
+        public IEnumerable<Target> WhereBattleTarget(Target.BattleTargetFunc<bool> predicate, IObjectTable objects)
         {
-            if (e.TryUse(predicate, out var result) && result)
+            foreach (var e in source)
             {
-                yield return e;
+                if (e.TryUse(predicate, objects, out var result) && result)
+                {
+                    yield return e;
+                }
             }
         }
-    }
 
-    public static void ForEachBattleTarget(this IEnumerable<Target> source, Target.BattleTargetAction action)
-    {
-        foreach (var t in source)
+        public void ForEachBattleTarget(Target.BattleTargetAction action, IObjectTable objects)
         {
-            t.TryUse(action);
+            foreach (var t in source)
+            {
+                t.TryUse(action, objects);
+            }
         }
     }
 }

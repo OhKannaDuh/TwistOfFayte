@@ -14,16 +14,19 @@ public class CentroidTargeter(
     IFateRepository fates,
     INpcProvider npcs,
     IPlayer player,
-    ITargetManager targetManager
-) : BaseCombatHelper(state, fates, npcs, player), ITargeter
+    ITargetManager targetManager,
+    IObjectTable objects
+) : BaseCombatHelper(state, fates, npcs, player, objects), ITargeter
 {
     private readonly IPlayer player = player;
+
+    private readonly IObjectTable objects = objects;
 
     public bool ShouldChange()
     {
         if (EzThrottler.Throttle("CentroidTargeter::Change"))
         {
-            GetTarget()?.TryUse((in t) => targetManager.Target = t.GameObject);
+            GetTarget()?.TryUse((in t) => targetManager.Target = t.GameObject, objects);
         }
 
         return false;

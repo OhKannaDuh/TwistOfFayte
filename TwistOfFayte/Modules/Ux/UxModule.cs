@@ -1,4 +1,5 @@
-﻿using FFXIVClientStructs.FFXIV.Client.Game.Object;
+﻿using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using Ocelot.Lifecycle;
 using TwistOfFayte.Config;
 using TwistOfFayte.Services.Fates.CombatHelper.Targeter;
@@ -6,7 +7,11 @@ using TwistOfFayte.Services.Npc;
 
 namespace TwistOfFayte.Modules.Ux;
 
-public class UxModule(INpcProvider npcs, ITargeter targeter, UXConfig config) : IOnPreUpdate
+public class UxModule(
+    INpcProvider npcs,
+    ITargeter targeter,
+    IObjectTable objects,
+    UXConfig config) : IOnPreUpdate
 {
     private bool wasHighlightMobsEnabled = config.HighlightMobs;
 
@@ -17,7 +22,7 @@ public class UxModule(INpcProvider npcs, ITargeter targeter, UXConfig config) : 
             foreach (var npc in npcs.GetEnemies())
             {
                 var color = targeter.Contains(npc) ? ObjectHighlightColor.Green : ObjectHighlightColor.Red;
-                npc.TryUse((in t) => t.Highlight(color));
+                npc.TryUse((in t) => t.Highlight(color), objects);
             }
         }
 
@@ -28,7 +33,7 @@ public class UxModule(INpcProvider npcs, ITargeter targeter, UXConfig config) : 
             {
                 foreach (var npc in npcs.GetEnemies())
                 {
-                    npc.TryUse((in t) => t.Highlight(ObjectHighlightColor.None));
+                    npc.TryUse((in t) => t.Highlight(ObjectHighlightColor.None), objects);
                 }
             }
         }

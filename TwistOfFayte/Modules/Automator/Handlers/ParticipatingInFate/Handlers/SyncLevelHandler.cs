@@ -1,4 +1,5 @@
-﻿using ECommons.Throttlers;
+﻿using Dalamud.Plugin.Services;
+using ECommons.Throttlers;
 using FFXIVClientStructs.FFXIV.Client.Game.Fate;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Ocelot.Services.PlayerState;
@@ -11,12 +12,13 @@ using FateState = Dalamud.Game.ClientState.Fates.FateState;
 namespace TwistOfFayte.Modules.Automator.Handlers.ParticipatingInFate.Handlers;
 
 public class SyncLevelHandler(
+    IPlayer player,
     IStateManager state,
     IFateRepository fates,
     INpcProvider npcs,
-    CombatConfig combat,
-    IPlayer player
-) : BaseHandler(ParticipatingInFateState.SyncLevel, state, fates, npcs, combat)
+    IObjectTable objects,
+    CombatConfig combat
+) : BaseHandler(ParticipatingInFateState.SyncLevel, state, fates, npcs, objects, combat)
 {
     public override StatePriority GetScore()
     {

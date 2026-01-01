@@ -4,5 +4,5 @@ namespace TwistOfFayte.Services.Npc;
 
 public interface INpcRangeProvider
 {
-    public float GetRange(IBattleNpc npc);
+    float GetRange(IBattleNpc npc);
 }

@@ -24,8 +24,9 @@ public class FocusForlornsHandler(
     IRotationService rotation,
     IPathfinder pathfinder,
     IPlayer player,
+    IObjectTable objects,
     CombatConfig config
-) : BaseHandler(ParticipatingInFateState.FocusForlorns, state, fates, npcs, combat), IDisposable
+) : BaseHandler(ParticipatingInFateState.FocusForlorns, state, fates, npcs, objects, combat), IDisposable
 {
     private readonly INpcProvider npcs = npcs;
 
@@ -61,7 +62,12 @@ public class FocusForlornsHandler(
 
         if (EzThrottler.Throttle("TargetForlorn"))
         {
-            maiden.Value.TryUse((in t) => targetManager.Target = t.GameObject);
+            maiden.Value.TryUse((in t) => targetManager.Target = t.GameObject, objects);
+        }
+
+        if (config.PreventMovementWhileFightingGatheredMobs)
+        {
+            return;
         }
 
         var distance = player.GetPosition().Distance2D(maiden.Value.Position);

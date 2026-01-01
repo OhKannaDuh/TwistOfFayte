@@ -21,16 +21,17 @@ public class GatherMobsHandler(
     IStateManager state,
     IFateRepository fates,
     INpcProvider npcs,
+    IObjectTable objects,
     CombatConfig combat,
     ILogger<GatherMobsHandler> logger
-) : BaseHandler(ParticipatingInFateState.GatherMobs, state, fates, npcs, combat)
+) : BaseHandler(ParticipatingInFateState.GatherMobs, state, fates, npcs, objects, combat)
 {
     private Target? candidate;
 
     public override StatePriority GetScore()
     {
         var fate = GetFate();
-        if (fate == null || GatheredCount >= Goal || GatheredCount >= CandidatesCount)
+        if (fate == null || GatheredCount >= Goal)
         {
             return StatePriority.Never;
         }
@@ -46,7 +47,7 @@ public class GatherMobsHandler(
             return;
         }
 
-        if (!candidate.Value.TryUse((in t) => t.GetTargetedPlayer(), out var candidatesTarget))
+        if (!candidate.Value.TryUse((in t) => t.GetTargetedPlayer(), objects, out var candidatesTarget))
         {
             return;
         }
@@ -60,14 +61,14 @@ public class GatherMobsHandler(
 
         if (EzThrottler.Throttle("Target"))
         {
-            if (!candidate.Value.TryUse((in t) => targetManager.Target?.Address == t.Address, out var isTargetingCandidate))
+            if (!candidate.Value.TryUse((in t) => targetManager.Target?.Address == t.Address, objects, out var isTargetingCandidate))
             {
                 return;
             }
 
             if (!isTargetingCandidate)
             {
-                candidate.Value.TryUse((in t) => targetManager.Target = t.GameObject);
+                candidate.Value.TryUse((in t) => targetManager.Target = t.GameObject, objects);
             }
 
             return;

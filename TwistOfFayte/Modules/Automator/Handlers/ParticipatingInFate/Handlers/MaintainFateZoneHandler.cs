@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using Dalamud.Plugin.Services;
 using Ocelot.Extensions;
 using Ocelot.Services.Pathfinding;
 using Ocelot.Services.PlayerState;
@@ -16,8 +17,9 @@ public class MaintainFateZoneHandler(
     IStateManager state,
     IFateRepository fates,
     INpcProvider npcs,
+    IObjectTable objects,
     CombatConfig combat
-) : BaseHandler(ParticipatingInFateState.MaintainFateZone, state, fates, npcs, combat)
+) : BaseHandler(ParticipatingInFateState.MaintainFateZone, state, fates, npcs, objects, combat)
 {
     private Vector3? TargetPosition;
 

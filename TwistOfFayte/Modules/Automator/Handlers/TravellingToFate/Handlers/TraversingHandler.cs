@@ -3,7 +3,6 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Dalamud.Game.ClientState.Fates;
 using ECommons;
-using ECommons.DalamudServices;
 using Ocelot.Extensions;
 using Ocelot.Pathfinding.Extensions;
 using Ocelot.Services.Logger;

@@ -24,6 +24,7 @@ public class TalkingToStarterNpcHandler(
     IPathfinder pathfinder,
     INpcProvider npcs,
     ITargetManager targetManager,
+    IObjectTable objects,
     IGameGui addons
 ) : ScoreStateHandler<ParticipatingInFateState, StatePriority>(ParticipatingInFateState.TalkingToStarterNpc)
 {
@@ -61,7 +62,7 @@ public class TalkingToStarterNpcHandler(
 
         if (targetManager.Target == null && EzThrottler.Throttle("Target"))
         {
-            target.Value.TryUse((in t) => targetManager.Target = t.GameObject);
+            target.Value.TryUse((in t) => targetManager.Target = t.GameObject, objects);
         }
 
         if (targetManager.Target != null && !player.IsInteracting() && EzThrottler.Throttle("Interact"))

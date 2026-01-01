@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text.RegularExpressions;
+using Dalamud.Configuration;
 using Dalamud.Plugin;
 using Microsoft.Extensions.DependencyInjection;
 using Ocelot;
@@ -12,7 +14,6 @@ using Ocelot.Mechanic.Services;
 using Ocelot.Pathfinding.Services;
 using Ocelot.Pictomancy.Services;
 using Ocelot.Rotation.Services;
-using Ocelot.Services;
 using Ocelot.Services.Commands;
 using Ocelot.Services.Translation;
 using Ocelot.Services.WindowManager;
@@ -96,7 +97,31 @@ public sealed class Plugin(IDalamudPluginInterface plugin) : OcelotPlugin(plugin
         services.AddSingleton<ZoneDisplay>();
         services.AddSingleton<ZoneFilter>();
 
-        services.AddConfig<Configuration, IConfiguration>(plugin);
+        var cfg = plugin.GetPluginConfig() as Configuration ?? new Configuration();
+        services.AddSingleton(cfg);
+        services.AddSingleton<IConfiguration>(cfg);
+        services.AddSingleton<IPluginConfiguration>(s => s.GetRequiredService<Configuration>());
+        var properties = typeof(IConfiguration).GetProperties(BindingFlags.Instance | BindingFlags.Public);
+        foreach (var property in properties)
+        {
+            var prop = property;
+            var propType = prop.PropertyType;
+
+            services.AddSingleton(propType, sp =>
+            {
+                var conf = sp.GetRequiredService<IConfiguration>();
+                return prop.GetValue(conf)!;
+            });
+
+            if (typeof(IAutoConfig).IsAssignableFrom(propType))
+            {
+                services.AddSingleton(typeof(IAutoConfig), sp =>
+                {
+                    var conf = sp.GetRequiredService<IConfiguration>();
+                    return prop.GetValue(conf)!;
+                });
+            }
+        }
     }
 
     private static void BootstrapServices(IServiceCollection services)

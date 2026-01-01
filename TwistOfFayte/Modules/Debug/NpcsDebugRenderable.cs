@@ -1,7 +1,4 @@
-﻿using System;
-using Dalamud.Bindings.ImGui;
-using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Plugin.Services;
+﻿using Dalamud.Bindings.ImGui;
 using Ocelot.Services.UI;
 using TwistOfFayte.Services.Npc;
 

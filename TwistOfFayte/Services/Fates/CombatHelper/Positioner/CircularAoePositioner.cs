@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Dalamud.Plugin.Services;
 using Ocelot.Extensions;
 using Ocelot.Services.PlayerState;
 using TwistOfFayte.Services.Npc;
@@ -15,8 +16,9 @@ public class CircularAoePositioner(
     IStateManager state,
     IFateRepository fates,
     INpcProvider npcs,
-    IPlayer player
-) : BaseCombatHelper(state, fates, npcs, player), IPositioner
+    IPlayer player,
+    IObjectTable objects
+) : BaseCombatHelper(state, fates, npcs, player, objects), IPositioner
 {
     private readonly IPlayer player = player;
 

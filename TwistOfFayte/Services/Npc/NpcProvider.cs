@@ -68,7 +68,8 @@ public class NpcProvider(
                 IsDead: false,
                 IsTargetable: true,
             })
-            .Select(o => new Target(o, ranges.GetRange(o), objects));
+            .Select(o => new Target(o, ranges.GetRange(o)))
+            .ToList();
 
         Npcs = objects.OfType<IBattleNpc>()
             .Where(o => o is
@@ -79,7 +80,8 @@ public class NpcProvider(
             .Where(IsTargetForSelectedFate)
             .Where(o => o.GetLifeTimeSeconds() >= config.MobLifetimeSecondsRequirement)
             .OrderBy(o => Vector3.Distance(o.Position, player.GetPosition()))
-            .Select(o => new Target(o, ranges.GetRange(o), objects));
+            .Select(o => new Target(o, ranges.GetRange(o)))
+            .ToList();
     }
 
     private unsafe bool IsTargetForSelectedFate(IBattleNpc npc)

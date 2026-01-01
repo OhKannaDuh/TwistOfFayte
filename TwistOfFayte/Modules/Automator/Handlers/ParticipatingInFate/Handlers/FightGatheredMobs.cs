@@ -1,9 +1,11 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Dalamud.Bindings.ImGui;
 using Dalamud.Plugin.Services;
 using ECommons.Throttlers;
 using Ocelot.Chain;
 using Ocelot.Services.Pathfinding;
+using Ocelot.Services.UI;
 using TwistOfFayte.Config;
 using TwistOfFayte.Services.Fates;
 using TwistOfFayte.Services.Fates.CombatHelper.Positioner;
@@ -21,12 +23,16 @@ public class FightGatheredMobsHandler(
     IStateManager state,
     IFateRepository fates,
     INpcProvider npcs,
-    CombatConfig combat
-) : BaseHandler(ParticipatingInFateState.FightGatheredMobs, state, fates, npcs, combat)
+    IObjectTable objects,
+    CombatConfig combat,
+    IUIService ui
+) : BaseHandler(ParticipatingInFateState.FightGatheredMobs, state, fates, npcs, objects, combat)
 {
     private Task<ChainResult>? RepositionTask;
 
     private readonly CancellationTokenSource cancel = new();
+
+    private readonly IObjectTable objects = objects;
 
     public override void Exit(ParticipatingInFateState next)
     {
@@ -49,7 +55,7 @@ public class FightGatheredMobsHandler(
             return StatePriority.Never;
         }
 
-        if (GatheredCount >= Goal || GatheredCount >= CandidatesCount)
+        if (GatheredCount >= Goal)
         {
             return StatePriority.High;
         }
@@ -76,7 +82,7 @@ public class FightGatheredMobsHandler(
 
         if (targeter.ShouldChange() || targetManager.Target == null)
         {
-            targeter.GetTarget()?.TryUse((in t) => targetManager.Target = t.GameObject);
+            targeter.GetTarget()?.TryUse((in t) => targetManager.Target = t.GameObject, objects);
         }
 
         if (positioner.ShouldMove() && pathfinder.GetState() == PathfindingState.Idle)
@@ -87,6 +93,33 @@ public class FightGatheredMobsHandler(
         if (!positioner.ShouldMove())
         {
             pathfinder.Stop();
+        }
+    }
+
+    public override void Render()
+    {
+        ui.LabelledValue("Gathered Count", GatheredCount);
+        ui.LabelledValue("Goal", Goal);
+        ui.LabelledValue("Candidate Count", CandidatesCount);
+
+        foreach (var candidate in GetCandidates())
+        {
+            ui.Text(candidate.NameId);
+        }
+
+        foreach (var e in GetEnemies())
+        {
+            ui.Text(e.ObjectId);
+            ImGui.Indent();
+            e.TryUse(static (in t) => t.IsTargetingAnyPlayer(), objects, out var a);
+            ui.LabelledValue("Is Targeting Any Player: ", a);
+
+            e.TryUse(static (in t) => t.IsTargetingLocalPlayer(), objects, out var b);
+            ui.LabelledValue("Is Targeting Local Player: ", b);
+
+            e.TryUse(static (in t) => t.GetTargetedPlayer()?.HasTankStanceOn() == false, objects, out var c);
+            ui.LabelledValue("Is Targeting other player with stance: ", c);
+            ImGui.Unindent();
         }
     }
 }

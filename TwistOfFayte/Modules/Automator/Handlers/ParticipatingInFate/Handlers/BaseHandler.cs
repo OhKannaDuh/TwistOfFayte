@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dalamud.Plugin.Services;
 using Ocelot.States.Score;
 using TwistOfFayte.Config;
 using TwistOfFayte.Data;
@@ -16,6 +17,7 @@ public abstract class BaseHandler(
     IStateManager state,
     IFateRepository fates,
     INpcProvider npcs,
+    IObjectTable objects,
     CombatConfig combat
 ) : ScoreStateHandler<ParticipatingInFateState, StatePriority>(fateState)
 {
@@ -41,7 +43,7 @@ public abstract class BaseHandler(
     {
         foreach (var e in GetEnemies())
         {
-            if (e.TryUse(static (in t) => t.IsTargetingLocalPlayer(), out var result) && result)
+            if (e.TryUse(static (in t) => t.IsTargetingLocalPlayer(), objects, out var result) && result)
             {
                 yield return e;
             }
@@ -52,7 +54,7 @@ public abstract class BaseHandler(
     {
         foreach (var e in GetEnemies())
         {
-            if (e.TryUse(static (in t) => t.IsTargetingAnyPlayer(), out var result) && result)
+            if (e.TryUse(static (in t) => !t.IsTargetingAnyPlayer(), objects, out var result) && result)
             {
                 yield return e;
             }
@@ -64,9 +66,20 @@ public abstract class BaseHandler(
         foreach (var e in GetEnemies())
         {
             // I hate this...
-            if (e.TryUse(static (in t) => t.IsTargetingAnyPlayer()
-                                          && !t.IsTargetingLocalPlayer()
-                                          && t.GetTargetedPlayer()?.HasTankStanceOn() == false, out var result) && result)
+            if (e.TryUse(static (in t) =>
+                {
+                    if (!t.IsTargetingAnyPlayer())
+                    {
+                        return false;
+                    }
+
+                    if (t.IsTargetingLocalPlayer())
+                    {
+                        return false;
+                    }
+
+                    return t.GetTargetedPlayer()?.HasTankStanceOn() == false;
+                }, objects, out var result) && result)
             {
                 yield return e;
             }

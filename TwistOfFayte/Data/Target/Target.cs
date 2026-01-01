@@ -2,6 +2,7 @@
 using System.Numerics;
 using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Plugin.Services;
+using ECommons.DalamudServices;
 using ECommons.GameFunctions;
 using ECommons.ObjectLifeTracker;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
@@ -10,7 +11,7 @@ using Ocelot.Extensions;
 
 namespace TwistOfFayte.Data;
 
-public readonly unsafe struct Target(IBattleNpc gameObject, float range, IObjectTable objects) : IEquatable<Target>
+public readonly unsafe struct Target(IBattleNpc gameObject, float range) : IEquatable<Target>
 {
     public readonly ulong ObjectId = gameObject.GameObjectId;
 
@@ -59,7 +60,7 @@ public readonly unsafe struct Target(IBattleNpc gameObject, float range, IObject
 
     public delegate void BattleTargetAction(scoped in BattleTarget target);
 
-    public bool TryUse(BattleTargetAction action)
+    public bool TryUse(BattleTargetAction action, IObjectTable objects)
     {
         var entity = objects.SearchById(ObjectId);
         if (entity is not IBattleNpc npc)
@@ -74,11 +75,12 @@ public readonly unsafe struct Target(IBattleNpc gameObject, float range, IObject
 
     public delegate T BattleTargetFunc<T>(scoped in BattleTarget target);
 
-    public bool TryUse<T>(BattleTargetFunc<T> action, out T result)
+    public bool TryUse<T>(BattleTargetFunc<T> action, IObjectTable objects, out T result)
     {
         var entity = objects.SearchById(ObjectId);
         if (entity is not IBattleNpc npc)
         {
+            Svc.Log.Info($"Cannot use: {ObjectId}");
             result = default!;
             return false;
         }

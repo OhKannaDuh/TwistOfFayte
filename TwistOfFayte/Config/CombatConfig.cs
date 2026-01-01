@@ -13,7 +13,9 @@ public class CombatConfig : IAutoConfig
     [IntRange(0, 10)] public int MobLifetimeSecondsRequirement { get; set; } = 2;
 
     [Checkbox] public bool FocusForlorns { get; set; } = true;
-    
+
+    [Checkbox] public bool PreventMovementWhileFightingGatheredMobs { get; set; } = false;
+
     public int GetMaxMobsToFight()
     {
         return MaxMobsToFight == 0 ? 16 : MaxMobsToFight;

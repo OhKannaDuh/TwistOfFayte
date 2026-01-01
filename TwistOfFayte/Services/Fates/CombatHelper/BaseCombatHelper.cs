@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Dalamud.Plugin.Services;
 using Ocelot.Extensions;
 using Ocelot.Services.PlayerState;
 using TwistOfFayte.Data;
@@ -14,7 +15,8 @@ public abstract class BaseCombatHelper(
     IStateManager state,
     IFateRepository fates,
     INpcProvider npcs,
-    IPlayer player
+    IPlayer player,
+    IObjectTable objects
 )
 {
     protected Fate? GetFate()
@@ -33,6 +35,6 @@ public abstract class BaseCombatHelper(
     protected IEnumerable<Target> GetNpcsTargetingLocalPlayer()
     {
         var position = player.GetPosition();
-        return npcs.GetEnemies().WhereBattleTarget((in t) => t.IsTargetingLocalPlayer()).OrderBy(e => e.Position.Distance2D(position));
+        return npcs.GetEnemies().WhereBattleTarget((in t) => t.IsTargetingLocalPlayer(), objects).OrderBy(e => e.Position.Distance2D(position));
     }
 }

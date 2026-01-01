@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Numerics;
+using Dalamud.Plugin.Services;
 using Ocelot.Extensions;
 using Ocelot.Graphics;
 using Ocelot.Lifecycle;
@@ -12,7 +13,13 @@ using TwistOfFayte.Services.Npc;
 
 namespace TwistOfFayte.Modules.Debug;
 
-public class DebugModule(IOverlayRenderer overlay, IPlayer player, INpcProvider npcs, DebugConfig config) : IOnRender
+public class DebugModule(
+    IOverlayRenderer overlay,
+    IPlayer player,
+    INpcProvider npcs,
+    DebugConfig config,
+    IObjectTable objects
+) : IOnRender
 {
     public void Render()
     {
@@ -45,7 +52,7 @@ public class DebugModule(IOverlayRenderer overlay, IPlayer player, INpcProvider 
 
         if (config.ShouldShowDebugForEnemiesTargetingLocalPlayer)
         {
-            var candidates = enemies.WhereBattleTarget(static (in t) => t.IsTargetingLocalPlayer());
+            var candidates = enemies.WhereBattleTarget(static (in t) => t.IsTargetingLocalPlayer(), objects);
             foreach (var enemy in candidates)
             {
                 DrawLine(playerPosition, enemy.Position, new Color(1.0f, 0.2f, 0.2f));
@@ -54,7 +61,7 @@ public class DebugModule(IOverlayRenderer overlay, IPlayer player, INpcProvider 
 
         if (config.ShouldShowDebugForEnemiesTargetingNoPlayers)
         {
-            var candidates = enemies.WhereBattleTarget(static (in t) => t.IsTargetingAnyPlayer());
+            var candidates = enemies.WhereBattleTarget(static (in t) => t.IsTargetingAnyPlayer(), objects);
             foreach (var enemy in candidates)
             {
                 DrawLine(playerPosition, enemy.Position, new Color(0.8f, 0.8f, 0.8f));
@@ -63,7 +70,8 @@ public class DebugModule(IOverlayRenderer overlay, IPlayer player, INpcProvider 
 
         if (config.ShouldShowDebugForEnemiesTargetingAnotherPlayerWithoutTankStance)
         {
-            var candidates = enemies.WhereBattleTarget(static (in t) => !t.IsTargetingLocalPlayer() && t.GetTargetedPlayer()?.HasTankStanceOn() == false);
+            var candidates = enemies.WhereBattleTarget(static (in t) => !t.IsTargetingLocalPlayer() && t.GetTargetedPlayer()?.HasTankStanceOn() == false,
+                objects);
             foreach (var enemy in candidates)
             {
                 DrawLine(playerPosition, enemy.Position, new Color(1.0f, 0.6f, 0.0f));
@@ -72,7 +80,8 @@ public class DebugModule(IOverlayRenderer overlay, IPlayer player, INpcProvider 
 
         if (config.ShouldShowDebugForEnemiesTargetingAnotherPlayerWithTankStance)
         {
-            var candidates = enemies.WhereBattleTarget(static (in t) => !t.IsTargetingLocalPlayer() && t.GetTargetedPlayer()?.HasTankStanceOn() == true);
+            var candidates = enemies.WhereBattleTarget(static (in t) => !t.IsTargetingLocalPlayer() && t.GetTargetedPlayer()?.HasTankStanceOn() == true,
+                objects);
             foreach (var enemy in candidates)
             {
                 DrawLine(playerPosition, enemy.Position, new Color(0.3f, 0.4f, 1.0f));
@@ -83,7 +92,7 @@ public class DebugModule(IOverlayRenderer overlay, IPlayer player, INpcProvider 
         {
             foreach (var enemy in enemies)
             {
-                if (!enemy.TryUse((in t) => t.GetSpawnPosition(), out var spawn))
+                if (!enemy.TryUse((in t) => t.GetSpawnPosition(), objects, out var spawn))
                 {
                     continue;
                 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Numerics;
+using Dalamud.Plugin.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Ocelot.Lifecycle;
 using Ocelot.Services.PlayerState;
@@ -18,8 +19,9 @@ public class DynamicPositioner(
     SingleTargetPositioner singleTargetPositioner,
     NullPositioner nullPositioner,
     IServiceProvider services,
-    CombatConfig combatConfig
-) : BaseCombatHelper(state, fates, npcs, player), IPositioner, IOnPreUpdate
+    CombatConfig combatConfig,
+    IObjectTable objects
+) : BaseCombatHelper(state, fates, npcs, player, objects), IPositioner, IOnPreUpdate
 {
     private readonly IPlayer player = player;
 
@@ -41,12 +43,22 @@ public class DynamicPositioner(
     {
         get
         {
+            if (combatConfig.PreventMovementWhileFightingGatheredMobs)
+            {
+                return nullPositioner;
+            }
+
             return ShouldSingleTarget ? singleTargetPositioner : resolvedPositioner;
         }
     }
 
     private IPositioner Resolve()
     {
+        if (combatConfig.PreventMovementWhileFightingGatheredMobs)
+        {
+            return services.GetRequiredService<NullPositioner>();
+        }
+
         var classJob = player.GetClassJob();
         if (classJob == null)
         {

@@ -1,4 +1,5 @@
-﻿using TwistOfFayte.Config;
+﻿using Dalamud.Plugin.Services;
+using TwistOfFayte.Config;
 using TwistOfFayte.Services.Fates;
 using TwistOfFayte.Services.Npc;
 using TwistOfFayte.Services.State;
@@ -10,8 +11,9 @@ public class RepositionMobsHandler(
     IStateManager state,
     IFateRepository fates,
     INpcProvider npcs,
+    IObjectTable objects,
     CombatConfig combat
-) : BaseHandler(ParticipatingInFateState.RepositionMobs, state, fates, npcs, combat)
+) : BaseHandler(ParticipatingInFateState.RepositionMobs, state, fates, npcs, objects, combat)
 {
     public override StatePriority GetScore()
     {

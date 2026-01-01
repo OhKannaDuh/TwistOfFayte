@@ -19,7 +19,8 @@ public class InCombatHandler(
     INpcProvider npcs,
     ITargetManager targetManager,
     IPathfinder pathfinder,
-    IPlayer player
+    IPlayer player,
+    IObjectTable objects
 ) : FlowStateHandler<AutomatorState>(AutomatorState.InCombat)
 {
     public override AutomatorState? Handle()
@@ -38,8 +39,9 @@ public class InCombatHandler(
         {
             if (targetManager.Target == null)
             {
-                var candidate = npcs.GetNonFateNpcs().Where(n => n.TryUse((in t) => t.IsTargetingLocalPlayer(), out var result) && result).FirstOrNull();
-                candidate?.TryUse((in t) => targetManager.Target = t.GameObject);
+                var candidate = npcs.GetNonFateNpcs().Where(n => n.TryUse((in t) => t.IsTargetingLocalPlayer(), objects, out var result) && result)
+                    .FirstOrNull();
+                candidate?.TryUse((in t) => targetManager.Target = t.GameObject, objects);
             }
 
             if (targetManager.Target != null)
