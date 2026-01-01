@@ -22,6 +22,7 @@ public class Zone(
     IDataRepository<Map> mapRepository,
     IDataManager data,
     IClient client,
+    IObjectTable objects,
     IFramework framework,
     ILogger<Zone> logger
 ) : IZone, IOnTerritoryChanged, IOnStart
@@ -48,12 +49,39 @@ public class Zone(
         framework.RunOnTick(() => UpdateTerritoryDataAsync(client.CurrentTerritoryId));
     }
 
+    private async Task<bool> WaitForLocalPlayerAsync(TimeSpan timeout, CancellationToken token)
+    {
+        var start = DateTime.UtcNow;
+        var pollDelay = TimeSpan.FromMilliseconds(100);
+
+        while (DateTime.UtcNow - start < timeout)
+        {
+            token.ThrowIfCancellationRequested();
+
+            if (objects.LocalPlayer != null)
+            {
+                return true;
+            }
+
+            await Task.Delay(pollDelay, token).ConfigureAwait(false);
+        }
+
+        return false;
+    }
+
     private async Task UpdateTerritoryDataAsync(ushort territory, CancellationToken token = default)
     {
         Id = territory;
         Aetherytes.Clear();
         if (Id == 0)
         {
+            return;
+        }
+
+        var playerReady = await WaitForLocalPlayerAsync(TimeSpan.FromSeconds(10), token).ConfigureAwait(false);
+        if (!playerReady)
+        {
+            logger.Warn("LocalPlayer was not available within timeout. Skipping UpdateTerritoryDataAsync for territory {Territory}.", territory);
             return;
         }
 
