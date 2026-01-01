@@ -51,6 +51,11 @@ public class Zone(
     private async Task UpdateTerritoryDataAsync(ushort territory, CancellationToken token = default)
     {
         Id = territory;
+        Aetherytes.Clear();
+        if (Id == 0)
+        {
+            return;
+        }
 
         var positions = new Dictionary<uint, Vector3>();
 
@@ -138,8 +143,6 @@ public class Zone(
                 logger.Error("Unable to get active layout after {Attempts} attempts.", maxAttempts);
             }
         }
-
-        // Use 'positions' here (update fields, raise events, etc.)
     }
 
     private Vector3 PixelCoordsToWorldCoords(int x, int z, uint mapId)
