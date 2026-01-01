@@ -165,6 +165,7 @@ public sealed class Plugin(IDalamudPluginInterface plugin) : OcelotPlugin(plugin
         services.AddSingleton<DebugRenderer>();
         services.AddSingleton<IDebugRenderable, DynamicServiceDebugRenderable>();
         services.AddSingleton<IDebugRenderable, ConditionDebugRenderable>();
+        services.AddSingleton<IDebugRenderable, NpcsDebugRenderable>();
 
         services.AddSingleton<IConfigRenderer, ConfigRenderer>();
 

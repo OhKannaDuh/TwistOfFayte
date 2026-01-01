@@ -3,12 +3,12 @@ using Ocelot.Graphics;
 using Ocelot.Lifecycle;
 using Ocelot.Services.OverlayRenderer;
 using TwistOfFayte.Modules.Debug;
+using TwistOfFayte.Services.Npc;
 using TwistOfFayte.Services.Zone;
 
 namespace TwistOfFayte.Renderers;
 
-#if DEBUG
-public class DebugRenderer(IEnumerable<IDebugRenderable> renderables, IZone zone, IOverlayRenderer overlay) : IOnRender
+public class DebugRenderer(IEnumerable<IDebugRenderable> renderables, IZone zone, INpcProvider npcs, IOverlayRenderer overlay) : IOnRender
 {
     public void RenderPanel()
     {
@@ -20,21 +20,11 @@ public class DebugRenderer(IEnumerable<IDebugRenderable> renderables, IZone zone
 
     public void Render()
     {
+        #if DEBUG
         foreach (var aetheryte in zone.Aetherytes)
         {
             overlay.StrokeCircle(aetheryte.Position, 5f, Color.Red);
         }
+        #endif
     }
 }
-#else
-public class DebugRenderer() : IOnRender
-{
-    public void RenderPanel()
-    {
-    }
-
-    public void Render()
-    {
-    }
-}
-#endif

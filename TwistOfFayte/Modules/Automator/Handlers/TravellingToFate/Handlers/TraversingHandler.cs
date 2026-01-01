@@ -3,6 +3,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Dalamud.Game.ClientState.Fates;
 using ECommons;
+using ECommons.DalamudServices;
 using Ocelot.Extensions;
 using Ocelot.Pathfinding.Extensions;
 using Ocelot.Services.Logger;
@@ -26,6 +27,8 @@ public class TraversingHandler(
 {
     private Vector3 destination;
 
+    private Task<Path>? initialPathTask;
+
     private Task? repathTask;
 
     public override void Enter()
@@ -41,6 +44,18 @@ public class TraversingHandler(
         destination = context.fate.Position;
     }
 
+
+    public override void Exit(TravellingToFateState next)
+    {
+        base.Exit(next);
+
+        if (initialPathTask is { IsCompleted: true })
+        {
+            initialPathTask.Dispose();
+            initialPathTask = null;
+        }
+    }
+
     public override TravellingToFateState? Handle()
     {
         if (!state.IsActive() || context.chosenPath == null)
@@ -50,8 +65,19 @@ public class TraversingHandler(
 
         if (pathfinder.IsIdle())
         {
-            var path = context.chosenPath.Smoothed().From(player.GetPosition());
-            pathfinder.FollowPath(path);
+            if (initialPathTask == null)
+            {
+                initialPathTask = pathfinder.Pathfind(new PathfinderConfig(destination)
+                {
+                    AllowFlying = player.CanFly(),
+                });
+            }
+            else if (initialPathTask.IsCompleted)
+            {
+                pathfinder.FollowPath(initialPathTask.Result.Smoothed());
+                initialPathTask.Dispose();
+                initialPathTask = null;
+            }
         }
 
         // The goal here is to have all players path to a start npc if a start npc is required.
@@ -62,6 +88,7 @@ public class TraversingHandler(
             var startNpc = npcs.GetFateStartNpc();
             if (context.fate?.State == FateState.Preparation && startNpc != null)
             {
+                logger.Debug("Repathing to starter npcs");
                 repathTask = RepathToNpc(startNpc.Value);
             }
 
@@ -89,6 +116,7 @@ public class TraversingHandler(
     private async Task RepathToNpc(Target npc)
     {
         destination = npc.GetApproachPosition(player.GetPosition());
+        logger.Debug("Destination: " + destination);
         var path = await pathfinder.Pathfind(new PathfinderConfig(destination)
         {
             AllowFlying = player.CanFly(),

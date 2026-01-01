@@ -54,7 +54,7 @@
     </ItemGroup>
     <ItemGroup Condition="'$(Configuration)' == 'Release'">
         <PackageReference Include="FFXIVOcelot" Version="3.1.0"/>
-        <PackageReference Include="FFXIVOcelot.ECommons" Version="1.1.0"/>
+        <PackageReference Include="FFXIVOcelot.ECommons" Version="1.2.0"/>
         <PackageReference Include="FFXIVOcelot.Pictomancy" Version="1.1.0"/>
         <PackageReference Include="FFXIVOcelot.Pathfinding" Version="1.1.0"/>
         <PackageReference Include="FFXIVOcelot.Chain" Version="1.1.0"/>

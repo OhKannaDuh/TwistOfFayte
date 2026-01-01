@@ -41,22 +41,12 @@ public class DynamicPositioner(
     {
         get
         {
-            if (combatConfig.PreventMovementWhileFightingGatheredMobs)
-            {
-                return nullPositioner;
-            }
-
             return ShouldSingleTarget ? singleTargetPositioner : resolvedPositioner;
         }
     }
 
     private IPositioner Resolve()
     {
-        if (combatConfig.PreventMovementWhileFightingGatheredMobs)
-        {
-            return services.GetRequiredService<NullPositioner>();
-        }
-
         var classJob = player.GetClassJob();
         if (classJob == null)
         {

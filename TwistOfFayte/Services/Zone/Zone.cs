@@ -32,7 +32,7 @@ public class Zone(
     public List<Aetheryte> Aetherytes { get; private set; } = [];
 
 
-    public void IOnTerritoryChanged(ushort territory)
+    public void OnTerritoryChanged(ushort territory)
     {
         if (territory == Id)
         {

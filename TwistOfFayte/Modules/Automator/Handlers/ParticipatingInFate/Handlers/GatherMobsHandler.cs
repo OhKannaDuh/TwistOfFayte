@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Dalamud.Plugin.Services;
 using ECommons.Throttlers;
+using Ocelot.Services.Logger;
 using Ocelot.Services.Pathfinding;
 using Ocelot.Services.PlayerState;
 using Ocelot.Services.UI;
@@ -20,7 +21,8 @@ public class GatherMobsHandler(
     IStateManager state,
     IFateRepository fates,
     INpcProvider npcs,
-    CombatConfig combat
+    CombatConfig combat,
+    ILogger<GatherMobsHandler> logger
 ) : BaseHandler(ParticipatingInFateState.GatherMobs, state, fates, npcs, combat)
 {
     private Target? candidate;
@@ -28,7 +30,7 @@ public class GatherMobsHandler(
     public override StatePriority GetScore()
     {
         var fate = GetFate();
-        if (fate == null || GatheredCount >= Goal)
+        if (fate == null || GatheredCount >= Goal || GatheredCount >= CandidatesCount)
         {
             return StatePriority.Never;
         }
@@ -63,12 +65,17 @@ public class GatherMobsHandler(
                 return;
             }
 
-            candidate.Value.TryUse((in t) => targetManager.Target = t.GameObject);
+            if (!isTargetingCandidate)
+            {
+                candidate.Value.TryUse((in t) => targetManager.Target = t.GameObject);
+            }
+
             return;
         }
 
         if (pathfinder.GetState() == PathfindingState.Idle && !player.IsCasting())
         {
+            logger.Debug("Doing some pathginding...");
             pathfinder.PathfindAndMoveTo(new PathfinderConfig(candidate.Value.GetApproachPosition(player.GetPosition(), player.GetAttackRange())));
         }
     }

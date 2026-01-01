@@ -49,7 +49,7 @@ public class FightGatheredMobsHandler(
             return StatePriority.Never;
         }
 
-        if (GatheredCount >= Goal)
+        if (GatheredCount >= Goal || GatheredCount >= CandidatesCount)
         {
             return StatePriority.High;
         }
