@@ -34,6 +34,11 @@ public class TeleportingHandler(TravellingToFateContext context, IPlayer player,
 
     private void ChangeState(SubState state)
     {
+        if (state == subState)
+        {
+            return;
+        }
+
         subState = state;
         subStateEnteredAt = DateTime.Now;
     }
@@ -53,10 +58,7 @@ public class TeleportingHandler(TravellingToFateContext context, IPlayer player,
         // Already between areas - skip to waiting for completion
         if (player.IsBetweenAreas())
         {
-            if (subState != SubState.WaitingToBeDone)
-            {
-                ChangeState(SubState.WaitingToBeDone);
-            }
+            ChangeState(SubState.WaitingToBeDone);
             return null;
         }
 
@@ -67,6 +69,7 @@ public class TeleportingHandler(TravellingToFateContext context, IPlayer player,
             {
                 ChangeState(SubState.WaitingToBeBetweenAreas);
             }
+
             return null;
         }
 

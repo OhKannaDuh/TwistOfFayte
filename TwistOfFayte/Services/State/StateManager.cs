@@ -1,12 +1,13 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.Game.Fate;
 using Ocelot.Lifecycle;
+using Ocelot.Rotation.Services;
 using Ocelot.Services.Pathfinding;
 using TwistOfFayte.Data.Fates;
 using TwistOfFayte.Services.Fates;
 
 namespace TwistOfFayte.Services.State;
 
-public class StateManager(IFateRepository fates, IPathfinder pathfinder) : IStateManager, IOnUpdate
+public class StateManager(IFateRepository fates, IPathfinder pathfinder, IRotationService rotation) : IStateManager, IOnUpdate
 {
     private FateId? selectedFate;
 
@@ -33,11 +34,13 @@ public class StateManager(IFateRepository fates, IPathfinder pathfinder) : IStat
     {
         isActive = false;
         pathfinder.Stop();
+        rotation.DisableAutoRotation();
     }
 
     public void TurnOn()
     {
         isActive = true;
+        rotation.EnableAutoRotation();
     }
 
     public unsafe FateId? GetCurrentFate()

@@ -38,25 +38,16 @@ public class MaintainFateZoneHandler(
         }
 
         var playerPosition = player.GetPosition();
-
-        // Clear target if player has reached it
-        if (TargetPosition != null && playerPosition.Distance2D(TargetPosition.Value) < 1f)
+        if (TargetPosition != null && playerPosition.Distance2D(TargetPosition.Value) >= 0.5f)
         {
-            TargetPosition = null;
-        }
-
-        // Continue moving to target if one is set and player is far from it
-        if (TargetPosition != null && playerPosition.Distance2D(TargetPosition.Value) >= 2f)
-        {
-            return StatePriority.High;
+            return StatePriority.Critical;
         }
 
         var radius = fate.Radius;
         var distance = fate.Position.Distance2D(playerPosition);
         var normalizedDistance = Math.Clamp(distance / radius, 0f, 1f);
 
-        // Only activate when truly outside the FATE zone
-        if (normalizedDistance >= 1f)
+        if (normalizedDistance >= 0.95f)
         {
             return StatePriority.VeryHigh;
         }
