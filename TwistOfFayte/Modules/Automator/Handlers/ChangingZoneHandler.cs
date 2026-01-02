@@ -60,6 +60,26 @@ public class ChangingZoneHandler(
             return AutomatorState.WaitingForFate;
         }
 
+        // Already between areas - skip to waiting for completion
+        if (player.IsBetweenAreas())
+        {
+            if (subState != SubState.WaitingToBeDone)
+            {
+                subState = SubState.WaitingToBeDone;
+            }
+            return null;
+        }
+
+        // Already casting - wait for it to complete
+        if (player.IsCasting())
+        {
+            if (subState == SubState.WaitingToCast)
+            {
+                subState = SubState.WaitingToBeBetweenAreas;
+            }
+            return null;
+        }
+
         if (subState == SubState.WaitingToCast && EzThrottler.Throttle("Teleport Cast"))
         {
             unsafe

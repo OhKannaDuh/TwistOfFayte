@@ -58,7 +58,7 @@ public class FateListRenderer(
             }
 
 
-            ui.ProgressBar(fate.Progress / 100f, new Vector2(-1, 8f));
+            ui.ProgressBar(fate.Progress / 100f, new Vector2(-1, 20f));
         }
     }
 

@@ -50,6 +50,26 @@ public class TeleportingHandler(TravellingToFateContext context, IPlayer player,
             return TravellingToFateState.Mounting;
         }
 
+        // Already between areas - skip to waiting for completion
+        if (player.IsBetweenAreas())
+        {
+            if (subState != SubState.WaitingToBeDone)
+            {
+                ChangeState(SubState.WaitingToBeDone);
+            }
+            return null;
+        }
+
+        // Already casting - wait for it to complete
+        if (player.IsCasting())
+        {
+            if (subState == SubState.WaitingToCast)
+            {
+                ChangeState(SubState.WaitingToBeBetweenAreas);
+            }
+            return null;
+        }
+
         if (subState == SubState.WaitingToCast && EzThrottler.Throttle("Teleport Cast"))
         {
             context.chosenAetheryte.Teleport();

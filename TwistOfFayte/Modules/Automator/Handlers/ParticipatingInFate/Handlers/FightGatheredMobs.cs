@@ -25,6 +25,7 @@ public class FightGatheredMobsHandler(
     INpcProvider npcs,
     IObjectTable objects,
     CombatConfig combat,
+    DebugConfig debug,
     IUIService ui
 ) : BaseHandler(ParticipatingInFateState.FightGatheredMobs, state, fates, npcs, objects, combat)
 {
@@ -102,24 +103,27 @@ public class FightGatheredMobsHandler(
         ui.LabelledValue("Goal", Goal);
         ui.LabelledValue("Candidate Count", CandidatesCount);
 
-        foreach (var candidate in GetCandidates())
+        if (debug.ShowDebug)
         {
-            ui.Text(candidate.NameId);
-        }
+            foreach (var candidate in GetCandidates())
+            {
+                ui.Text(candidate.NameId);
+            }
 
-        foreach (var e in GetEnemies())
-        {
-            ui.Text(e.ObjectId);
-            ImGui.Indent();
-            e.TryUse(static (in t) => t.IsTargetingAnyPlayer(), objects, out var a);
-            ui.LabelledValue("Is Targeting Any Player: ", a);
+            foreach (var e in GetEnemies())
+            {
+                ui.Text(e.ObjectId);
+                ImGui.Indent();
+                e.TryUse(static (in t) => t.IsTargetingAnyPlayer(), objects, out var a);
+                ui.LabelledValue("Is Targeting Any Player: ", a);
 
-            e.TryUse(static (in t) => t.IsTargetingLocalPlayer(), objects, out var b);
-            ui.LabelledValue("Is Targeting Local Player: ", b);
+                e.TryUse(static (in t) => t.IsTargetingLocalPlayer(), objects, out var b);
+                ui.LabelledValue("Is Targeting Local Player: ", b);
 
-            e.TryUse(static (in t) => t.GetTargetedPlayer()?.HasTankStanceOn() == false, objects, out var c);
-            ui.LabelledValue("Is Targeting other player with stance: ", c);
-            ImGui.Unindent();
+                e.TryUse(static (in t) => t.GetTargetedPlayer()?.HasTankStanceOn() == false, objects, out var c);
+                ui.LabelledValue("Is Targeting other player with stance: ", c);
+                ImGui.Unindent();
+            }
         }
     }
 }

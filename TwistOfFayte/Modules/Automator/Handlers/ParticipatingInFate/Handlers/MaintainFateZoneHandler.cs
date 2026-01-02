@@ -23,6 +23,12 @@ public class MaintainFateZoneHandler(
 {
     private Vector3? TargetPosition;
 
+    public override void Exit(ParticipatingInFateState next)
+    {
+        base.Exit(next);
+        TargetPosition = null;
+    }
+
     public override StatePriority GetScore()
     {
         var fate = GetFate();
@@ -32,16 +38,25 @@ public class MaintainFateZoneHandler(
         }
 
         var playerPosition = player.GetPosition();
-        if (TargetPosition != null && playerPosition.Distance2D(TargetPosition.Value) >= 0.5f)
+
+        // Clear target if player has reached it
+        if (TargetPosition != null && playerPosition.Distance2D(TargetPosition.Value) < 1f)
         {
-            return StatePriority.Critical;
+            TargetPosition = null;
+        }
+
+        // Continue moving to target if one is set and player is far from it
+        if (TargetPosition != null && playerPosition.Distance2D(TargetPosition.Value) >= 2f)
+        {
+            return StatePriority.High;
         }
 
         var radius = fate.Radius;
         var distance = fate.Position.Distance2D(playerPosition);
         var normalizedDistance = Math.Clamp(distance / radius, 0f, 1f);
 
-        if (normalizedDistance >= 0.95f)
+        // Only activate when truly outside the FATE zone
+        if (normalizedDistance >= 1f)
         {
             return StatePriority.VeryHigh;
         }
