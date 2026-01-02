@@ -21,9 +21,13 @@ public class FateBlacklist
 
     internal void Toggle(ushort id)
     {
-        if (!Blacklist.Add(id))
+        if (Blacklist.Contains(id))
         {
             Blacklist.Remove(id);
+        }
+        else
+        {
+            Blacklist.Add(id);
         }
     }
 

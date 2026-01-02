@@ -34,6 +34,11 @@ public class TeleportingHandler(TravellingToFateContext context, IPlayer player,
 
     private void ChangeState(SubState state)
     {
+        if (state == subState)
+        {
+            return;
+        }
+
         subState = state;
         subStateEnteredAt = DateTime.Now;
     }
@@ -48,6 +53,24 @@ public class TeleportingHandler(TravellingToFateContext context, IPlayer player,
         if (context.chosenAetheryte == null)
         {
             return TravellingToFateState.Mounting;
+        }
+
+        // Already between areas - skip to waiting for completion
+        if (player.IsBetweenAreas())
+        {
+            ChangeState(SubState.WaitingToBeDone);
+            return null;
+        }
+
+        // Already casting - wait for it to complete
+        if (player.IsCasting())
+        {
+            if (subState == SubState.WaitingToCast)
+            {
+                ChangeState(SubState.WaitingToBeBetweenAreas);
+            }
+
+            return null;
         }
 
         if (subState == SubState.WaitingToCast && EzThrottler.Throttle("Teleport Cast"))

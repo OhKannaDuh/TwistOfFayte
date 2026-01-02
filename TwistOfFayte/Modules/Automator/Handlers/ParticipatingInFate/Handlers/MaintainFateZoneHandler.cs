@@ -23,6 +23,12 @@ public class MaintainFateZoneHandler(
 {
     private Vector3? TargetPosition;
 
+    public override void Exit(ParticipatingInFateState next)
+    {
+        base.Exit(next);
+        TargetPosition = null;
+    }
+
     public override StatePriority GetScore()
     {
         var fate = GetFate();
