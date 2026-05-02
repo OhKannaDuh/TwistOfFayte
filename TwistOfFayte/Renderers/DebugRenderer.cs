@@ -3,12 +3,11 @@ using Ocelot.Graphics;
 using Ocelot.Lifecycle;
 using Ocelot.Services.OverlayRenderer;
 using TwistOfFayte.Modules.Debug;
-using TwistOfFayte.Services.Npc;
 using TwistOfFayte.Services.Zone;
 
 namespace TwistOfFayte.Renderers;
 
-public class DebugRenderer(IEnumerable<IDebugRenderable> renderables, IZone zone, INpcProvider npcs, IOverlayRenderer overlay) : IOnRender
+public class DebugRenderer(IEnumerable<IDebugRenderable> renderables, IZone zone, IOverlayRenderer overlay) : IOnRender
 {
     public void RenderPanel()
     {

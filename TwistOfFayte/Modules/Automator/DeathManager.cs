@@ -12,7 +12,7 @@ using Ocelot.Lifecycle;
 using Ocelot.Services.Logger;
 using TwistOfFayte.Config;
 using TwistOfFayte.Services.State;
-using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.ValueType;
+using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.AtkValueType;
 
 namespace TwistOfFayte.Modules.Automator;
 

@@ -43,7 +43,7 @@ public class TalkingToStarterNpcHandler(
             return StatePriority.Never;
         }
 
-        return fate.State == FateState.Preparation ? StatePriority.Always : StatePriority.Never;
+        return fate.State == FateState.Preparing ? StatePriority.Always : StatePriority.Never;
     }
 
     public override void Handle()

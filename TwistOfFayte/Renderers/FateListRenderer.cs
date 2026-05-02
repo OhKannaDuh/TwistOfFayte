@@ -79,7 +79,7 @@ public class FateListRenderer(
             group.Image(60934);
         }
 
-        if (fate.State == FateState.Preparation && config.ShowPreparingFateIcon)
+        if (fate.State == FateState.Preparing && config.ShowPreparingFateIcon)
         {
             group.Image(61397);
         }

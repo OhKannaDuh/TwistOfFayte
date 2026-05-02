@@ -33,7 +33,7 @@ public class FateRepository(
     public void Update()
     {
         var current = fates
-            .Where(f => f.State is FateState.Preparation or FateState.Running)
+            .Where(f => f.State is FateState.Preparing or FateState.Running)
             .Where(f => f.Position != Vector3.Zero && f.Position != Vector3.NaN)
             .Select(factory.Create)
             .ToDictionary(f => f.Id, f => f);

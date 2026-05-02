@@ -8,6 +8,8 @@ public class OpenWindows(IMainWindow? window = null, IConfigWindow? config = nul
 {
     public void OnStart()
     {
+
+#if DEBUG
         if (window != null)
         {
             window.IsOpen = true;
@@ -17,6 +19,7 @@ public class OpenWindows(IMainWindow? window = null, IConfigWindow? config = nul
         {
             config.IsOpen = true;
         }
+#endif
 
         if (help != null)
         {

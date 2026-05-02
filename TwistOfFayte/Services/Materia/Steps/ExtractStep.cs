@@ -8,7 +8,7 @@ using Ocelot.Actions;
 using Ocelot.Chain;
 using Ocelot.Chain.Extensions;
 using Ocelot.Chain.Middleware.Step;
-using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.ValueType;
+using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.AtkValueType;
 
 namespace TwistOfFayte.Services.Materia.Steps;
 

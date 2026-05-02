@@ -26,6 +26,8 @@ public class GatherMobsHandler(
     ILogger<GatherMobsHandler> logger
 ) : BaseHandler(ParticipatingInFateState.GatherMobs, state, fates, npcs, objects, combat)
 {
+    private readonly IObjectTable objects = objects;
+
     private Target? candidate;
 
     public override StatePriority GetScore()

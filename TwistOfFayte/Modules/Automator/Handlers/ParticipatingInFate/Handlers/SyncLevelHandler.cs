@@ -23,7 +23,7 @@ public class SyncLevelHandler(
     public override StatePriority GetScore()
     {
         var fate = GetFate();
-        if (fate == null || fate.State == FateState.Preparation)
+        if (fate == null || fate.State == FateState.Preparing)
         {
             return StatePriority.Never;
         }

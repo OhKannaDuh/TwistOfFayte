@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Dalamud.Configuration;
 using Dalamud.Plugin;
+using Dalamud.Plugin.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Ocelot;
 using Ocelot.Chain.Services;
@@ -52,7 +53,7 @@ using MainCommand = TwistOfFayte.Commands.MainCommand;
 
 namespace TwistOfFayte;
 
-public sealed class Plugin(IDalamudPluginInterface plugin) : OcelotPlugin(plugin)
+public sealed class Plugin(IDalamudPluginInterface plugin, IPluginLog logger) : OcelotPlugin(plugin, logger)
 {
     private readonly IDalamudPluginInterface plugin = plugin;
 

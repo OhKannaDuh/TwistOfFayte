@@ -28,6 +28,8 @@ public class FocusForlornsHandler(
     CombatConfig config
 ) : BaseHandler(ParticipatingInFateState.FocusForlorns, state, fates, npcs, objects, combat), IDisposable
 {
+    private readonly IObjectTable objects = objects;
+
     private readonly INpcProvider npcs = npcs;
 
     public override StatePriority GetScore()

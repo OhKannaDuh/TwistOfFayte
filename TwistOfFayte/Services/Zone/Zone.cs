@@ -27,12 +27,12 @@ public class Zone(
     ILogger<Zone> logger
 ) : IZone, IOnTerritoryChanged, IOnStart
 {
-    public ushort Id { get; private set; } = 0;
+    public uint Id { get; private set; } = 0;
 
     public List<Aetheryte> Aetherytes { get; private set; } = [];
 
 
-    public void OnTerritoryChanged(ushort territory)
+    public void OnTerritoryChanged(uint territory)
     {
         if (territory == Id)
         {
@@ -69,7 +69,7 @@ public class Zone(
         return false;
     }
 
-    private async Task UpdateTerritoryDataAsync(ushort territory, CancellationToken token = default)
+    private async Task UpdateTerritoryDataAsync(uint territory, CancellationToken token = default)
     {
         Id = territory;
         Aetherytes.Clear();

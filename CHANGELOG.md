@@ -1,3 +1,7 @@
+# 3.4.0
+
+-   Update to Dalamud SDK 15.0.0
+
 # 3.3.0
 
 -   Updated Ecommons & Ocelot

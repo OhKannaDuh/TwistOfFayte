@@ -85,7 +85,7 @@ public class TraversingHandler(
         if (repathTask == null)
         {
             var startNpc = npcs.GetFateStartNpc();
-            if (context.fate?.State == FateState.Preparation && startNpc != null)
+            if (context.fate?.State == FateState.Preparing && startNpc != null)
             {
                 logger.Debug("Repathing to starter npcs");
                 repathTask = RepathToNpc(startNpc.Value);
@@ -94,12 +94,12 @@ public class TraversingHandler(
             if (player.IsMelee())
             {
                 var enemy = npcs.GetEnemies().OrderBy(t => t.Position.Truncate().Distance(player.GetPosition())).FirstOrNull();
-                if (context.fate?.State != FateState.Preparation && enemy != null)
+                if (context.fate?.State != FateState.Preparing && enemy != null)
                 {
                     repathTask = RepathToNpc(enemy.Value);
                 }
             }
-            else if (context.fate != null && context.fate.State != FateState.Preparation)
+            else if (context.fate != null && context.fate.State != FateState.Preparing)
             {
                 // @todo sometimes a fate boundary extends off of a cliff
                 var targetDistance = context.fate.Radius * 0.9f;

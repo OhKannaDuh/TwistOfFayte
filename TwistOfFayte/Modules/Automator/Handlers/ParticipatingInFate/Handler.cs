@@ -62,7 +62,7 @@ public class Handler(
 
         unsafe
         {
-            if (fate.State != FateState.Preparation && FateManager.Instance()->CurrentFate == null)
+            if (fate.State != FateState.Preparing && FateManager.Instance()->CurrentFate == null)
             {
                 return AutomatorState.WaitingForFate;
             }
