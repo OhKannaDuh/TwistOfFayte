@@ -4,7 +4,7 @@
         "tips": {
             "blacklist": "You can middle click any fate to add or remove it from your blacklist.",
             "byop": "TOF is BYOP (Bring your own plugin). Make sure you have a supported combat and pathfinding plugin installed. A mechanic plugin is optional, and not always optimal.\n        - TOf was designed with WrathCombo and BossMod.",
-            "ranged_mods": "Ranged mobs are a tricky beast. There is currently no known way to programatically get a mobs range, and because of this TOF has to keep an index of known ranged mobs. If you find a ranged mob that TOF does not know about, please report it on the GitHub or Discord, to help improve the usability of TOF.",
+            "ranged_mobs": "Ranged mobs are a tricky beast. There is currently no known way to programatically get a mobs range, and because of this TOF has to keep an index of known ranged mobs. If you find a ranged mob that TOF does not know about, please report it on the GitHub or Discord, to help improve the usability of TOF.",
             "issues": "If you encounter any issues, please report them on the GitHub or Discord, with as much detail as possible. Screenshots and logs are very helpful! If everybody assumes somebody else has reported the issue, it may never get fixed."
         }
     }
